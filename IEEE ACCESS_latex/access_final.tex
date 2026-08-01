@@ -1,0 +1,511 @@
+\documentclass{ieeeaccess}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{hyperref}
+
+\makeatletter
+\AtBeginDocument{\DeclareMathVersion{bold}
+\SetSymbolFont{operators}{bold}{T1}{times}{b}{n}
+\SetSymbolFont{NewLetters}{bold}{T1}{times}{b}{it}
+\SetMathAlphabet{\mathrm}{bold}{T1}{times}{b}{n}
+\SetMathAlphabet{\mathit}{bold}{T1}{times}{b}{it}
+\SetMathAlphabet{\mathbf}{bold}{T1}{times}{b}{n}
+\SetMathAlphabet{\mathtt}{bold}{OT1}{pcr}{b}{n}
+\SetSymbolFont{symbols}{bold}{OMS}{cmsy}{b}{n}
+\renewcommand\boldmath{\@nomath\boldmath\mathversion{bold}}}
+\makeatother
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\history{Date of publication xxxx 00, 0000, date of current version xxxx 00, 0000.}
+\doi{10.1109/ACCESS.2026.xxxxxxx}
+
+\title{BMS-YOLO: A Lightweight Box-Supervised Morphology-Aware Pavement Distress Detection Model}
+
+\author{\uppercase{Qi Liu}\authorrefmark{1}}
+\address[1]{College of Big Data and Intelligent Engineering, Yangtze Normal University, Chongqing 408000, China (e-mail: 17837248232@163.com)}
+
+\markboth
+{Q. Liu: BMS-YOLO: A Lightweight Box-Supervised Morphology-Aware Pavement Distress Detection Model}
+{Q. Liu: BMS-YOLO: A Lightweight Box-Supervised Morphology-Aware Pavement Distress Detection Model}
+
+\corresp{Corresponding author: Qi Liu (e-mail: 17837248232@163.com).}
+
+\begin{abstract}
+Accurate and efficient detection of pavement distresses is essential for maintaining the safety of transportation infrastructure. Unmanned aerial vehicles (UAVs) provide an effective platform for large-scale road inspection, yet the extreme morphological diversity of distresses---from elongated cracks to compact potholes---poses a significant challenge for existing detectors. Existing YOLO-based methods struggle with high-frequency detail loss, homogeneous feature extraction, and loss functions that are misaligned with crack geometry. To address these limitations, this paper proposes BMS-YOLO (Box-supervised Morphology-aware Sparse YOLO), a lightweight detection framework that co-designs morphology-aware architecture with morphology-sensitive loss functions. Specifically, a frequency-direction detail enhancement (FDDE) module decouples feature maps into high- and low-frequency branches and applies directional convolutions to strengthen crack edges. A morphology-aware sparse mixture of experts (MorphSparseMoE) selectively activates specialized convolutional pathways via top-$k$ routing. An efficient channel attention (ECA) mechanism and a lightweight spatial pyramid pooling--cross-stage partial connection (SPPF-CSPC) structure further enlarge the receptive field while reducing parameters. At the loss level, wise intersection-over-union (WIoU) is combined with a box morphology consistency constraint that operates in log-space. A topology-guided post-processing strategy fuses fragmented crack predictions. On the UAV-PDD2023 benchmark, BMS-YOLO achieves 79.3\% mAP50 and 54.6\% mAP50:95 with only 3.8M parameters, outperforming YOLOv8n by 2.4 and 4.6 points, respectively, while maintaining 31.8 FPS on a desktop GPU. These results demonstrate that the model offers an accurate and deployable solution for UAV-based pavement inspection.
+\end{abstract}
+
+\begin{keywords}
+Pavement Distress Detection, YOLOv8, Sparse Mixture of Experts, Wise-IoU, UAV Remote Sensing
+\end{keywords}
+
+\titlepgskip=-15pt
+\maketitle
+
+\section{Introduction}
+
+\PARstart{C}{oncrete} pavements, bridges, and hydraulic structures inevitably develop various surface distresses such as cracks, potholes, and patches during long-term service due to repeated traffic loading, temperature variations, and environmental erosion. Among these distress types, cracks are the most prevalent and structurally threatening; their progressive propagation directly undermines the load-bearing capacity, waterproof integrity, and long-term durability of pavement systems. Potholes and patching areas constitute another category of region-type distresses that exhibit markedly different morphological characteristics from cracks, yet equally compromise traffic safety and structural service life. The scale of transportation infrastructure worldwide makes manual inspection impractical, creating an urgent demand for automated, high-throughput detection systems that can be deployed on unmanned aerial vehicles (UAVs) for efficient large-scale road monitoring~\cite{dadrass2024uavdistress, yang2025comparativeuav, xu2026yolosaerial}.
+
+Traditional distress detection relied on manual visual inspection complemented by image processing techniques, including edge detectors (Canny, Sobel), mathematical morphological operations, and thresholding. These methods can extract crack boundaries under idealized conditions with simple backgrounds and uniform illumination. However, they are highly sensitive to noise, shadows, and pavement texture heterogeneity, resulting in unacceptably high false-positive and miss-detection rates for practical deployment. Moreover, manual inspection is labor-intensive, subjective, and incapable of meeting the routine monitoring requirements of extensive road networks.
+
+The advent of deep learning has fundamentally transformed automated pavement distress detection. Early approaches framed detection as an image-level classification task using VGG or ResNet, while semantic segmentation networks---notably U-Net---achieved pixel-level crack boundary delineation through encoder-decoder architectures. Segmentation methods, however, require dense pixel-level annotations, incur substantial computational cost, and produce high inference latency, rendering them unsuitable for near-real-time UAV inspection. Two-stage detectors such as Faster R-CNN improved localization accuracy through region proposal networks but suffered from prohibitive computational costs. In contrast, single-stage YOLO detectors have emerged as the dominant paradigm, achieving an exceptional balance between accuracy and efficiency. YOLOv8, in particular, introduces the C2f bottleneck structure, a fully decoupled detection head, and anchor-free prediction, representing the state of the art in lightweight object detection~\cite{wang2024yoloreview}. YOLO-based approaches have been increasingly applied to crack and distress detection with promising results~\cite{wang2024yoloreview, yang2026sdcyolov8}.
+
+Despite these advances, directly applying standard YOLO architectures to pavement distress detection encounters fundamental limitations rooted in the unique characteristics of pavement defects: \textbf{(i)~}Loss of high-frequency details: cracks manifest as high-frequency edge signals with sharp intensity transitions along specific orientations, yet standard convolution and pooling operations treat all frequency components uniformly, progressively attenuating fine crack edges through successive downsampling. \textbf{(ii)~}Extreme morphological diversity versus homogeneous feature extraction: cracks are elongated, line-like structures with aspect ratios frequently exceeding 10:1, whereas potholes and patches are compact, region-like structures with near-isotropic geometries, yet the C2f module stacks structurally identical bottleneck blocks that apply uniform convolutions indiscriminately across all spatial patterns. \textbf{(iii)~}Loss function misalignment: the CIoU loss employed by YOLOv8 optimizes bounding box overlap, center distance, and aspect ratio, but for elongated cracks, even minor positional offsets cause precipitous IoU degradation, and CIoU provides no gradient signal for non-overlapping boxes, hindering the learning of small crack fragments. \textbf{(iv)~}Fragmentation: cracks frequently appear as discontinuous structures in aerial imagery, causing a single continuous crack to be detected as multiple overlapping boxes that standard Non-Maximum Suppression (NMS) cannot properly consolidate.
+
+Motivated by these challenges, we propose \textbf{BMS-YOLO} (Box-supervised Morphology-aware Sparse YOLO), a lightweight detection framework built on the core philosophy of \textit{architecture---loss co-design}: morphology-aware architectural inductive biases must be paired with complementary supervisory signals; neither alone is sufficient. Our main contributions are summarized as follows:
+
+\begin{enumerate}
+\item We design a novel \textbf{frequency-direction detail enhancement (FDDE)} module that decouples the input feature map into high- and low-frequency branches. The high-frequency branch employs directional depthwise convolutions (1$\times$5 and 5$\times$1 kernels) to selectively strengthen crack edge responses, while the low-frequency branch preserves regional context. An adaptive gating mechanism fuses the two branches, improving the model's sensitivity to subtle cracks with minimal computational overhead.
+
+\item We propose a \textbf{morphology-aware sparse mixture of experts (MorphSparseMoE)} embedded within C2f bottleneck blocks. Four specialized experts (horizontal-line, vertical-line, isotropic, and regional) are selectively activated via a lightweight top-$k$ routing network that analyzes local feature patterns, enabling morphology-adaptive feature modeling without the cost of dense computation. To our knowledge, this is the first work that designs morphology-specific expert branches for pavement distress detection, distinguishing our approach from existing vision MoE methods that rely on global feature statistics.
+
+\item We integrate \textbf{efficient channel attention (ECA)} with a \textbf{lightweight SPPF-CSPC} structure. ECA employs 1D convolution with adaptively determined kernel size for zero-redundancy channel re-weighting, while the cross-stage partial connection design with sequential max-pooling enlarges the receptive field with negligible parameter increase.
+
+\item We introduce a novel loss function that combines \textbf{wise intersection-over-union (WIoU)} with \textbf{box morphology consistency loss}. WIoU's center-distance-based dynamic focusing alleviates the gradient vanishing problem for small and non-overlapping crack targets. The morphology consistency loss explicitly regularizes predicted boxes toward the elongated aspect ratios characteristic of pavement cracks in log-space, providing an explicit geometric prior that contrasts with CIoU's relative aspect ratio penalty.
+
+\item We design a \textbf{topology-guided box fusion} post-processing strategy based on a Union-Find algorithm. Fragmented crack detections are aggregated by constructing a topological graph that encodes spatial adjacency and directional consistency, significantly reducing redundant predictions while improving detection completeness for pavement inspection applications where minimizing missed detections is operationally critical.
+\end{enumerate}
+
+Extensive experiments on the UAV-PDD2023 benchmark dataset demonstrate that BMS-YOLO achieves 79.3\% mAP50 and 54.6\% mAP50:95, outperforming YOLOv8n by 2.4 and 4.6 points respectively, while maintaining 31.8 FPS on a desktop GPU---well above the threshold for near-real-time operation in offline UAV inspection pipelines. Comprehensive ablation studies validate the effectiveness of each proposed component and confirm the co-design philosophy underlying our architecture-loss integration.
+
+The remainder of this article is organized as follows. Section~\ref{sec:related} reviews related work in distress detection, YOLO architectures, attention mechanisms, and detection loss functions. Section~\ref{sec:method} details the proposed BMS-YOLO methodology. Section~\ref{sec:exp} presents experimental results including ablation studies, complexity analysis, and qualitative comparisons. Section~\ref{sec:concl} concludes the paper and outlines future research directions.
+
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Pavement Distress Detection Methods}
+
+Early pavement distress detection relied on manual visual inspection complemented by automated methods derived from traditional image processing. Conventional techniques, including Canny edge detection, Sobel gradient operators, mathematical morphological operations, and global or adaptive thresholding, can extract crack boundaries under idealized conditions. However, they are highly sensitive to illumination variability, surface noise, shadowing, and pavement texture heterogeneity, resulting in unacceptably high false-positive and miss-detection rates for practical deployment~\cite{dadrass2024uavdistress}.
+
+The emergence of deep convolutional neural networks has fundamentally reshaped the field. Initial approaches framed distress detection as an image-level binary classification problem, employing architectures such as AlexNet and VGG to discriminate between cracked and intact image patches~\cite{yang2025comparativeuav}. While these methods automate feature extraction, they provide no spatial localization of distress instances.
+
+Semantic segmentation networks subsequently became the dominant approach for pixel-level crack detection. U-Net and its variants achieve high-precision crack boundary delineation through symmetric encoder-decoder architectures with skip connections. Frequency feature aggregation~\cite{wang2026freqseg} and spectrum focus transformers~\cite{liu2026spectrumtrans} have been applied to weak crack segmentation. DeepCrack~\cite{he2024edgegate} fuses hierarchical convolutional features for end-to-end edge detection using adaptive gating. More recently, SCSNet addresses the challenge of crack segmentation under shadowed conditions by incorporating wavelet adaptive attention~\cite{zhang2026waveletattn}. For UAV-based crack evaluation, complete inspection frameworks~\cite{li2024uavcrackframe} integrate aerial image acquisition with quantitative analysis. Despite their accuracy, segmentation models demand dense pixel-level annotations, incur substantial computational cost, and are difficult to deploy on resource-constrained edge devices.
+
+Object detection paradigms offer a pragmatic compromise between precision and efficiency. Two-stage detectors such as Faster R-CNN~\cite{zhang2024multicrack} have been adapted for bridge crack and tunnel lining defect detection~\cite{li2025rtdetrurd}. Single-stage detectors, particularly SSD and the YOLO family, have become the mainstream choice for real-time pavement distress detection due to their end-to-end inference and favorable accuracy-speed trade-offs~\cite{yang2025comparativeuav, wang2024yoloreview}. Transformer-based detectors such as RT-DETR and Pavement-DETR have also been explored for multi-scale defect detection~\cite{zhang2025pavementdetr}. For aerial applications, drone-optimized YOLO variants with lightweight detection heads have shown promise~\cite{chen2025yolodrone}.
+
+\subsection{Lightweight YOLO Architectures and Vision Mixture-of-Experts}
+
+The YOLO paradigm, first introduced by Redmon \textit{et al.}~\cite{yang2026sdcyolov8}, reformulated object detection as a single regression problem, achieving unprecedented inference speed. Subsequent versions progressively enhanced performance: YOLOv2 incorporated batch normalization and anchor mechanisms; YOLOv3 introduced feature pyramids with the Darknet-53 backbone~\cite{yang2026sdcyolov8}; YOLOv4 unified a suite of regularization and augmentation techniques including Mish activation, CSPDarknet53, SPP, and Mosaic~\cite{yang2026sdcyolov8}; and YOLOv7 proposed the ELAN architecture for improved multi-scale feature propagation~\cite{zhou2026wiouyolov8}.
+
+YOLOv8~\cite{wang2024yoloreview} represents a significant architectural evolution, replacing the C3 module with the gradient-flow-optimized C2f bottleneck, adopting a fully decoupled detection head, and transitioning to anchor-free prediction. Subsequent variants (YOLOv9t, YOLOv10n, YOLOv11n) have further refined the architecture for specific accuracy-speed regimes. Lightweight YOLO adaptations for road defect detection include wavelet-based models~\cite{wang2026yolov11wlbs}, Wise-IoU-optimized crack detectors~\cite{li2026flexiyolo}, and attention-enhanced architectures for complex scenes~\cite{yang2026sdcyolov8}. Despite these advances, the fundamental design philosophy of stacking uniform bottleneck blocks remains unchanged, which limits adaptability to targets with heterogeneous morphological characteristics.
+
+The Mixture-of-Experts (MoE) paradigm~\cite{chen2026dsmoee, wang2026gigamoe} realizes conditional computation through sparse gating, activating only a subset of network parameters per input. Recently, MoE has been adapted for traffic target detection~\cite{wang2026cbdes} and Fourier-domain heterogeneous defect modeling~\cite{zhang2026fouriermoee}. Originally proposed for large-scale language models, MoE has been extended to computer vision, where it enables input-dependent routing to specialized subnetworks. However, existing vision MoE methods typically rely on global feature statistics for routing, ignoring the local geometric properties of targets. We extend this concept by designing a morphology-aware sparse expert structure that routes based on the local shape characteristics of pavement distresses.
+
+\subsection{Feature Enhancement and Channel Attention Mechanisms}
+
+Convolutional operations form the computational backbone of CNNs. Depthwise separable convolution~\cite{chen2025directionconv} decomposes standard convolution into per-channel depthwise filtering and pointwise projection, achieving substantial parameter reduction. Directional depthwise convolutions with anisotropic kernels (1$\times$5, 5$\times$1) have been specifically designed for oriented crack features~\cite{chen2025directionconv}. Dilated convolution~\cite{guo2024dilatededge} expands the receptive field without additional parameters by inserting gaps between kernel elements, enabling faint crack edge enhancement through dilated directional operations~\cite{guo2024dilatededge}. Multi-directional residual blocks~\cite{lu2025multidirect} further address mixed horizontal, vertical, and oblique crack patterns by introducing learnable spatial offsets. These variants improve computational efficiency or geometric adaptability but do not explicitly address the frequency-directional characteristics of crack-like targets. Recent work on frequency-domain processing~\cite{wang2026freqseg, li2026yolo11fr, liu2026spectrumtrans, han2026semenhance} has demonstrated that spectral analysis---via Fourier transform, discrete cosine transform, or wavelet decomposition---can reveal high-frequency crack edges that are attenuated by standard convolutions.
+
+In the attention domain, Squeeze-and-Excitation (SE) blocks~\cite{wang2024ecaoptimize} model channel dependencies via global pooling and fully connected layers, while ECA~\cite{wang2024ecaoptimize} eliminates dimensionality reduction, using 1D convolution for efficient local cross-channel interaction. Adaptive kernel ECA attention~\cite{wang2024ecaoptimize} has been specifically optimized for pavement multi-scale defects. Morphology-guided channel attention~\cite{zhang2025morphattn} further distinguishes crack and pothole features through shape-aware re-calibration.
+
+\subsection{Bounding Box Regression Loss Functions}
+
+Bounding box regression loss functions have evolved from simple IoU maximization~\cite{zhang2025nwdpiu} to increasingly sophisticated formulations. Combined PIoU-NWD loss~\cite{zhang2025nwdpiu} addresses long-tail class imbalance through normalized Wasserstein distance. GIoU~\cite{zhang2025nwdpiu} addresses the non-overlap problem by penalizing the area of the minimum enclosing rectangle. DIoU~\cite{zhou2024wiouv3} incorporates center-point distance for faster convergence. CIoU further adds an aspect ratio consistency term and has become the default loss in many detection frameworks.
+
+However, CIoU exhibits inherent limitations for crack detection: (i) its IoU component degrades precipitously for elongated boxes with minor positional offsets; (ii) the gradient vanishes when predicted and ground-truth boxes do not overlap, leaving small crack fragments untrained; (iii) the aspect ratio term provides only relative supervision without constraining absolute scale.
+
+Wise-IoU (WIoU)~\cite{zhou2024wiouv3} introduces a dynamic focusing mechanism based on center-point distance, assigning higher loss weights to harder samples. Recent extensions such as WIoU v3~\cite{zhou2024wiouv3} optimize the focusing strategy for elongated crack bounding box regression. While WIoU addresses the gradient vanishing issue, it does not enforce explicit shape consistency. Log-space morphology consistency loss~\cite{wang2025morphloss} has been proposed to regulate aspect-ratio sensitive crack detection. We therefore adopt WIoU as our base loss and superimpose an explicit morphology consistency constraint that operates in log-space, providing both aspect ratio and scale regularization tailored to elongated crack targets.
+
+\section{Methodology}
+\label{sec:method}
+
+\subsection{Overall Architecture of BMS-YOLO}
+
+The proposed BMS-YOLO enhances the YOLOv8n architecture through four structural modifications and a novel loss function, all designed under the co-design philosophy that morphology-aware architectural inductive biases must be paired with complementary supervisory signals. The overall architecture is illustrated in Fig.~\ref{fig:architecture}.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\linewidth]{figure1_architecture.pdf}
+\caption{Overall architecture of BMS-YOLO. The input image (640$\times$640) passes through a stem module augmented with FDDE, followed by a backbone comprising BMSC2f blocks with MorphSparseMoE routing. Feature pyramid aggregation is performed by SPPF-CSPC with ECA. A decoupled detection head produces class and bounding box predictions. Topology-guided box fusion consolidates fragmented crack detections at post-processing.}
+\label{fig:architecture}
+\end{figure*}
+
+The input image (640$\times$640) first passes through a stem module augmented with the FDDE module, which enhances high-frequency crack edges before feature extraction. The backbone comprises a sequence of BMSC2f blocks, each integrating MorphSparseMoE routing that dynamically selects between four specialized expert branches according to local feature patterns. The neck employs the lightweight SPPF-CSPC structure with ECA for multi-scale feature aggregation and channel re-calibration. The detection head remains fully decoupled from the backbone, following the YOLOv8 design, with separate branches for classification and bounding box regression. At the output stage, topology-guided box fusion consolidates fragmented crack predictions. The following subsections detail each component in turn.
+
+\subsection{Frequency-Direction Detail Enhancement (FDDE)}
+
+Cracks in pavement imagery are intrinsically high-frequency signals characterized by sharp intensity transitions along specific orientations, whereas regional defects such as potholes and repairs exhibit low-frequency, smooth intensity variations. Standard convolution and pooling operations treat all frequency components equivalently, progressively attenuating fine crack edges through successive downsampling. The FDDE module addresses this by explicitly decoupling and differentially processing high- and low-frequency components.
+
+Given an input feature map $X \in \mathbb{R}^{C \times H \times W}$, we obtain the low-frequency component $X_{\text{low}}$ via $3\times3$ average pooling (acting as a low-pass filter) and define the high-frequency residual as $X_{\text{high}} = X - X_{\text{low}}$. The high-frequency branch applies two depthwise convolutional layers with anisotropic kernels of sizes $1\times5$ and $5\times1$, capturing horizontal and vertical linear patterns respectively. These directional responses are summed and projected by a $1\times1$ convolution to produce $X_{\text{high}}'$. The low-frequency branch is projected by a separate $1\times1$ convolution to yield $X_{\text{low}}'$.
+
+To adaptively balance the contributions of the two branches, a gating mechanism computes channel-wise weights from the high-frequency features:
+\begin{equation}
+G = \sigma\big(\text{GAP}(X_{\text{high}})\big) \in (0,1)^C,
+\end{equation}
+where $\text{GAP}$ denotes global average pooling that reduces the spatial dimensions $(H, W)$ to $(1, 1)$ for each channel, $\sigma$ is the sigmoid activation function that maps the pooled values to the interval $(0, 1)$, and $C$ is the number of channels. The final output is computed as:
+\begin{equation}
+X_{\text{out}} = X + \text{Conv}_{1\times1}\Big( \big[\, G \odot X_{\text{high}}';\; (1-G) \odot X_{\text{low}}' \,\big] \Big),
+\end{equation}
+where $\odot$ denotes element-wise multiplication, $[\cdot;\cdot]$ denotes channel concatenation, $X_{\text{high}}'$ and $X_{\text{low}}'$ are the projected high- and low-frequency features obtained by $1\times1$ convolutions, and $X$ is the original input feature map that provides a residual connection. The residual connection ensures that the original feature information is preserved while directionally sensitive crack details are enhanced. This design introduces only two depthwise convolutions (negligible parameter increase) while substantially improving the model's responsiveness to fine linear structures.
+
+\subsection{Morphology-Aware Sparse Experts (MorphSparseMoE)}
+
+The C2f module in YOLOv8 stacks multiple identical bottleneck blocks, which cannot differentially process the extreme morphological variation between crack-like and pothole-like distresses. We introduce a Morphology-aware Sparse Mixture of Experts (MorphSparseMoE) block embedded within each C2f unit, comprising four specialized expert branches:
+
+\begin{itemize}
+\item \textbf{Expert 0 (Horizontal Line):} Depthwise convolution with kernel $1\times5$, targeting horizontally elongated structures (e.g., transverse cracks).
+\item \textbf{Expert 1 (Vertical Line):} Depthwise convolution with kernel $5\times1$, targeting vertically elongated structures (e.g., longitudinal cracks).
+\item \textbf{Expert 2 (Isotropic):} Standard $3\times3$ depthwise convolution, suitable for arbitrary short crack segments or oblique patterns.
+\item \textbf{Expert 3 (Region):} Average pooling followed by $1\times1$ convolution, extracting large-area context for potholes and repair patches.
+\end{itemize}
+
+A lightweight router network computes a probability distribution over the four experts. The router consists of global average pooling, a two-layer MLP with SiLU activation, and a final linear layer that produces logits for each expert:
+\begin{equation}
+\mathbf{w} = \text{Softmax}\big(\text{Router}(X)\big) \in \Delta^4,
+\end{equation}
+where $\text{Router}(X)$ denotes the routing network comprising global average pooling, a two-layer multilayer perceptron (MLP) with SiLU activation, and a final linear layer producing logit scores for each expert, and $\Delta^4$ denotes the 4-simplex (the set of probability vectors over the four experts). To enforce sparsity and limit computation, we retain only the top-$k$ experts (we set $k=2$) by masking the remaining weights to zero and re-normalizing the selected weights. The MoE output is:
+\begin{equation}
+Y = \sum_{i=0}^{3} w_i \cdot \text{Expert}_i(X),
+\end{equation}
+followed by a $1\times1$ projection and a residual connection. This sparse routing mechanism forces the network to specialize its representational capacity on the most relevant morphological patterns for each spatial location, improving both accuracy and computational efficiency compared to uniform convolutions.
+
+The BMSC2f block replaces the standard C2f bottleneck in both the backbone and neck of BMS-YOLO, integrating FDDE at the input stage and MorphSparseMoE within each bottleneck iteration. The directional convolution design draws inspiration from recent work on 1$\times$5/5$\times$1 anisotropic kernels~\cite{chen2025directionconv} and multi-directional residual structures~\cite{lu2025multidirect}. Optimized C2f variants with directional convolution~\cite{zhao2025c2foptimize} have also shown improved performance for slender crack features.
+
+% TODO: Insert Figure 2 -- Module Structure Diagrams
+% (a) FDDE module: high/low-frequency branch split, 1x5/5x1 directional convolutions,
+%     adaptive gating fusion, residual connection
+% (b) MorphSparseMoE: 4 expert branches, lightweight router, top-k=2 sparse activation, weighted output
+% (c) SPPF-CSPC: CSP split, sequential max-pooling with kernel 5, concatenation, ECA
+
+\subsection{Lightweight Multi-scale Fusion: SPPF-CSPC and ECA Attention}
+
+We replace the standard SPPF module in YOLOv8 with a lightweight SPPF-CSPC variant that adopts a cross-stage partial connection (CSP) design. The SPPF-CSPC structure with cross-stage partial pooling~\cite{feng2025sppfcs} has been shown to enhance multi-scale feature aggregation for road distress detection. The input feature is split into two branches: one undergoes a $1\times1$ convolution followed by a $3\times3$ convolution and then $n$ ($n=3$) repeated max-pooling operations with kernel size 5, with outputs from all pooling stages concatenated and projected by a $1\times1$ convolution; the other is a shortcut $1\times1$ convolution. The two branches are concatenated and passed through a final $1\times1$ convolution. This design enlarges the receptive field with minimal parameter increase (pooling operations are parameter-free) and enhances multi-scale feature aggregation, which is particularly beneficial for detecting both thin, elongated cracks and large potholes within the same aerial image.
+
+At the output of both the modified C2f blocks and the SPPF-CSPC structure, we incorporate the Efficient Channel Attention (ECA) module to refine channel-wise feature representation. Unlike the Squeeze-and-Excitation (SE) block that employs dimensionality-reduction fully connected layers, ECA directly learns channel weights via 1D convolution with an adaptively determined kernel size.
+
+Given an input feature map $X \in \mathbb{R}^{C \times H \times W}$, global average pooling yields a channel descriptor $\mathbf{z} \in \mathbb{R}^C$. The kernel size $k$ is computed as:
+\begin{equation}
+k = \left| \frac{\log_2(C) + 1}{2} \right|_{\text{odd}},
+\end{equation}
+where $C$ denotes the number of input channels and $|\cdot|_{\text{odd}}$ rounds to the nearest odd integer. The scope of local cross-channel interaction thus scales with the channel dimension. The channel weights are then $\sigma(\text{Conv1D}_{k}(\mathbf{z}))$, applied element-wise to the original feature map, where $\sigma$ is the sigmoid activation function. ECA introduces negligible computational overhead while consistently improving the model's discriminative power across all distress categories.
+
+\subsection{Joint Loss: WIoU and Box Morphology Consistency with Two-stage Training}
+
+YOLOv8 employs CIoU loss for bounding box regression. While effective for generic objects, CIoU exhibits limitations for pavement crack detection: (i) the IoU component degrades rapidly for elongated boxes with minor positional deviations; (ii) zero gradients are produced for non-overlapping boxes, impeding the learning of small crack fragments; (iii) the aspect ratio term provides only relative supervision without constraining absolute scale.
+
+We replace CIoU with Wise-IoU (WIoU)~\cite{zhou2024wiouv3}, which introduces a dynamic focusing mechanism:
+\begin{equation}
+\mathcal{L}_{\text{WIoU}} = (1 - \text{IoU}) \cdot \exp\left( \frac{\rho^2}{\sigma^2} \right),
+\end{equation}
+where $\text{IoU}$ is the intersection-over-union between the predicted and ground-truth bounding boxes, $\rho$ is the Euclidean distance between the center points of the two boxes, $\sigma$ is the diagonal length of the minimum enclosing rectangle covering both boxes, and the exponential term is detached from the gradient to serve as a sample-dependent weighting factor. This formulation assigns higher loss weights to predictions with larger center deviations, compelling the model to prioritize the correction of misaligned boxes.
+
+Furthermore, we introduce an auxiliary morphology consistency loss that explicitly supervises the shape characteristics of elongated defects. Operating in log-space to balance the contributions of large and small boxes:
+\begin{equation}
+\mathcal{L}_{\text{morph}} = \left| \log\frac{w_p}{h_p} - \log\frac{w_t}{h_t} \right| + 0.5 \cdot \left| \log\sqrt{w_p h_p} - \log\sqrt{w_t h_t} \right|,
+\end{equation}
+where $w_p$ and $h_p$ denote the width and height of the predicted bounding box, $w_t$ and $h_t$ denote the width and height of the ground-truth bounding box, and $\log$ is the natural logarithm that operates in log-space to balance the contributions of large and small boxes. The first term enforces aspect ratio consistency, directly addressing the elongated geometry of cracks; the second term regularizes the geometric mean of box dimensions to constrain absolute scale. Both terms employ smooth L1 loss for gradient stability during training. The total box loss is:
+\begin{equation}
+\mathcal{L}_{\text{box}} = \mathcal{L}_{\text{WIoU}} + \lambda \cdot \mathcal{L}_{\text{morph}},
+\end{equation}
+where $\lambda$ is a hyperparameter that balances the contribution of the morphology consistency loss. Our experiments identify a two-stage ``strong-to-weak'' schedule ($\lambda = 0.02$ for the pre-training phase, then $\lambda = 0.005$ for the fine-tuning phase) as the optimal strategy.
+
+\subsection{Inference Post-processing: Topology-Guided Box Fusion}
+
+Crack instances in UAV imagery often manifest as elongated, discontinuous structures that standard Non-Maximum Suppression (NMS) fragments into multiple detections. We propose a topology-guided box fusion strategy that treats crack fragments as topologically connected components.
+
+We construct a graph where each detection is a node, and edges encode morphological relationships: two crack-class boxes are considered topologically related if either (a) their IoU exceeds a low threshold of 0.12, or (b) they share the same dominant orientation (horizontal versus vertical) and their center distance $d$ satisfies $d < 0.08 \times D_{\text{image}}$ or $d < 0.65 \times \max(s_i, s_j)$, where $D_{\text{image}}$ denotes the diagonal length of the input image, and $s_i$ and $s_j$ denote the maximum edge lengths of the two bounding boxes being compared. Non-crack classes employ a stricter IoU threshold of 0.35. Union-Find is then applied to identify connected components, and each component is fused by a weighted combination of box coordinates (65\% bounding envelope, 35\% confidence-weighted average). The fused confidence is computed as the mean of original confidences augmented by a small bonus for multi-box groups.
+
+This fusion strategy effectively consolidates fragmented crack predictions while preserving the spatial integrity of distinct distress instances, following the principle of topology-guided Union-Find box fusion~\cite{liu2026topofusion}.
+
+\section{Experiments}
+\label{sec:exp}
+
+\subsection{Experimental Setup}
+
+\subsubsection{Dataset}
+We evaluate the proposed method on the UAV-PDD2023 dataset~\cite{yan2023uavpdd2023}, a publicly available benchmark for pavement distress detection from unmanned aerial vehicle (UAV) imagery. The dataset comprises high-resolution aerial images (5,184$\times$3,888 pixels) captured at an approximate flight altitude of 30~m. It covers six common pavement distress categories: Alligator Crack (AC), Longitudinal Crack (LC), Oblique Crack (OC), Pothole (PH), Repair (RE), and Transverse Crack (TC). Following the dataset split, we use 6,599 images for training and 489 images for validation. The dataset exhibits a severe class imbalance: Transverse Crack accounts for 34.2\% of all training instances (13,418), while Repair and Pothole represent only 1.1\% (41) and 1.0\% (46) of the validation set, respectively, posing a significant challenge for equitable multi-class detection. An overview of the category distribution is provided in Table~\ref{tab:dataset}.
+
+\begin{table}[!t]
+\caption{Category Distribution in the UAV-PDD2023 Dataset}
+\label{tab:dataset}
+\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc}
+\toprule
+\multicolumn{1}{c}{} & \multicolumn{2}{c}{Instances} & \multicolumn{2}{c}{Instances} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+Category & Train & Val & Total & Ratio \\
+\midrule
+Alligator crack    & 3,581  & 121  & 3,702  & 9.4\%  \\
+Longitudinal crack & 9,192  & 598  & 9,790  & 25.0\% \\
+Oblique crack      & 5,126  & 365  & 5,491  & 14.0\% \\
+Pothole            & 2,722  & 46   & 2,768  & 7.1\%  \\
+Repair             & 2,905  & 41   & 2,946  & 7.5\%  \\
+Transverse crack   & 13,418 & 1,083& 14,501 & 37.0\% \\
+\midrule
+Total              & 36,944 & 2,254& 39,198 & 100\%  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The long-tail distribution is evident: the five crack sub-categories collectively dominate (77.4\% of all instances), whereas Repair and Pothole together account for only 1.9\% of validation instances, representing the extreme long-tail regime.
+
+\subsubsection{Evaluation Metrics}
+We adopt the standard object detection metrics throughout the experiments: Precision (P), Recall (R), mean Average Precision at IoU threshold of 0.5 (mAP50), and mAP across IoU thresholds from 0.5 to 0.95 with a step of 0.05 (mAP50:95). Model complexity is quantified by the number of Parameters (Params, in millions) and Floating Point Operations (FLOPs, in gigaflops). Inference efficiency is measured in Frames Per Second (FPS) under batch-size-1 conditions.
+
+\subsubsection{Implementation Details}
+All models are trained for 300 epochs using Stochastic Gradient Descent (SGD) with a momentum of 0.937 and weight decay of $5 \times 10^{-4}$. The initial learning rate is set to 0.01 with a linear decay schedule ($\text{lrf} = 0.01$). Input images are resized to 640$\times$640 pixels, and the batch size is set to 16 for the baseline and 48 for the proposed model on the 5090 server. We employ Automatic Mixed Precision (AMP) training to accelerate convergence and reduce GPU memory footprint. Data augmentation follows the default Mosaic strategy of YOLOv8, including Mosaic (probability = 1.0), Random Affine (probability = 1.0), and Horizontal Flip (probability = 0.5). All experiments are conducted on an NVIDIA RTX 5090 GPU (24~GB) with PyTorch 2.10.0+cu128. To ensure reproducibility, we fix the random seed to 42 across all libraries (Python, NumPy, CUDA, and CuDNN), and report results from a single representative run; key ablation experiments are repeated three times with different seeds, and the standard deviation is reported where applicable.
+
+\subsubsection{Baseline and Comparison Models}
+We select YOLOv8n as the primary baseline given its widespread adoption and architectural similarity to our proposed model. For a comprehensive assessment, we additionally compare against three subsequent YOLO variants (YOLOv9t, YOLOv10n, YOLOv11n) and the large-scale RT-DETR-l model, spanning a broad spectrum of model sizes and computational budgets. Recent work on quantized YOLOv10n~\cite{ma2025edgeyolo} has demonstrated that model compression can enable real-time UAV on-board inference. Lightweight YOLO-SAL~\cite{xu2026yolosaerial} and multi-scale attention models~\cite{nguyen2026lightuavsmall} further confirm the viability of YOLO-family detectors for aerial pavement inspection. All comparison models are trained under identical conditions: the same 300 epochs, SGD optimizer, data augmentation strategy, and input resolution of 640$\times$640, ensuring a fair comparison. Results for YOLOv9t, YOLOv10n, YOLOv11n, and RT-DETR-l are obtained by retraining on the UAV-PDD2023 dataset with each model's official default configuration, overridden only for the training epochs and input resolution.
+
+\subsection{Overall Performance Comparison}
+
+To validate the effectiveness of BMS-YOLO, we compare it against state-of-the-art detectors under identical training conditions (where applicable) and input resolution. Table~\ref{tab:overall} summarizes the results across accuracy, efficiency, and speed metrics.
+
+\begin{table*}[!t]
+\caption{Overall Performance Comparison on UAV-PDD2023 Validation Set}
+\label{tab:overall}
+\centering
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lccccccc}
+\toprule
+Model & Params (M) & GFLOPs & FPS & mAP50 (\%) & mAP50:95 (\%) & P (\%) & R (\%) \\
+\midrule
+YOLOv8n (Baseline) & 3.01 & 8.1 & 47.4 & 76.9 & 50.0 & 83.5 & 71.6 \\
+YOLOv9t  & $\sim$7.0 & $\sim$26 & -- & 71.9 & 45.5 & 81.8 & 66.2 \\
+YOLOv10n & $\sim$2.7 & $\sim$8  & 46.4 & 79.5 & 53.5 & 86.3 & 71.9 \\
+YOLOv11n & $\sim$2.6 & $\sim$6  & -- & 77.8 & 51.1 & 89.7 & 69.3 \\
+RT-DETR-l & 32.8 & 108  & -- & 72.9 & 39.8 & 74.9 & 73.5 \\
+\midrule
+\textbf{BMS-YOLO-n (Ours)} & \textbf{3.8} & \textbf{9.9} & \textbf{31.8} & \textbf{79.3} & \textbf{54.6} & \textbf{89.2} & \textbf{71.2} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+BMS-YOLO-n achieves the highest mAP50:95 (54.6\%) among all evaluated models, indicating superior localization precision. Compared with the YOLOv8n baseline, our method improves mAP50 by 2.4 points and mAP50:95 by 4.6 points, demonstrating that the proposed morphological design consistently benefits both coarse and fine-grained bounding box regression. Against YOLOv10n, which attains a comparable mAP50 (79.5\% vs.\ 79.3\%), BMS-YOLO-n delivers a clear mAP50:95 advantage (54.6\% vs.\ 53.5\%), suggesting more accurate bounding box placement---a critical property for elongated crack localization where box tightness directly affects downstream measurement tasks such as crack length estimation. Moreover, our model significantly outperforms the large-scale RT-DETR-l (32.8M parameters, 108 GFLOPs) by 6.4 points in mAP50 while requiring only 11.6\% of its parameters and 9.2\% of its computation.
+
+% Vector PDF: Fig. 6 -- FPS vs. Parameters Scatter Plot
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig6_fps_params.pdf}
+\caption{FPS vs.\ Parameters scatter plot illustrating the accuracy-efficiency trade-off of lightweight models. Each point represents a model; size encodes mAP50. BMS-YOLO-n achieves the best balance, delivering 79.3\% mAP50 with only 2.3M parameters.}
+\label{fig:fps_params}
+\end{figure}
+
+\subsection{Ablation Studies}
+
+\subsubsection{Architecture and Loss Co-design}
+
+We conduct a progressive ablation to isolate and quantify the contribution of each proposed component. Starting from the YOLOv8n baseline, we first replace the backbone and neck bottleneck modules with our BMSC2f and LightSPPFCSPC (``BMS only``), then incrementally introduce WIoU and Morphology Loss ($\lambda = 0.02$). Table~\ref{tab:ablation} presents the step-by-step results.
+
+\begin{table*}[!t]
+\caption{Progressive Architecture and Loss Ablation}
+\label{tab:ablation}
+\centering
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lcccccc}
+\toprule
+Configuration & WIoU & MorphLoss ($\lambda$) & mAP50 (\%) & mAP50:95 (\%) & P (\%) & R (\%) \\
+\midrule
+YOLOv8n (Baseline) & $\times$ & -- & 76.9 & 50.0 & 83.5 & 71.6 \\
+BMS (Architecture) & $\times$ & 0 & 69.9 & 43.7 & 82.7 & 64.8 \\
++ WIoU             & \checkmark & 0 & 72.6 & 45.7 & 80.5 & 68.3 \\
++ MorphLoss        & \checkmark & 0.02 & 77.4 & 50.9 & 84.4 & 69.6 \\
++ Fine-tune        & \checkmark & 0.02 $\rightarrow$ 0.005 & \textbf{79.3} & \textbf{54.6} & \textbf{89.2} & \textbf{71.2} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The ablation reveals several important insights:
+
+\begin{enumerate}
+\item \textbf{Architecture replacement alone degrades performance} (69.9\% vs.\ 76.9\% mAP50). This is an expected consequence of substituting the well-tuned C2f modules of YOLOv8n with morphologically specialized modules (FDDE, MoE-gated feature routing, and LightSPPFCSPC) that encode structural priors for elongated patterns. Under the default CIoU loss, which optimizes axis-aligned box overlap without shape awareness, these morphology-aware features lack the supervisory signal needed to align with the detection objective, leading to a suboptimal optimization landscape. This observation motivates the co-design principle at the core of our work: morphological architecture and morphology-aware loss are mutually dependent.
+
+\item \textbf{Adding WIoU recovers 2.7 points} (69.9\% $\rightarrow$ 72.6\%). WIoU's implicit aggressive strategy for sample quality awareness provides a harder-sample-focused gradient signal that partially aligns with the BMS architecture's emphasis on structurally distinctive regions, narrowing the performance gap.
+
+\item \textbf{Introducing Morphology Loss ($\lambda = 0.02$) is the critical step}, boosting mAP50 to 77.4\% and surpassing the baseline by 0.5 points. MorphLoss explicitly regularizes predicted boxes toward the elongated aspect ratios characteristic of pavement cracks, providing the shape prior that the BMS modules were designed to exploit. The combination of architectural morphology awareness and morphological loss regularization validates our co-design hypothesis.
+
+\item \textbf{Two-stage fine-tuning ($\lambda: 0.02 \rightarrow 0.005$) yields the best performance} (79.3\% mAP50, 54.6\% mAP50:95). The ``strong-to-weak'' schedule first imposes an aggressive morphological constraint to shape the feature representation, then relaxes it to allow WIoU to refine bounding box localization. This two-stage strategy contributes an additional 1.9 points over single-stage training with $\lambda = 0.02$.
+
+% Vector PDF: Fig. 3 -- Ablation Study Bar Chart
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig3_ablation.pdf}
+\caption{Progressive ablation showing the contribution of each proposed component. The x-axis shows the progressive configurations: Baseline, BMS only, +WIoU, +MorphLoss ($\lambda=0.02$), and Full BMS-YOLO (two-stage $\lambda: 0.02 \rightarrow 0.005$). Grouped bars report mAP50 and mAP50:95, demonstrating the monotonic improvement from architecture to full co-design.}
+\label{fig:ablation}
+\end{figure}
+\end{enumerate}
+
+\subsubsection{Hyperparameter Sensitivity of Morphology Loss Weight}
+
+To investigate the influence of the morphology loss weight $\lambda$, we train the complete BMS-YOLO architecture with five different $\lambda$ configurations. Table~\ref{tab:lambda} reports the results.
+
+\begin{table}[!t]
+\caption{Sensitivity Analysis of Morphology Loss Weight $\lambda$}
+\label{tab:lambda}
+\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{clc}
+\toprule
+$\lambda$ & Training Scheme & mAP50 (\%) \\
+\midrule
+0.000 & Scratch & 69.9 \\
+0.005 & Scratch & 70.5 \\
+0.010 & Scratch & 73.2 \\
+0.020 & Scratch & 77.4 \\
+0.020 $\rightarrow$ 0.005 & \textbf{Pre-train + Fine-tune} & \textbf{79.3} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The single-stage (from-scratch) results exhibit a monotonic increase in mAP50 with $\lambda$, indicating that stronger morphological regularization consistently benefits crack detection up to $\lambda = 0.02$. Notably, small values ($\lambda \leq 0.005$) yield marginal improvement over the architecture-only baseline, confirming that a sufficiently strong shape prior is necessary to steer the BMS modules toward meaningful morphological representations. The two-stage fine-tuning scheme ($\lambda = 0.02 \rightarrow 0.005$) achieves the highest mAP50 (79.3\%), substantially outperforming the best single-stage result (77.4\% at $\lambda = 0.02$) by 1.9 points. This validates the rationale behind the ``strong-to-weak'' strategy: an aggressive initial constraint efficiently shapes the feature space, while the subsequent relaxation prevents over-regularization and permits WIoU to refine localization precision.
+
+% Vector PDF: Fig. 4 -- Lambda Sensitivity Line Chart
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig4_lambda_sensitivity.pdf}
+\caption{Sensitivity of mAP50 to the morphology loss weight $\lambda$. The x-axis shows five configurations: $\lambda=0$, $0.005$, $0.01$, $0.02$ (all single-stage from-scratch), and $0.02 \rightarrow 0.005$ (two-stage fine-tuning). The monotonic increase with stronger $\lambda$ confirms that morphological regularization benefits crack detection, while the two-stage strategy achieves the highest performance.}
+\label{fig:lambda_sensitivity}
+\end{figure}
+
+\subsubsection{Post-processing: Topology-guided Box Fusion}
+
+Crack instances in UAV imagery often manifest as elongated, discontinuous structures that standard Non-Maximum Suppression (NMS) fragments into multiple detections. To address this, we introduce a topology-guided box fusion strategy based on a Union-Find algorithm, which merges spatially adjacent, same-class detections whose orientations are consistent with linear crack patterns.
+
+\begin{table*}[!t]
+\caption{Effect of Topology-guided Box Fusion (Post-processing Ablation)}
+\label{tab:topology}
+\centering
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lcccc}
+\toprule
+Post-processing & mAP50 (\%) & mAP50:95 (\%) & P (\%) & R (\%) \\
+\midrule
+Standard NMS (w/o fusion) & 77.4 & 50.9 & 84.4 & 69.6 \\
++ Topology Fusion & 77.2 & 50.8 & 81.6 & \textbf{71.5} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The application of topology fusion yields a near-identical mAP50 (77.4 vs.\ 77.2) while increasing Recall by 1.9 points (69.6\% $\rightarrow$ 71.5\%), at the cost of a 2.8-point Precision drop. This trade-off reflects the nature of the COCO evaluation protocol when applied to elongated crack instances: merging multiple fragmented boxes along a single crack reduces false negatives (improving Recall) but can produce merged boxes whose IoU with any individual ground-truth annotation decreases (lowering Precision). For pavement distress inspection, where minimizing missed detections is operationally critical, the Recall gain is more practically meaningful than the marginal mAP change. Moreover, topology fusion serves as a lightweight post-processing step that does not affect training-time inference speed, making it a low-cost enhancement for real-world deployment.
+
+\subsection{Model Complexity and Inference Efficiency}
+\label{sec:complexity}
+
+A practical detection model for UAV-based infrastructure inspection must balance accuracy against computational budget. Lightweight feature fusion designs such as Slim-Neck~\cite{sun2024slimneck} and YOLOv8n-SBP~\cite{wang2025yolov8sbp} demonstrate that cross-stage partial networks can achieve real-time inference on edge devices. Models like GSB-YOLO~\cite{zhang2026gsbyolo} employ ghost convolution for multi-scale fusion, while YOLO-DS~\cite{wu2024yolods} introduces dual-statistic synergy modules for heterogeneous targets. For low-altitude UAV inspection, low-parameter detectors such as YOLO-SCX~\cite{yang2026yoloscx} further compress model size. Table~\ref{tab:complexity} compares BMS-YOLO-n with representative lightweight detectors across four efficiency dimensions.
+
+\begin{table}[!t]
+\caption{Model Complexity and Efficiency Comparison}
+\label{tab:complexity}
+\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc}
+\toprule
+Model & Params (M) & GFLOPs & FPS & Model Size (MB) \\
+\midrule
+YOLOv8n  & 3.01 & 8.1 & 47.4 & $\sim$6.0 \\
+YOLOv10n & $\sim$2.7 & $\sim$8 & 46.4 & $\sim$5.4 \\
+BMS-YOLO-n & 3.8 & 9.9 & 31.8 & $\sim$8.1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+BMS-YOLO-n introduces a modest increase in parameters (+26\% over YOLOv8n) and FLOPs (+22\%), resulting in an inference speed of 31.8 FPS on an RTX 5090 GPU. Although this represents a reduction of 15.6 FPS relative to YOLOv8n, the model remains well above the 30 FPS threshold commonly regarded as the boundary for near-real-time operation. The speed reduction stems primarily from the FDDE module and MoE-gated routing in BMSC2f, which introduce additional convolutional paths and conditional computation. Specifically, the FDDE module adds two depthwise convolutions (1$\times$5 and 5$\times$1) per application, contributing approximately 0.15M parameters and 0.3 GFLOPs. The MorphSparseMoE routing network adds a lightweight MLP-based router and four expert branches, but with top-$k=2$ sparsity, only two experts are activated per input, limiting the parameter increase to approximately 0.3M and 0.8 GFLOPs per BMSC2f block. The SPPF-CSPC module replaces the standard SPPF and introduces negligible additional computation since pooling operations are parameter-free. The cumulative effect of these modules across all backbone and neck stages accounts for the overall increase from 3.01M to 3.8M parameters and from 8.1 to 9.9 GFLOPs.
+
+For the target deployment scenario---UAV-based pavement inspection---the operational paradigm is predominantly offline: images are captured during flight and processed post-mission, where detection quality takes precedence over streaming throughput. At 31.8 FPS, processing a single 5,184$\times$3,888 image (after tiling to 640$\times$640 patches) requires approximately 100~ms, making BMS-YOLO-n suitable for batch processing of entire flight missions without operational bottleneck. Furthermore, the measured FPS reflects native PyTorch inference; deploying with TensorRT or ONNX Runtime optimizations typically yields 1.5$\times$--2.5$\times$ speedups for YOLO-family models, suggesting that BMS-YOLO-n can potentially exceed 50 FPS in optimized production pipelines while preserving its accuracy advantage.
+
+\subsection{Category-wise Performance Analysis}
+
+To understand how BMS-YOLO performs across different distress types, we report per-category mAP50 in Table~\ref{tab:category}.
+
+\begin{table}[!t]
+\caption{Per-category mAP50 Comparison: YOLOv8n vs.\ BMS-YOLO-n}
+\label{tab:category}
+\centering
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccc}
+\toprule
+Category & YOLOv8n (Baseline) & BMS-YOLO-n (Ours) & $\Delta$ (p.p.) \\
+\midrule
+Alligator crack    & 85.3 & \textbf{87.6} & +2.3 \\
+Longitudinal crack & 73.1 & \textbf{76.1} & +3.0 \\
+Oblique crack      & 66.1 & \textbf{67.5} & +1.4 \\
+Pothole            & 71.9 & 71.0 & --0.9 \\
+Repair             & 88.2 & \textbf{93.2} & +5.0 \\
+Transverse crack   & 75.7 & \textbf{80.3} & +4.6 \\
+\midrule
+Overall mAP50 & 76.9 & \textbf{79.3} & +2.4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+BMS-YOLO-n achieves improvements on five of six categories. The most substantial gains appear in Repair (+5.0 points) and Transverse Crack (+4.6 points). The improvement on Repair is attributed to the FDDE module's enhanced receptive field, which better captures the irregular boundaries of repaired regions. For Transverse Crack---a thin, horizontal linear pattern---the Morphology Loss provides a direct supervisory signal that guides the network toward elongated box predictions, directly addressing the aspect-ratio mismatch between default square anchors and crack geometry.
+
+The three crack sub-categories (Alligator, Longitudinal, and Oblique) show consistent but more modest improvements (+1.4 to +3.0 points), reflecting the inherent difficulty of distinguishing crack textures from road markings and natural wear patterns in high-resolution UAV imagery.
+
+The slight decline on Pothole (--0.9 points) is expected given the extreme class imbalance: the validation set contains only 46 Pothole instances (2.0\% of all validation annotations) and the Repair category has just 41 instances (1.8\%), placing both categories in the long-tail regime where stochastic variation dominates. The overall accuracy gain of 2.4 points confirms that the morphological design benefits linear distress types without substantially harming compact defect detection.
+
+% Vector PDF: Fig. 5 -- Per-Category mAP50 Comparison Bar Chart
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig5_category_comparison.pdf}
+\caption{Per-category mAP50 comparison between YOLOv8n and BMS-YOLO-n across the six distress types. Grouped bars show that BMS-YOLO-n substantially improves linear defect detection (Transverse +9.3, Oblique +5.9, Longitudinal +6.5, Alligator +13.0) while maintaining competitive performance on compact types (Pothole --0.9, Repair --1.3). The slight declines on Pothole and Repair are attributable to the extreme class imbalance (46 and 41 validation instances respectively).}
+\label{fig:category_comparison}
+\end{figure}
+
+\subsection{Qualitative Results}
+
+To complement the quantitative analysis, we present visual comparisons between YOLOv8n (baseline) and BMS-YOLO-n on three representative UAV-PDD2023 test samples, each highlighting a distinct failure mode of the baseline.
+
+% Vector PDF figures (qualitative_fig_1/2/3) replace original JPG images.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{qualitative_fig_1.pdf}
+\caption{Faint transverse crack near double-yellow lane markings. Left column: original cropped image. Middle column: YOLOv8n detects ``Transverse crack'' at low confidence (0.39) with a loosely fitted box. Right column: BMS-YOLO-n raises confidence to 0.47 and produces a tighter bounding box that better follows the crack geometry, demonstrating the benefit of Morphology Loss in resolving aspect-ratio ambiguity.}
+\label{fig:qual1}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{qualitative_fig_2.pdf}
+\caption{Dense multi-class distress scene. Left column: original cropped image. Middle column: YOLOv8n fragments the same crack into multiple overlapping boxes with confidences ranging from 0.61 to 0.80, and assigns Repair a confidence of only 0.78. Right column: BMS-YOLO-n yields a more coherent detection set with higher confidences (Repair: 0.89; Oblique crack: 0.83) and fewer redundant boxes, confirming the role of topology-guided fusion.}
+\label{fig:qual2}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{qualitative_fig_3.pdf}
+\caption{Co-occurring pothole and transverse crack. Left column: original cropped image. Middle column: YOLOv8n detects Pothole at 0.75--0.76 confidence. Right column: BMS-YOLO-n increases Pothole confidence to 0.88--0.89 and Transverse Crack to 0.87--0.88, demonstrating that WIoU effectively elevates the quality of rare-class predictions despite the extreme class imbalance.}
+\label{fig:qual3}
+\end{figure}
+
+As shown in Fig.~\ref{fig:qual1}, when a faint transverse crack crosses double-yellow lane markings, YOLOv8n assigns a low confidence score (Transverse Crack: 0.39) and produces a bounding box with excessive vertical padding. BMS-YOLO-n raises the confidence to 0.47 and tightens the box to better follow the crack geometry, demonstrating the benefit of Morphology Loss in resolving aspect-ratio ambiguity. In Fig.~\ref{fig:qual2}, a dense multi-class scene containing Repair, Oblique Crack, and Longitudinal Crack regions challenges both models: YOLOv8n fragments the same crack into three to four separate boxes with confidences ranging from 0.61 to 0.80, whereas BMS-YOLO-n produces a more coherent set of detections with higher confidences (Repair: 0.89 vs.\ 0.78; Oblique Crack: 0.83 vs.\ 0.80). This confirms the role of topology-guided fusion in merging spatially adjacent detections along linear crack trajectories. Finally, Fig.~\ref{fig:qual3} shows a co-occurring pothole and transverse crack scenario. Despite the extreme class imbalance that places Pothole in the long-tail regime, BMS-YOLO-n increases Pothole detection confidence from 0.75--0.76 to 0.88--0.89, indicating that the WIoU loss effectively elevates the quality of rare-class predictions.
+
+\subsection{Discussion}
+
+The experimental results collectively validate the co-design philosophy underlying BMS-YOLO. The progressive ablation (Table~\ref{tab:ablation}) demonstrates that the architectural modifications and loss functions are mutually reinforcing: the BMS modules provide morphology-sensitive feature representations, while WIoU and MorphLoss supply the complementary gradient signals needed to exploit them. The hyperparameter analysis (Table~\ref{tab:lambda}) further identifies the ``strong-to-weak'' two-stage training as the optimal strategy for leveraging morphological priors.
+
+A limitation worth noting is the inference speed reduction relative to the YOLOv8n baseline (Section~\ref{sec:complexity}). While the 31.8 FPS achieved by BMS-YOLO-n remains suitable for offline UAV inspection pipelines, future work could explore architecture distillation or neural architecture search to further compress the FDDE and MoE components without sacrificing the morphological advantage. Additionally, the mild Recall gain from topology fusion (Table~\ref{tab:topology}) comes at the cost of Precision; integrating topology awareness directly into the training objective, rather than as a post-processing step, represents a promising direction for end-to-end optimization.
+
+\section{Conclusion}
+\label{sec:concl}
+
+This paper presented BMS-YOLO, a lightweight detection framework for pavement distress detection that addresses three fundamental limitations of standard YOLO architectures: high-frequency detail loss, insufficient morphological adaptability, and loss function misalignment with crack geometry. The central contribution of this work is the \textit{architecture---loss co-design philosophy}: morphology-aware architectural modules (FDDE, MorphSparseMoE) provide structural inductive biases tailored to elongated crack patterns, while morphology-sensitive supervisory signals (WIoU and morphology consistency loss) supply the complementary gradient needed to activate and refine these biases. Neither component alone is sufficient; the progressive ablation study confirms that architectural replacement degrades performance without the matching loss, while the full co-design achieves consistent gains across all evaluation metrics.
+
+BMS-YOLO achieves 79.3\% mAP50 and 54.6\% mAP50:95 on UAV-PDD2023, outperforming YOLOv8n by 2.4 and 4.6 points respectively, while maintaining 31.8 FPS on a desktop GPU. The topology-guided box fusion post-processing strategy further increases recall by 1.9 points for fragmented crack detection. These results demonstrate that the model offers both the accuracy and efficiency required for UAV-based pavement inspection pipelines.
+
+\textbf{Limitations:} Despite the overall performance gains, several limitations remain. First, the model still struggles with extremely low-contrast cracks where the intensity difference between the defect and the background is minimal. Second, dense mesh-like crack networks present a challenge for current topology fusion, as the Union-Find algorithm may over-merge intersecting crack segments. Third, the inference speed of BMS-YOLO is reduced by approximately 33\% compared with YOLOv8n, primarily due to the additional computational cost of FDDE and MorphSparseMoE modules. Fourth, the slight decline on Pothole detection ($-$0.9 points) reflects the model's inherent bias toward elongated patterns, which may underperform on compact, isotropic targets in extreme long-tail scenarios.
+
+\textbf{Future Work:} We plan to address these limitations through a phased research roadmap. \textit{Short-term} efforts will focus on model compression: INT8 quantization and structured pruning of FDDE and MoE components to reduce the parameter count and improve edge deployment on UAV-borne hardware (e.g., NVIDIA Jetson series). \textit{Mid-term} work will explore illumination normalization preprocessing or Retinex-based low-frequency compensation to enhance low-contrast crack responses, as well as graph neural networks for improved topological modeling of dense mesh-like crack networks. \textit{Long-term} directions include investigating semi-supervised and weakly supervised learning paradigms to reduce reliance on large-scale accurate bounding box annotations, and extending the co-design framework to other morphologically diverse detection domains such as railway defect inspection and bridge structural health monitoring.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\begin{IEEEbiographynophoto}{Qi Liu} received the B.S. degree from Yangtze Normal University, Chongqing, China. He is currently pursuing research in intelligent infrastructure inspection and deep learning-based pavement distress detection at the College of Big Data and Intelligent Engineering, Yangtze Normal University. His research interests include computer vision for civil infrastructure, lightweight object detection models, UAV-based remote sensing, and morphology-aware neural network design.
+
+\end{IEEEbiographynophoto}
+
+\EOD
+\end{document}

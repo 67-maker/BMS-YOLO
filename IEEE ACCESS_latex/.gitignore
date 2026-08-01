@@ -1,0 +1,20 @@
+# --- LaTeX build intermediates ---
+*.aux
+*.log
+*.out
+*.blg
+*.toc
+*.lof
+*.lot
+*.synctex.gz
+
+# --- Review scaffolding (not part of the paper) ---
+_review_pages/
+access_final_text.txt
+
+# --- Older draft PDFs (not the final submission) ---
+access.pdf
+access_new.pdf
+
+# --- Regenerable JPG previews ---
+qualitative_lr_*.jpg
