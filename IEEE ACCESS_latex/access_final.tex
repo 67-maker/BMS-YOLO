@@ -170,11 +170,13 @@ followed by a $1\times1$ projection and a residual connection. This sparse routi
 
 The BMSC2f block replaces the standard C2f bottleneck in both the backbone and neck of BMS-YOLO, integrating FDDE at the input stage and MorphSparseMoE within each bottleneck iteration. The directional convolution design draws inspiration from recent work on 1$\times$5/5$\times$1 anisotropic kernels~\cite{qu2024directional} and multi-directional residual structures~\cite{li2024multidirection}. Optimized C2f variants with directional convolution~\cite{qu2024directional} have also shown improved performance for slender crack features.
 
-% TODO: Insert Figure 2 -- Module Structure Diagrams
-% (a) FDDE module: high/low-frequency branch split, 1x5/5x1 directional convolutions,
-%     adaptive gating fusion, residual connection
-% (b) MorphSparseMoE: 4 expert branches, lightweight router, top-k=2 sparse activation, weighted output
-% (c) SPPF-CSPC: CSP split, sequential max-pooling with kernel 5, concatenation, ECA
+% Figure 2 -- Module Structure Diagrams (FDDE / MorphSparseMoE / SPPF-CSPC)
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{figure2_modules.pdf}
+\caption{Detailed structures of the three proposed modules. (a) FDDE: the input feature is decomposed into high- and low-frequency branches; directional depth-wise convolutions ($1\times5$ and $5\times1$) enhance crack-edge responses, and a gating unit $\sigma(\text{GAP}(X_{\rm high}))$ adaptively fuses the two branches with a residual connection. (b) MorphSparseMoE: a lightweight router produces a sparse (top-$k{=}2$) distribution over four morphology-aware experts, whose weighted outputs are projected and added back through a residual connection. (c) SPPF-CSPC: a cross-stage partial split followed by sequential max-pooling ($k{=}5$) expands the receptive field at low cost, and an ECA module re-weights channels via adaptive 1D convolution.}
+\label{fig:module_structure}
+\end{figure*}
 
 \subsection{Lightweight Multi-scale Fusion: SPPF-CSPC and ECA Attention}
 
@@ -247,17 +249,27 @@ Repair             & 212  & 41  & 29  & 282  \\
 Transverse crack   & 3,773 & 1,083 & 542 & 5,398 \\
 \midrule
 Total              & 7,709 & 2,254 & 1,195 & 11,158 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[!t]
+\centering
+\setlength{\tabcolsep}{5.5pt}
+\begin{tabular}{lc}
+\toprule
+\multicolumn{2}{c}{Training Set After Oversampling (6,599 images, 36,944 instances)} \\
 \midrule
-\multicolumn{5}{c}{After Oversampling (Train: 6,599 images, 36,944 instances)} \\
+Category & Train Instances \\
 \midrule
-Alligator crack    & 3,581 & -- & -- & -- \\
-Longitudinal crack & 9,192 & -- & -- & -- \\
-Oblique crack      & 5,126 & -- & -- & -- \\
-Pothole            & 2,722 & -- & -- & -- \\
-Repair             & 2,905 & -- & -- & -- \\
-Transverse crack   & 13,418 & -- & -- & -- \\
+Alligator crack    & 3,581 \\
+Longitudinal crack & 9,192 \\
+Oblique crack      & 5,126 \\
+Pothole            & 2,722 \\
+Repair             & 2,905 \\
+Transverse crack   & 13,418 \\
 \midrule
-Total              & 36,944 & -- & -- & -- \\
+Total              & 36,944 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -315,7 +327,7 @@ BMS-YOLO-n achieves the highest mAP50:95 (54.6\%) among all evaluated models, in
 
 We first evaluate the individual contribution of each proposed architectural component by removing one module at a time from the complete BMS architecture trained with WIoU and Morphology Loss ($\lambda = 0.02$ for 300 epochs). Table~\ref{tab:component_removal} presents the results.
 
-\begin{table}[!t]
+\begin{table*}[htbp]
 \caption{Component Removal Ablation (BMS + WIoU + MorphLoss, 300 Epochs)}
 \label{tab:component_removal}
 \centering
@@ -329,7 +341,7 @@ w/o FDDE                       & 3.75 & 9.0 & 72.1 & 45.1 & 80.0 & 67.1 \\
 w/o MorphSparseMoE             & 3.75 & 8.8 & 70.4 & 44.1 & 82.5 & 65.9 \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 Removing either the FDDE module or the MorphSparseMoE results in a substantial performance decline (mAP50: $-5.3$ and $-7.0$ points, respectively). The larger drop from removing MorphSparseMoE indicates that morphology-adaptive expert routing is the single most impactful architectural component. The FDDE module, despite its minimal parameter increase, contributes significantly to high-frequency crack edge preservation, with a particularly large effect on mAP50:95 ($-5.8$ points), confirming its role in refining bounding box localization for elongated crack instances.
 
