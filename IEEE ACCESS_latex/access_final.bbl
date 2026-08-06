@@ -46,6 +46,11 @@ Z.~Han, Y.~Cai, A.~Liu, Y.~Zhao, and C.~Lin, ``{MS-YOLOv8}-based object
   detection method for pavement diseases,'' \emph{Sensors}, vol.~24, no.~14, p.
   4621, 2024.
 
+\bibitem{liu2019deepcrack}
+Y.~Liu, J.~Yao, X.~Lu, R.~Xie, L.~Li, and H.~Liu, ``Deepcrack: Learning
+  hierarchical convolutional features for crack detection,'' \emph{IEEE
+  Transactions on Image Processing}, vol.~28, no.~3, pp. 1498--1512, 2019.
+
 \bibitem{zhu2025fdyolo}
 J.~Zhu, J.~Sheng, and Q.~Cai, ``{FD2-YOLO}: A frequency-domain dual-stream
   network based on yolo for crack detection,'' \emph{Sensors}, vol.~25, no.~11,
@@ -85,6 +90,11 @@ F.~Liu, J.~Liu, L.~Wang, and I.~L. Al-Qadi, ``Multiple-type distress detection
 G.~Ren, ``{HPSM-YOLO}: A multi-scale feature aggregation network for pavement
   distress detection,'' \emph{IET Image Processing}, vol.~19, no.~1, p. e70249,
   2025.
+
+\bibitem{han2026semenhance}
+W.~Han and Z.~Yang, ``Semantic frequency fusion transformer for {UAV} mixed
+  pavement damages,'' \emph{Computer-Aided Civil and Infrastructure
+  Engineering}, vol.~31, no.~6, pp. 1845--1862, 2026.
 
 \bibitem{farooqui2026lafyolov10}
 S.~A. Farooqui, Z.~A. Khan~Taha, M.~M. Uddin, and S.~Alam, ``{LAF-YOLOv10}:
@@ -139,6 +149,10 @@ W.~Li and T.~Zhang, ``{YOLO11-FR}: A bridge crack detection method based on
   frequency-domain fusion and an edge enhancement mechanism,'' \emph{PLOS ONE},
   vol.~21, no.~7, p. e0354254, 2026.
 
+\bibitem{wang2026freqseg}
+X.~Wang and Q.~Zou, ``Frequency feature aggregation convolution for weak road
+  crack segmentation,'' \emph{Sensors}, vol.~26, no.~5, p. 1123, 2026.
+
 \bibitem{hu2018squeeze}
 J.~Hu, L.~Shen, and G.~Sun, ``Squeeze-and-excitation networks,'' in
   \emph{Proceedings of the IEEE Conference on Computer Vision and Pattern
@@ -180,6 +194,12 @@ Z.~Tong, Y.~Chen, Z.~Xu, and R.~Yu, ``Wise-iou: Bounding box regression loss
 \bibitem{zhou2024wiouv3}
 R.~Zhou and X.~Sui, ``{Wise-IoU} v3 optimization for elongated crack bounding
   box regression,'' \emph{IEEE Access}, vol.~12, pp. 108\,942--108\,953, 2024.
+
+\bibitem{xiao2024topoloss}
+R.~Xiao and X.~Chen, ``{IRFusionFormer}: Enhancing pavement crack segmentation
+  with {RGB-T} fusion and topological-based loss,'' \emph{IEEE Transactions on
+  Intelligent Transportation Systems}, vol.~25, no.~12, pp. 16\,789--16\,800,
+  2024.
 
 \bibitem{pantojarosero2022topoloss}
 B.~G. Pantoja-Rosero, M.~Batista, C.~A. Felippa, A.~A.~G. Requicha, A.~Koschan,
