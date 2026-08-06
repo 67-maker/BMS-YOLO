@@ -21,202 +21,201 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
-\bibitem{dadrass2024uavdistress}
-F.~Dadrassjavan and F.~Samadzadeh, ``Automatic road pavement distress
-  recognition using {UAV} aerial {YOLOv8} models,'' \emph{Drones}, vol.~8,
-  no.~8, p. 244, 2024.
+\bibitem{samadzadegan2024uavyolo}
+F.~Samadzadegan, F.~Dadrass~Javan, F.~Ashtari~Mahini, M.~Gholamshahi, and
+  F.~Nex, ``Automatic road pavement distress recognition using deep learning
+  networks from unmanned aerial imagery,'' \emph{Drones}, vol.~8, no.~6, p.
+  244, 2024.
 
-\bibitem{yang2025comparativeuav}
+\bibitem{yang2025yolocompare}
 Z.~Yang, X.~Lan, and H.~Wang, ``Comparative analysis of {YOLO} series
   algorithms for {UAV}-based highway distress inspection,'' \emph{Sensors},
   vol.~25, no.~6, p. 1475, 2025.
 
-\bibitem{xu2026yolosaerial}
-H.~Xu, G.~Wang, and C.~Cheng, ``Lightweight {YOLO-SAL} for multi-type pavement
-  defect detection from {UAV} imagery,'' \emph{IEEE Access}, vol.~14, pp.
-  52\,145--52\,156, 2026.
+\bibitem{li2024mlyolo}
+T.~Li and G.~Li, ``Road defect identification and location method based on an
+  improved ml-yolo algorithm,'' \emph{Sensors}, vol.~24, no.~21, p. 6783, 2024.
 
-\bibitem{wang2024yoloreview}
-Y.~Wang and L.~Zhang, ``{YOLO}-based pavement distress detection: A
-  comprehensive review 2023--2024,'' \emph{Construct. Build. Mater.}, vol. 412,
-  p. 134256, 2024.
+\bibitem{kothai2024survey}
+R.~Kothai, N.~Prabakaran, Y.~V.~S. Murthy, and T.~C. Ling, ``Pavement distress
+  detection, classification, and analysis using machine learning algorithms: A
+  survey,'' \emph{IEEE Access}, vol.~12, pp. 128\,764--128\,785, 2024.
 
-\bibitem{yang2026sdcyolov8}
-H.~Yang and Y.~Song, ``{SDC-YOLOv8}: Attention-enhanced lightweight model for
-  complex road defects,'' \emph{Sensors}, vol.~26, no.~2, p. 609, 2026.
+\bibitem{han2024msyolo}
+Z.~Han, Y.~Cai, A.~Liu, Y.~Zhao, and C.~Lin, ``{MS-YOLOv8}-based object
+  detection method for pavement diseases,'' \emph{Sensors}, vol.~24, no.~14, p.
+  4621, 2024.
 
-\bibitem{wang2026freqseg}
-X.~Wang and Q.~Zou, ``Frequency feature aggregation convolution for weak road
-  crack segmentation,'' \emph{Sensors}, vol.~26, no.~5, p. 1123, 2026.
+\bibitem{zhu2025fdyolo}
+J.~Zhu, J.~Sheng, and Q.~Cai, ``{FD2-YOLO}: A frequency-domain dual-stream
+  network based on yolo for crack detection,'' \emph{Sensors}, vol.~25, no.~11,
+  p. 3427, 2025.
 
-\bibitem{liu2026spectrumtrans}
-M.~Liu and L.~Chen, ``Spectrum focus transformer for low-contrast pavement
-  distress recognition,'' \emph{IEEE Sensors J.}, vol.~26, no.~8, pp.
-  10\,245--10\,254, 2026.
+\bibitem{wang2026highwayfreq}
+J.~Wang, L.~Li, J.~Wang, Y.~Li, and S.~Lü, ``Pavement crack segmentation
+  method based on frequency domain mamba and recursive gated transformer
+  fusion,'' \emph{China Journal of Highway and Transport}, vol.~39, no.~4, pp.
+  18--34, 2026.
 
-\bibitem{he2024edgegate}
-L.~He and H.~Li, ``Adaptive gating residual for high-low frequency crack
-  feature fusion,'' \emph{Signal Process.: Image Commun.}, vol. 126, p. 117124,
-  2024.
+\bibitem{wu2025tinydefect}
+C.~Wu, M.~Ye, H.~Li, and J.~Zhang, ``Object detection model design for tiny
+  road surface damage,'' \emph{Scientific Reports}, vol.~15, p. 11032, 2025.
 
-\bibitem{zhang2026waveletattn}
-J.~Zhang and Q.~Hu, ``Wavelet adaptive attention for high-frequency crack edge
-  recovery,'' \emph{Autom. Constr.}, vol. 178, p. 106327, 2026.
+\bibitem{chen2020gabor}
+X.~Chen, D.~Ai, J.~Zhang, H.~Cai, and K.~Cui, ``Gabor filter fusion network for
+  pavement crack detection,'' \emph{Chinese Optics}, vol.~13, no.~6, pp.
+  1293--1301, 2020.
 
-\bibitem{li2024uavcrackframe}
-J.~Li and M.~Zhou, ``A complete {UAV} inspection framework for quantitative
-  pavement crack evaluation,'' \emph{Appl. Sci.}, vol.~14, no.~3, p. 1157,
-  2024.
+\bibitem{qiu2023uavcrack}
+Q.~Qiu and D.~Lau, ``Real-time detection of cracks in tiled sidewalks using
+  yolo-based method applied to unmanned aerial vehicle images,''
+  \emph{Automation in Construction}, vol. 147, p. 104745, 2023.
 
-\bibitem{zhang2024multicrack}
-C.~Zhang and D.~Feng, ``Multi-class pavement distress detection using improved
-  {YOLOv9-Tiny},'' \emph{J. Eng. Mech.}, vol. 150, no.~9, 2024.
+\bibitem{electronics2025ecayolo}
+X.~Zhang and L.~Li, ``Improvement in pavement defect scenarios using an
+  improved {YOLOv10} with {ECA} attention, {RefConv} and {WIoU},''
+  \emph{Electronics}, vol.~14, no.~6, p. 861, 2025.
 
-\bibitem{li2025rtdetrurd}
-D.~Li and Q.~Xie, ``{RTDETR-URD}: Adaptive loss transformer for {UAV} pavement
-  multi-scale defects,'' \emph{J. Comput. Civ. Eng.}, vol.~39, no.~3, 2025.
+\bibitem{liu2024thermaldistress}
+F.~Liu, J.~Liu, L.~Wang, and I.~L. Al-Qadi, ``Multiple-type distress detection
+  in asphalt concrete pavement using infrared thermography and deep learning,''
+  \emph{Automation in Construction}, vol. 151, p. 105355, 2024.
 
-\bibitem{zhang2025pavementdetr}
-W.~Zhang and K.~Liu, ``Pavement-{DETR}: A high-precision real-time transformer
-  for {UAV} pavement distress detection,'' \emph{Electronics}, vol.~14, no.~8,
-  p. 2426, 2025.
+\bibitem{ren2025hpsmyolo}
+G.~Ren, ``{HPSM-YOLO}: A multi-scale feature aggregation network for pavement
+  distress detection,'' \emph{IET Image Processing}, vol.~19, no.~1, p. e70249,
+  2025.
 
-\bibitem{chen2025yolodrone}
-Z.~Chen and J.~Wu, ``{YOLO-Drone}: {GhostHead} enhanced {YOLOv11n} for aerial
-  tiny road defects,'' \emph{IEEE Internet Things J.}, vol.~12, no.~18, pp.
-  17\,241--17\,250, 2025.
+\bibitem{farooqui2026lafyolov10}
+S.~A. Farooqui, Z.~A. Khan~Taha, M.~M. Uddin, and S.~Alam, ``{LAF-YOLOv10}:
+  Lightweight attention-guided feature pyramid network for small object
+  detection in aerial imagery,'' \emph{IEEE Access}, vol.~14, pp.
+  57\,392--57\,407, 2026.
 
-\bibitem{zhou2026wiouyolov8}
-H.~Zhou and Y.~Zhang, ``Improved {YOLOv8n} with {SPPF-CSPC} and {WIoU} for
-  shadowed pavement cracks,'' \emph{PLOS ONE}, vol.~21, no.~4, p. e0330218,
-  2026.
+\bibitem{xu2025sppfcspc}
+W.~Xu, J.~Xu, Y.~Ji, G.~Li, H.~Li, and Z.~Zang, ``Research on enhancing road
+  apparent crack detection based on the improved {YOLOv8n} model,'' \emph{PLOS
+  ONE}, vol.~20, no.~9, p. e0330218, 2025.
 
-\bibitem{wang2026yolov11wlbs}
-L.~Wang and P.~Zhao, ``{YOLO11-WLBS}: Wavelet-based lightweight model for
-  multi-class pavement defects,'' \emph{Mathematics}, vol.~14, no.~7, p. 734,
-  2026.
+\bibitem{wang2025moeod}
+Y.~Wang and G.~Ding, ``Mixture-of-experts detection transformer for
+  high-resolution aerial images,'' \emph{IEEE Transactions on Geoscience and
+  Remote Sensing}, vol.~63, p. 5618912, 2025.
 
-\bibitem{li2026flexiyolo}
-M.~Li and T.~Chen, ``{Flexi-YOLO}: {Wise-IoU} optimized lightweight crack
-  detection model,'' \emph{PLOS ONE}, vol.~21, no.~4, p. e0325993, 2026.
+\bibitem{sensors2026directional}
+H.~Yang and Y.~Song, ``Crack continuity segmentation network combining
+  transformer and cnn with adaptive directional feature blocks,''
+  \emph{Sensors}, vol.~26, no.~11, p. 3286, 2026.
 
-\bibitem{chen2026dsmoee}
-Q.~Chen and Z.~Zhang, ``{LLM}-guided dynamic sparse {MoE} for multi-type
-  surface defect detection,'' \emph{IEEE Trans. Ind. Inform.}, vol.~22, no.~8,
-  pp. 10\,124--10\,133, 2026.
+\bibitem{oksuz2024mocae}
+K.~Oksuz, S.~Kuzucu, T.~Joy, and P.~K. Dokania, ``{MoCaE}: Mixture of
+  calibrated experts significantly improves object detection,'' \emph{IEEE
+  Transactions on Pattern Analysis and Machine Intelligence}, vol.~46, no.~11,
+  pp. 7245--7258, 2024.
 
-\bibitem{wang2026gigamoe}
-Y.~Wang and G.~Ding, ``{GigaMoE}: Sparse mixture-of-experts for high-resolution
-  aerial defect detection,'' in \emph{Proc. {AAAI} Conf. Artif. Intell.},
-  vol.~40, no.~21.\hskip 1em plus 0.5em minus 0.4em\relax AAAI Press, 2026, pp.
-  4201--4209.
-
-\bibitem{wang2026cbdes}
-M.~Wang and L.~He, ``{CBDES-MoE}: Heterogeneous expert {YOLO} for diverse
-  traffic target morphologies,'' in \emph{Proc. {IEEE} Int. Symp. Video Image
-  Signal Process. Navig.}\hskip 1em plus 0.5em minus 0.4em\relax IEEE, 2026,
-  pp. 562--568.
+\bibitem{lu2025dynamicdino}
+Y.~Lu, M.~Weng, and X.~Li, ``Dynamic-{DINO}: Fine-grained mixture of experts
+  tuning for real-time open-vocabulary object detection,'' in \emph{Proceedings
+  of the IEEE/CVF International Conference on Computer Vision}, 2025, pp.
+  20\,342--20\,352.
 
 \bibitem{zhang2026fouriermoee}
 C.~Zhang and D.~Feng, ``Fourier mixture-of-experts for heterogeneous
-  infrastructure defect modeling,'' \emph{J. Eng. Mech.}, vol. 152, no.~3,
+  infrastructure defect modeling,'' \emph{Journal of Engineering Mechanics},
+  vol. 152, no.~3, 2026.
+
+\bibitem{qu2024directional}
+Z.~Qu, J.~Wang, and X.~Yin, ``A directional connectivity feature enhancement
+  network for pavement crack detection,'' \emph{IEEE Access}, vol.~12, pp.
+  176\,543--176\,554, 2024.
+
+\bibitem{li2024multidirection}
+C.~Li and M.~Ye, ``Multi-directional separable convolution network for concrete
+  crack detection in unmanned aerial vehicle images,'' \emph{Computers and
+  Geotechnics}, vol. 169, p. 106128, 2024.
+
+\bibitem{plosone2026yolo11fr}
+W.~Li and T.~Zhang, ``{YOLO11-FR}: A bridge crack detection method based on
+  frequency-domain fusion and an edge enhancement mechanism,'' \emph{PLOS ONE},
+  vol.~21, no.~7, p. e0354254, 2026.
+
+\bibitem{hu2018squeeze}
+J.~Hu, L.~Shen, and G.~Sun, ``Squeeze-and-excitation networks,'' in
+  \emph{Proceedings of the IEEE Conference on Computer Vision and Pattern
+  Recognition}, 2018, pp. 7132--7141.
+
+\bibitem{wang2020eca}
+Q.~Wang, B.~Wu, P.~Zhu, P.~Li, W.~Zuo, and Q.~Hu, ``Eca-net: Efficient channel
+  attention for deep convolutional neural networks,'' in \emph{Proceedings of
+  the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, 2020,
+  pp. 11\,534--11\,542.
+
+\bibitem{asce2026morphattn}
+J.~Wang and Q.~Liu, ``Topology-aware lightweight crack segmentation and
+  automated quantification via synergistic spatial-channel enhancement,''
+  \emph{Journal of Performance of Constructed Facilities}, vol.~40, no.~5,
   2026.
-
-\bibitem{chen2025directionconv}
-H.~Chen and X.~Sui, ``1{\texttimes}5/5{\texttimes}1 directional depthwise conv
-  for oriented pavement crack features,'' \emph{IEEE Access}, vol.~13, pp.
-  129\,841--129\,852, 2025.
-
-\bibitem{guo2024dilatededge}
-M.~Guo and R.~Zhou, ``Dilated directional convolution for faint crack edge
-  enhancement,'' \emph{J. Vis. Commun. Image Represent.}, vol.~96, p. 103921,
-  2024.
-
-\bibitem{lu2025multidirect}
-J.~Lu and J.~Wang, ``Multi-directional residual block for mixed
-  horizontal/vertical/oblique cracks,'' \emph{Comput. Geotech.}, vol. 175, p.
-  106231, 2025.
-
-\bibitem{li2026yolo11fr}
-W.~Li and T.~Zhang, ``{YOLO11-FR}: Fourier fusion residual edge enhancement for
-  slender bridge cracks,'' \emph{PLOS ONE}, vol.~21, no.~7, p. e0354254, 2026.
-
-\bibitem{han2026semenhance}
-W.~Han and Z.~Yang, ``Semantic frequency fusion transformer for {UAV} mixed
-  pavement damages,'' \emph{Microcomput. Model. Civ. Eng.}, vol.~31, no.~6, pp.
-  1845--1862, 2026.
-
-\bibitem{wang2024ecaoptimize}
-Q.~Wang and W.~Zuo, ``Adaptive kernel {ECA} attention optimized for pavement
-  multi-scale defects,'' \emph{Pattern Recognit.}, vol. 148, p. 110162, 2024.
-
-\bibitem{zhang2025morphattn}
-J.~Zhang and C.~Zhang, ``Morphology-guided channel attention for distinct
-  crack/pothole feature separation,'' \emph{J. Mater. Civ. Eng.}, vol.~37,
-  no.~6, 2025.
 
 \bibitem{zhang2025nwdpiu}
 W.~Zhang and K.~Liu, ``Combined {PIoU-NWD} loss for long-tail pavement distress
   detection,'' \emph{Electronics}, vol.~14, no.~8, p. 1867, 2025.
 
+\bibitem{rezatofighi2019giou}
+H.~Rezatofighi, N.~Tsoi, J.~Gwak, A.~Sadeghian, I.~Reid, and S.~Savarese,
+  ``Generalized intersection over union: A metric and a loss for bounding box
+  regression,'' in \emph{Proceedings of the IEEE/CVF Conference on Computer
+  Vision and Pattern Recognition}, 2019, pp. 658--666.
+
+\bibitem{zheng2020diou}
+Z.~Zheng, P.~Wang, W.~Liu, R.~Li, R.~Ye, and W.~Ren, ``Distance-iou loss:
+  Faster and better learning for bounding box regression,'' in
+  \emph{Proceedings of the AAAI Conference on Artificial Intelligence},
+  vol.~34, no.~7, 2020, pp. 12\,993--13\,000.
+
+\bibitem{tong2024wiou}
+Z.~Tong, Y.~Chen, Z.~Xu, and R.~Yu, ``Wise-iou: Bounding box regression loss
+  with dynamic focusing mechanism for object detection,'' \emph{IEEE
+  Transactions on Image Processing}, vol.~33, pp. 2133--2145, 2024.
+
 \bibitem{zhou2024wiouv3}
 R.~Zhou and X.~Sui, ``{Wise-IoU} v3 optimization for elongated crack bounding
   box regression,'' \emph{IEEE Access}, vol.~12, pp. 108\,942--108\,953, 2024.
 
-\bibitem{wang2025morphloss}
-J.~Wang and Q.~Liu, ``Log-space morphology consistency loss for aspect-ratio
-  sensitive crack detection,'' \emph{Sensors}, vol.~25, no.~10, p. 2216, 2025.
-
-\bibitem{zhao2025c2foptimize}
-Y.~Zhao and Q.~Liu, ``Optimized {C2f} block with directional convolution for
-  slender crack features,'' \emph{IEEE Access}, vol.~13, pp.
-  142\,367--142\,378, 2025.
-
-\bibitem{feng2025sppfcs}
-Y.~Feng and Q.~Liu, ``{SPPF-CSPC} cross-stage partial pooling for road distress
-  multi-scale fusion,'' \emph{Electronics}, vol.~14, no.~19, p. 3742, 2025.
-
-\bibitem{liu2026topofusion}
-Q.~Liu and H.~Yang, ``Topology-guided union-find box fusion for discontinuous
-  crack predictions,'' \emph{Autom. Constr.}, vol. 179, p. 106415, 2026.
+\bibitem{pantojarosero2022topoloss}
+B.~G. Pantoja-Rosero, M.~Batista, C.~A. Felippa, A.~A.~G. Requicha, A.~Koschan,
+  and M.~A. Abidi, ``{TOPO-Loss} for continuity-preserving crack detection
+  using deep learning,'' in \emph{Proceedings of the IEEE/CVF Winter Conference
+  on Applications of Computer Vision}, 2022, pp. 2742--2751.
 
 \bibitem{yan2023uavpdd2023}
 H.~Yan and J.~Zhang, ``{UAV-PDD2023}: A benchmark dataset for pavement distress
   detection based on {UAV} images,'' \emph{Data in Brief}, vol.~51, p. 109692,
   2023.
 
-\bibitem{ma2025edgeyolo}
-R.~Ma and Q.~Li, ``Quantized {YOLOv10n} for {UAV} on-board real-time pavement
-  inspection,'' \emph{Electronics}, vol.~14, no.~12, p. 2318, 2025.
-
-\bibitem{nguyen2026lightuavsmall}
-D.~Nguyen and V.~D. Hoang, ``Lightweight multi-scale attention for small
-  pavement targets in {UAV} images,'' \emph{IEEE Access}, vol.~14, pp.
-  12\,579--12\,593, 2026.
-
-\bibitem{sun2024slimneck}
-M.~Sun and H.~Wang, ``Slim-{Neck} lightweight feature fusion for low-parameter
-  road defect models,'' \emph{Appl. Intell.}, vol.~54, no.~11, pp. 9678--9692,
-  2024.
-
-\bibitem{wang2025yolov8sbp}
-L.~Wang and P.~Zhao, ``{YOLOv8n-SBP}: Slim cross-stage partial network for edge
-  pavement inspection,'' \emph{J. Transp. Eng., Part B, Pavement}, vol. 151,
+\bibitem{ye2025yolov8nsbp}
+L.~Ye, S.~Lu, F.~Hu, Q.~Fang, T.~Zou, X.~Man, and Q.~Zhang, ``{YOLOv8n-SBP}: A
+  lightweight and efficient model for pavement distress detection,''
+  \emph{Journal of Transportation Engineering, Part B: Pavements}, vol. 151,
   no.~4, 2025.
 
-\bibitem{zhang2026gsbyolo}
-K.~Zhang and B.~Liu, ``{GSB-YOLO}: Ghost convolution multi-scale fusion for
-  complex road crack scenes,'' \emph{Autom. Constr.}, vol. 176, p. 106241,
-  2026.
+\bibitem{xu2025freqattention}
+N.~Xu and J.~Qiao, ``Multi-scale feature fusion networks with frequency-domain
+  attention and depth-wise convolution for pavement crack detection,''
+  \emph{International Journal of Pavement Engineering}, vol.~26, p. 2518156,
+  2025.
 
-\bibitem{wu2024yolods}
-S.~Wu and F.~Yang, ``{YOLO-DS}: Dual statistic synergy module for heterogeneous
-  pavement targets,'' \emph{Pattern Recognit. Lett.}, vol. 179, pp. 87--93,
-  2024.
+\bibitem{li2024lcsnet}
+C.~Li and M.~Ye, ``{LCSNet}: Light-weighted convolution-based segmentation
+  method with separable multi-directional convolution module for concrete crack
+  segmentation in drones,'' \emph{Electronics}, vol.~13, no.~7, p. 1307, 2024.
 
-\bibitem{yang2026yoloscx}
-H.~Yang, Z.~Ma, and H.~Zhu, ``{YOLO-SCX}: Low-parameter road damage detector
-  for {UAV} low-altitude inspection,'' \emph{Front. Built Environ.}, vol.~12,
-  p. 1681691, 2026.
+\bibitem{wang2026directionaware}
+L.~Wang and P.~Zhao, ``Road damage detection with direction awareness and
+  feature equalization,'' \emph{Information}, vol.~17, no.~7, p. 683, 2026.
+
+\bibitem{liu2025freqyolo}
+D.~Liu, J.~Xue, X.~Zhao, Y.~Lin, C.~Liu, C.~Sun, H.~Jiang, and Z.~Xu,
+  ``{YOLOv8}-based road crack detection with frequency-aware feature fusion,''
+  \emph{Geomatics World}, vol.~32, no.~6, pp. 675--684, 2025.
 
 \end{thebibliography}
