@@ -1,0 +1,543 @@
+% BMS-YOLO：面向纯边界框监督的轻量化路面病害检测模型
+% 必须用 XeLaTeX 编译
+
+\documentclass[twocolumn]{sn-jnl}
+\usepackage{geometry}
+\geometry{left=2.2cm,right=2.2cm,top=2.5cm,bottom=2.5cm}
+% 中文支持 - 使用 xeCJK 替代 ctex（更稳定）
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}   % Windows 宋体
+% 如果系统没有宋体，可改为：\setCJKmainfont{Noto Serif CJK SC}
+
+% 必要宏包
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+% 标题、作者、摘要
+\title{BMS-YOLO：面向纯边界框监督的轻量化路面病害检测模型}
+
+\author*[1]{\fnm{Your} \sur{Name}}
+\affil[1]{\orgdiv{Department}, \orgname{University}, \orgaddress{\city{City}, \country{Country}}}
+
+\abstract{
+	混凝土路面裂缝与坑洞等病害的精准检测是基础设施安全运维的关键环节，但现有基于YOLO的检测方法在应对细长裂缝与区域型坑洞的极端形态差异时，仍面临特征表达能力不足、计算冗余及损失函数对形态一致性监督缺失等挑战。为此，本文提出BMS-YOLO（Box-supervised Morphology-aware Sparse YOLO），一种面向纯边界框监督的轻量化路面病害检测模型。在特征提取层面，设计频率-方向细节增强模块（FDDE），将特征图解耦为高频与低频分支，利用方向性卷积强化裂缝边缘响应；在C2f模块内嵌形态感知稀疏专家混合结构（MorphSparseMoE），通过动态路由机制按需激活水平线型、垂直线型、各向同性与区域型四类专家，实现低计算开销下的形态自适应建模；同时引入高效通道注意力（ECA）与轻量级SPPF-CSPC结构，进一步扩大感受野并降低参数量。在损失函数层面，以Wise-IoU（WIoU）替代传统CIoU，引入基于中心距离的动态聚焦权重，并新增框形态一致性损失，在log空间约束预测框与目标框的长宽比及面积，显著提升对细长裂缝的形状监督能力。此外，设计置信度校准与拓扑引导的并查集聚类融合后处理策略，有效缓解裂缝检测中的碎片化重复预测问题。在自建路面病害数据集及公开CFD、DeepCrack数据集上的实验表明，BMS-YOLO达到89.7\%的mAP与221 FPS的推理速度，在精度与效率上均优于主流分割与检测模型，验证了各改进模块的有效性与模型的强泛化能力。本文方法为纯边界框监督下的路面病害实时检测提供了一种高效、鲁棒的解决方案。
+}
+
+\keywords{路面病害检测；裂缝分割；YOLOv8；形态感知稀疏专家；频率-方向细节增强；Wise-IoU；拓扑融合}
+
+\begin{document}
+	
+	\maketitle
+	
+	\section{引言}
+	混凝土路面、桥梁及水工结构在长期服役过程中，受荷载、温度变化及环境侵蚀等因素影响，不可避免地产生裂缝、坑洞、修补等各类表观病害。其中，裂缝作为最普遍且最具威胁的病害形式之一，其扩展贯穿始终，直接削弱结构承载能力与耐久性；而坑洞、修补区域等则构成另一类形态迥异的区域型病害，同样对行车安全与结构服役寿命构成显著影响。因此，对路面及结构表观病害进行及时、精准的自动化检测，是保障基础设施安全运营的关键技术环节。
+	
+	早期病害检测主要依赖人工巡检与传统的图像处理技术，如边缘检测算子（Canny、Sobel）、形态学分析及阈值分割方法。这类方法虽能在简单背景与良好光照条件下识别明显裂缝，但泛化能力极弱，对噪声、阴影及复杂纹理背景极为敏感，且难以处理低对比度下的细微裂缝。更重要的是，人工检测效率低下、主观性强，远不能满足大规模路网与高频巡检的现实需求。
+	
+	近年来，深度学习技术，尤其是卷积神经网络（CNN）在计算机视觉领域的突破，为路面病害的自动化检测开辟了新路径。早期研究多采用分类或语义分割网络，如VGG、ResNet及U-Net等，将病害检测视为逐像素的二分类或多分类问题 \cite{Ronneberger2015, He2016}。U-Net凭借其编码器-解码器结构与跳跃连接，在裂缝分割中展现出对细长边缘较好的保持能力，但分割网络参数量大、推理速度慢，难以满足实时性要求。随后，基于区域提议的Faster R-CNN等两阶段检测器被引入病害检测任务 \cite{Ren2016, Tang2019, Li2021}，通过区域提议网络生成候选框后再进行分类与回归，在精度上取得一定提升，但其计算复杂度高、推理速度受限，同样不利于端侧部署。
+	
+	与之相对，YOLO（You Only Look Once）系列算法以其端到端、单阶段的检测范式，在精度与速度之间实现了卓越的平衡，迅速成为实时目标检测的首选框架 \cite{Redmon2016}。YOLOv3及YOLOv4通过多尺度预测、自适应锚框及路径聚合网络等改进，显著增强了对多尺度目标的检测能力 \cite{Farhadi2018, Bochkovskiy2020}。YOLOv8则进一步引入C2f结构、解耦头与无锚框设计，在通用目标检测任务上达到了新的性能高度 \cite{Varghese2024}。基于YOLO的裂缝检测研究也相继涌现，初步验证了其在病害检测中的应用潜力。
+	
+	然而，将现有YOLO模型直接应用于路面病害检测仍面临若干亟需攻克的技术瓶颈，具体可归纳如下：
+	
+	（1）高频细节丢失与方向选择性不足：裂缝在图像中表现为沿特定走向的高频边缘信息，而标准卷积层和池化操作在各频率分量上不具有选择性，导致细小裂缝的锐利边缘在下采样过程中被逐步平滑和削弱。现有骨干网络缺乏显式增强高频方向信息的机制，难以充分保留细微裂缝的结构完整性。
+	
+	（2）形态极端多样性与同质化特征提取的矛盾：路面病害在几何形态上呈现极端分化——裂缝为高长宽比（常大于10:1）的细长线状结构，坑洞与修补区域则为低长宽比（接近1:1）的紧凑面状区域。YOLOv8中C2f模块堆叠同构的Bottleneck结构，对所有空间模式均采用统一的卷积操作，无法自适应地匹配不同病害的形态先验，导致模型在兼顾两类形态差异显著的病害时表现欠佳。
+	
+	（3）模型冗余与实时性约束：现有模型在骨干网络与颈部结构中包含大量重复性卷积计算，参数量与计算量较大。在实际巡检场景中，检测系统通常需部署于边缘计算设备或无人机载平台，计算资源与功耗受限，模型冗余严重制约了推理速度与部署可行性。
+	
+	（4）损失函数对裂缝形态特性不友好：YOLOv8采用的CIoU损失综合考虑重叠面积、中心距离与长宽比，但对细长裂缝而言，微小的位置偏移即可导致IoU剧烈下降，且CIoU无法为无重叠的预测框提供有效梯度。同时，CIoU缺乏显式的形态一致性约束，难以监督细长目标的形状保持。此外，裂缝在图像中常呈现不连续、碎片化的分布，单条裂缝可能被检测为多个重叠的框，标准非极大值抑制（NMS）难以妥善处理此类场景。
+	
+	针对上述问题，本文提出一种面向纯边界框监督的轻量化路面病害检测模型——BMS-YOLO（Box-supervised Morphology-aware Sparse YOLO）。本工作的主要贡献如下：
+	
+	（1）设计频率-方向细节增强（FDDE）模块。将特征图解耦为高频与低频分支，高频分支采用水平与垂直方向性深度卷积强化裂缝边缘响应，低频分支保持区域上下文信息，并通过自适应门控机制融合两分支，有效提升模型对细微裂缝的感知能力，且仅增加极少计算开销。
+	
+	（2）提出形态感知稀疏专家混合（MorphSparseMoE）结构。嵌入C2f模块内部，包含水平线型、垂直线型、各向同性与区域型四类专家。引入轻量级路由网络，根据输入特征的局部模式动态选择top-k专家进行激活，实现低计算成本下的形态自适应特征建模，使单一模型同时适配线状裂缝与区域型坑洞的检测需求。
+	
+	（3）引入高效通道注意力（ECA）与轻量级SPPF-CSPC结构。以自适应核大小的一维卷积实现通道注意力，零冗余地强化判别性通道；采用跨阶段部分连接与序列化最大池化设计，以极少参数量扩大感受野并增强多尺度特征聚合能力，进一步降低模型复杂度。
+	
+	（4）提出WIoU与框形态一致性损失相结合的损失函数。以基于中心距离动态聚焦的Wise-IoU替代CIoU，有效缓解小目标与无重叠框的梯度消失问题；新增log空间下的长宽比与面积一致性约束，显式监督细长裂纹的形状保持，并依据类别对裂纹类施加更高的形态损失权重，提升对细长病害的形状建模精度。
+	
+	（5）设计置信度校准与拓扑引导框融合后处理策略。结合局部边缘密度与形状先验对检测置信度进行校准；基于并查集算法构建拓扑关系图，以低IoU阈值和方向一致性为依据聚合碎片化裂缝检测框，融合后输出统一的检测结果，显著减少重复预测，提升检测的完整性与可信度。
+	
+	通过在自建路面病害数据集及公开CFD、DeepCrack数据集上的大量实验，BMS-YOLO达到89.7\%的mAP与221 FPS的推理速度，在精度与效率上均优于主流分割与检测模型。消融实验与可视化分析充分验证了各改进模块的有效性与模型的泛化能力。本文方法为纯边界框监督下的路面病害实时检测提供了一种高效、鲁棒且易于部署的解决方案。
+	
+	本文后续结构安排如下：第2节回顾相关工作，包括裂缝检测方法演进、YOLO系列模型发展、卷积结构变体及损失函数优化；第3节详细阐述BMS-YOLO的总体架构及各改进模块的设计原理与实现细节；第4节报告实验设置、消融研究、对比实验结果及可视化分析；第5节总结全文并展望未来研究方向。
+	
+	\section{相关工作}
+	本节从路面病害检测方法演进、YOLO系列目标检测模型发展、卷积结构变体与轻量化设计、以及目标检测损失函数优化四个方面，系统梳理与本文密切相关的已有研究，并分析现有方法在裂缝与路面病害检测中的优势与不足。
+	
+	\subsection{裂缝与路面病害检测方法}
+	早期的路面病害检测主要依赖人工目视巡检与基于传统图像处理技术的自动化方法。人工巡检效率低下、主观性强，难以满足大规模路网的定期检测需求。传统图像处理方法如Canny边缘检测、Sobel算子、形态学操作及阈值分割等，虽能在简单背景和光照均匀条件下提取裂缝边缘，但对噪声、阴影、路面纹理及光照变化极为敏感，误检与漏检率较高，且参数调整依赖人工经验，泛化能力严重不足 \cite{Dorafshan2018}。
+	
+	随着深度学习在计算机视觉领域的迅猛发展，基于卷积神经网络（CNN）的病害检测方法逐渐成为主流。早期研究将病害检测视为图像级的二分类任务，利用AlexNet、VGG等经典分类网络判断图像块中是否存在裂缝 \cite{Ali2021}。此类方法虽实现了端到端的特征自动提取，但图像块级别的判断无法提供裂缝的具体位置与几何信息，检测粒度粗糙。
+	
+	为获取像素级的精细检测结果，语义分割网络被广泛引入裂缝检测任务。U-Net凭借其对称的编码器-解码器结构与跳跃连接，在裂缝分割中能够较好地保留边缘细节，尤其适用于不规则细长目标的像素级定位 \cite{Ronneberger2015}。DeepLabv3+则通过空洞卷积与ASPP（Atrous Spatial Pyramid Pooling）模块扩大感受野，在多尺度上下文建模方面展现优势 \cite{Chen2017}。PSPNet引入金字塔池化模块，捕获不同尺度的全局上下文信息 \cite{Zhao2017}。DeepCrack通过多层卷积特征融合实现端到端的裂缝边缘检测 \cite{Zou2018}。此外，SCSNet针对阴影环境下的裂缝分割问题，引入离散余弦变换与阴影去除模块，提升了复杂场景下的鲁棒性 \cite{Zhang2024}。Xu等人 \cite{Xu2023} 提出了基于改进DeepLabv3+的轻量级语义分割方法，采用MobileNetV2与精简ASPP模块实现了复杂结构损伤的高效识别。Fan等人 \cite{Fan2024} 将少样本学习与循环一致性约束相结合，在有限标注样本下实现了多类型结构损伤的通用分割。
+	
+	然而，语义分割网络通常参数量大、推理速度慢，难以满足实时检测与边缘端部署的需求。此外，分割标注的获取成本远高于边界框标注，限制了其在实际大规模应用中的可扩展性。
+	
+	为兼顾检测精度与推理效率，目标检测范式被引入病害检测任务。Faster R-CNN作为两阶段检测器的代表，通过区域提议网络（RPN）生成候选区域并进行后续分类与回归，在桥梁裂缝检测、隧道衬砌缺陷检测等任务中得到应用 \cite{Tang2019, Deng2020, Li2021}。然而，两阶段检测器因候选区域生成与二次精炼的计算开销，推理速度仍不理想。相比之下，单阶段检测器如SSD与YOLO系列以其端到端、单次前向传播的检测范式，在速度上具有显著优势，逐步成为路面病害实时检测的主流方向。
+	
+	\subsection{YOLO系列目标检测模型}
+	YOLO（You Only Look Once）由Redmon等人 \cite{Redmon2016} 首次提出，开创性地将目标检测任务重构为统一的回归问题，将图像划分为网格并直接预测每个网格的边界框与类别概率，实现了前所未有的检测速度。YOLOv2引入批归一化、锚框机制与多尺度训练，进一步提升了精度与速度的平衡。YOLOv3通过特征金字塔网络（FPN）实现三个尺度上的独立检测，增强了对小目标的感知能力，并采用更深的Darknet-53骨干网络 \cite{Farhadi2018}。YOLOv4在YOLOv3的基础上集成了Mish激活函数、CSPDarknet53骨干、SPP模块、PANet路径聚合及Mosaic数据增强等多种先进技术，在COCO数据集上达到了最优的速度-精度权衡 \cite{Bochkovskiy2020}。YOLOv5以工程友好性著称，进一步优化了CSP结构与训练策略，成为工业界广泛采用的基线模型。
+	
+	YOLOv7引入ELAN（Efficient Layer Aggregation Network）结构，在保持高推理速度的同时增强了多尺度特征聚合能力 \cite{Wang2023}。YOLOv8作为当前YOLO系列的最新迭代，将C3结构替换为梯度流更丰富的C2f结构，采用解耦头（Decoupled Head）将分类与定位分支分离，并从基于锚框的检测范式转向无锚框设计，在通用目标检测任务上实现了显著的性能提升 \cite{Varghese2024}。
+	
+	基于YOLO的裂缝检测研究亦取得一定进展。Adarsh等人 \cite{Adarsh2020} 将YOLOv3-Tiny部署于嵌入式平台，验证了轻量化YOLO变体在实时裂缝检测中的可行性。部分研究尝试通过引入注意力机制或改进特征融合路径增强YOLO对裂缝的检测能力，但大多数工作仍直接沿用标准YOLO架构，未能充分考虑裂缝的形态特异性。此外，现有YOLO模型在裂缝检测任务中仍普遍面临以下挑战：（1）细小裂缝的高频细节在逐层下采样中丢失严重；（2）同质化的卷积堆叠难以适配裂缝与坑洞间的极端形态差异；（3）CIoU损失对裂缝的位置偏移敏感且缺乏形态一致性约束；（4）模型参数量与计算量在实际部署场景中仍显冗余。这些不足为本文的改进提供了明确的方向。
+	
+	\subsection{卷积结构变体与轻量化设计}
+	卷积操作是CNN的基石，研究者围绕计算效率、感受野扩展与特征表达能力等维度发展出多种卷积变体。标准卷积虽结构简洁、性能稳定，但随着网络深度增加，参数量与计算量呈指数增长 \cite{LeCun1998}。深度可分离卷积（Depthwise Separable Convolution）通过将标准卷积分解为逐通道深度卷积与逐点1×1卷积，显著减少了参数量与计算成本，被MobileNet \cite{Howard2017}、Xception \cite{Chollet2017} 等轻量化网络广泛采用。空洞卷积通过在卷积核元素间插入空洞，在不增加计算量的前提下扩大感受野，对语义分割等需全局上下文的任务尤为有效 \cite{Yu2015, Chen2017}。分组卷积将输入通道分组后独立卷积，有效降低计算负载，ResNeXt通过增加基数（cardinality）在控制参数量的同时提升了特征表达多样性 \cite{Xie2017}。可变形卷积引入可学习的偏移量，使卷积核能动态适应目标的几何形变 \cite{Dai2017}，但其计算复杂度较高，难以满足实时性要求。
+	
+	在轻量化网络架构设计方面，除了MobileNet系列采用深度可分离卷积外，ShuffleNet进一步引入通道混洗操作以弥补分组卷积的跨组信息交互不足 \cite{Zhang2018}。近年来，基于神经网络架构搜索（NAS）的轻量化模型如EfficientNet，通过复合缩放策略在精度与效率间实现系统化平衡 \cite{Tan2019}。然而，上述轻量化方案多针对通用图像分类或检测任务设计，极少专门考虑裂缝检测中高频细节保留与形态自适应建模的需求。
+	
+	在注意力机制方面，SENet通过全局池化与全连接层显式建模通道间的依赖关系，显著提升了网络的表征能力 \cite{Hu2018}。ECA在SENet基础上移除降维层，改用一维卷积实现局部跨通道交互，以极少的额外计算量达到了可比的性能提升 \cite{Wang2020}。本文借鉴ECA的设计理念，将其嵌入改进后的C2f输出端，以零冗余的方式强化判别性通道响应。
+	
+	此外，混合专家（Mixture-of-Experts, MoE）范式在大规模模型中通过条件计算实现稀疏激活，仅对每个输入激活部分网络参数，在保持模型容量的同时降低计算开销 \cite{Shazeer2017}。近年来，MoE被引入计算机视觉领域，如V-MoE将稀疏专家引入视觉Transformer \cite{Riquelme2021}。本文受此启发，提出形态感知稀疏专家结构，将MoE的稀疏激活思想适配到卷积网络中，设计了针对不同病害形态的专用专家分支，实现低计算开销下的形态自适应特征建模。
+	
+	\subsection{目标检测损失函数}
+	边界框回归损失函数的设计对目标检测精度至关重要。早期检测器直接采用L₁或L₂损失对边界框坐标进行回归，但这类损失独立处理各坐标分量，忽略了边界框的整体性。IoU（Intersection over Union）损失通过最大化预测框与目标框的交并比来优化，克服了坐标分量独立回归的缺陷，但当两框无重叠时梯度为零，无法有效优化 \cite{Yu2016}。GIoU引入最小外接矩形惩罚项，缓解了无重叠时的梯度消失问题 \cite{Rezatofighi2019}。DIoU进一步纳入中心点距离惩罚，加速了收敛过程 \cite{Zheng2020}。CIoU在DIoU的基础上增加了长宽比一致性项，成为当前目标检测中应用最广泛的损失函数之一 \cite{Zheng2020}。
+	
+	然而，CIoU在裂缝检测中存在固有局限。首先，裂缝作为细长目标，其预测框与目标框之间即使存在微小的中心偏移，也会导致IoU的剧烈下降，使CIoU对位置偏移过度敏感。其次，对于像素面积较小的裂缝片段，预测框与目标框极易出现无重叠情形，此时CIoU退化为零梯度，无法为模型提供有效的优化方向。再者，CIoU的长宽比惩罚项为相对量，缺乏对绝对尺度和形状一致性的显式监督，难以保证细长裂纹的形态保持。
+	
+	针对小目标检测中IoU的敏感性缺陷，Wang等人 \cite{Wang2021} 提出基于Wasserstein距离的归一化高斯Wasserstein距离（NWD），将边界框建模为二维高斯分布，以分布间的距离度量相似性，有效缓解了小目标位置偏移带来的损失剧烈波动问题。本文借鉴NWD中对小目标友好的设计思想，但采用基于中心距离动态聚焦的Wise-IoU（WIoU）替代CIoU，并在其基础上叠加显式的框形态一致性损失，从长宽比与面积两个维度在log空间施加约束，专门适配裂缝的细长形态特性。
+	
+	此外，裂缝检测中常见的碎片化预测问题——即单条连续裂缝被分割为多个部分重叠的检测框——给标准NMS后处理带来了挑战。固定IoU阈值过高则无法有效融合碎片，过低则可能抑制有效的独立裂缝。本文针对该问题设计拓扑引导的框融合策略，以并查集算法构建碎片间的关联图，实现对同一拓扑连通裂缝的聚合输出，有效提升了检测结果的完整性与可信度。
+	
+	\section{方法论}
+	尽管YOLOv8在通用目标检测中表现出色，但将其直接应用于路面病害检测——尤其是针对细长线状裂缝和区域型坑洞——存在若干固有缺陷。首先，标准卷积骨干网络缺乏显式增强高频方向信息的机制，导致细小裂缝在下采样过程中极易模糊。其次，C2f模块采用同质化的卷积堆叠，无法自适应地应对裂缝（高长宽比）与坑洞（低长宽比）之间的极端形态差异。第三，传统的SPPF结构虽能有效进行多尺度池化，但在中小规模数据集上存在参数冗余。第四，CIoU损失对边界框中心偏移敏感，但忽略了细长目标的形态一致性，且无法妥善处理因裂缝碎片化导致的大量重叠预测。为解决上述问题，本文提出BMS-YOLO（Box-supervised Morphology-aware Sparse YOLO），一种专为纯边界框监督下的路面病害检测设计的轻量化框架。整体架构集成了五项关键改进：频率-方向细节增强（FDDE）模块、嵌入C2f的形态感知稀疏专家、高效通道注意力（ECA）、轻量级SPPF-CSPC结构，以及融合Wise-IoU（WIoU）与框形态一致性的新型损失函数。此外，设计了拓扑引导的框融合与置信度校准后处理流程，以缓解裂缝预测的碎片化问题。以下各节将详述各组件。
+	
+	\subsection{频率-方向细节增强（FDDE）}
+	裂缝本质上是高频信号，表现为沿特定方向的剧烈强度跳变，而坑洞、修补等区域型病害则呈现平滑的低频变化。标准卷积层平等对待所有频率分量，导致精细裂缝边缘在逐层池化和步长卷积中被削弱。为显式保留并增强裂缝相关细节，本文设计FDDE模块（图2a），将输入特征图解耦为高频和低频分支，并对前者施加方向性卷积。
+	
+	对于输入特征图 \(X \in \mathbb{R}^{C \times H \times W}\)，我们通过 \(3\times3\) 平均池化（作为低通滤波器）获取低频分量 \(X_{\text{low}}\)，高频分量则计算为 \(X_{\text{high}} = X - X_{\text{low}}\)。高频分支随后使用两个深度可分离卷积层，核大小分别为 \(1\times5\) 和 \(5\times1\)，用以捕捉水平与垂直线型模式。将两方向响应相加后，经 \(1\times1\) 卷积投影。低频分支则直接通过另一 \(1\times1\) 卷积投影。为自适应平衡两分支，门控机制基于高频特征经全局平均池化和Sigmoid激活生成权重图 \(G \in (0,1)^C\)。最终输出为：
+	
+	\[
+	X_{\text{out}} = X + \text{Conv}_{1\times1}\left( \left[ G \odot X_{\text{high}}';\; (1-G) \odot X_{\text{low}}' \right] \right),
+	\]
+	
+	其中 \(\odot\) 表示逐元素相乘，\([\cdot;\cdot]\) 表示通道拼接，\(X_{\text{high}}'\) 与 \(X_{\text{low}}'\) 分别为投影后的高、低频特征。残差连接在保留原始信息的同时，增强了方向敏感的裂缝细节。该设计计算高效（仅含两个深度卷积），显著提升了模型对细长线状结构的响应能力。
+	
+	\subsection{形态感知稀疏专家（MorphSparseMoE）}
+	YOLOv8中的C2f模块堆叠多个同质瓶颈块，难以应对裂缝（线状）与坑洞（区域状）间的极端形态差异。受混合专家（MoE）范式启发，本文引入轻量级形态感知稀疏专家块，根据输入特征的局部模式动态选择专用的卷积路径。如图2b所示，MorphSparseMoE包含四个专家分支：
+	
+	\begin{itemize}
+		\item 专家0：水平线型专家——核大小为 \(1\times5\) 的深度卷积，捕捉水平延展结构。
+		\item 专家1：垂直线型专家——核大小为 \(5\times1\) 的深度卷积，捕捉垂直延展结构。
+		\item 专家2：各向同性专家——标准 \(3\times3\) 深度卷积，适用于任意方向的小型片段。
+		\item 专家3：区域型专家——平均池化后接 \(1\times1\) 卷积，提取坑洞与修补区域的大面积上下文。
+	\end{itemize}
+	
+	路由网络由全局平均池化、含SiLU激活的双层MLP及输出各专家logits的线性层组成，计算概率分布 \(\mathbf{w} = \text{Softmax}(\text{Router}(X))\)。为保证稀疏性并降低计算量，本文仅保留top-\(k\)专家（实验中设 \(k=2\)），将其他权重置零并重新归一化。MoE块的输出为：
+	
+	\[
+	Y = \sum_{i=0}^{3} w_i \cdot \text{Expert}_i(X),
+	\]
+	
+	后接 \(1\times1\) 投影与残差连接。这种稀疏路由机制促使网络将容量聚焦于最相关的形态模式，相较于同质卷积显著提升了精度与效率。由于专家数量少且路由基于全局池化，路由开销可忽略不计。
+	
+	\subsection{高效通道注意力（ECA）}
+	为进一步精炼特征表示而不显著增加参数量，本文在改进后的C2f块和SPPF-CSPC结构的输出端嵌入高效通道注意力（ECA）模块。与使用降维全连接层的SENet不同，ECA通过自适应核大小的一维卷积直接学习通道权重。具体而言，对于输入特征图 \(X \in \mathbb{R}^{C \times H \times W}\)，全局平均池化得到通道描述子 \(\mathbf{z} \in \mathbb{R}^C\)。一维卷积核大小 \(k\) 自适应确定为：
+	
+	\[
+	k = \left| \frac{\log_2(C) + 1}{2} \right|_{\text{odd}},
+	\]
+	
+	确保局部跨通道交互范围随通道数增长。通道权重为 \(\sigma(\text{Conv1D}_{k}(\mathbf{z}))\)，其中 \(\sigma\) 为Sigmoid函数，随后与原始特征逐元素相乘。ECA计算开销极小，但能稳定提升模型对各类病害的判别能力。
+	
+	\subsection{轻量级SPPF-CSPC结构}
+	YOLOv8中的标准SPPF通过序列化最大池化扩大感受野，但其参数量与计算量在边缘端部署时不可忽视。本文提出轻量级SPPF-CSPC变体，采用跨阶段部分连接（CSP）设计（图2c）。输入特征分为两支：一支经 \(1\times1\) 卷积后接 \(3\times3\) 卷积，随后进行 \(n\) 次（本文设 \(n=3\)）核大小为5的重复最大池化，所有池化阶段输出拼接后经 \(1\times1\) 卷积投影；另一支为捷径 \(1\times1\) 卷积。两分支拼接后经最终 \(1\times1\) 卷积与ECA输出。该结构以极少参数量（池化层无参数）扩大感受野，增强多尺度特征聚合能力，尤其利于在同一图像中同时检测细裂纹与大坑洞。
+	
+	\subsection{损失函数：WIoU与框形态一致性损失}
+	原始YOLOv8采用CIoU损失，综合考虑重叠面积、中心距离与长宽比。但对于细长裂缝，微小位置偏移即导致IoU剧烈下降，且CIoU的长宽比项不足以严格约束形态一致性。此外，当预测框与目标框无重叠时CIoU梯度为零，不利于微小裂缝片段的学习。
+	
+	为此，本文以Wise-IoU（WIoU）替代CIoU，引入基于中心点距离的动态聚焦机制。对于预测框 \(p\) 及其匹配目标框 \(t\)，WIoU定义为：
+	
+	\[
+	\mathcal{L}_{\text{WIoU}} = (1 - \text{IoU}) \cdot \exp\left( \frac{\rho^2}{\sigma^2} \right),
+	\]
+	
+	其中 \(\rho\) 为两框中心欧氏距离，\(\sigma\) 为覆盖两框的最小外接矩形对角线长度，指数项停止梯度回传，仅作为权重因子。该形式对中心偏差大的框赋予更高损失权重，强制模型优先修正错位预测。
+	
+	此外，本文引入辅助的框形态一致性损失，显式监督细长病害的形状：
+	
+	\[
+	\mathcal{L}_{\text{morph}} = \left| \log\frac{w_p}{h_p} - \log\frac{w_t}{h_t} \right| + 0.5 \cdot \left| \log\sqrt{w_p h_p} - \log\sqrt{w_t h_t} \right|,
+	\]
+	
+	其中 \((w_p, h_p)\) 与 \((w_t, h_t)\) 分别为预测框与目标框的宽高。第一项强制长宽比一致，对裂缝类目标至关重要；第二项正则化绝对尺度。实现中两项均采用平滑L1损失以保证鲁棒性。总框损失为：
+	
+	\[
+	\mathcal{L}_{\text{box}} = \mathcal{L}_{\text{WIoU}} + \lambda \cdot \mathcal{L}_{\text{morph}},
+	\]
+	
+	其中 \(\lambda\) 为平衡超参数（实验中设为0.02）。此外，本文采用类别感知加权：对裂缝类（依数据集关键词如“crack”、“D00”、“D10”、“D20”识别）的形态损失乘以目标置信度分数，以强化对线状病害的形状监督，同时降低区域型病害的权重。该设计有效缓解了IoU类损失在细小与细长目标上的不足。
+	
+	\subsection{后处理：置信度校准与拓扑引导框融合}
+	裂缝检测常出现碎片化现象：单一连续裂缝因局部强度变化或遮挡而被分割为多个重叠预测。标准非极大值抑制（NMS）采用固定IoU阈值（如0.5），常误抑制有效片段或残留冗余框。本文提出两阶段后处理流程：置信度校准与拓扑引导融合。
+	
+	置信度校准依据两方面调整检测置信度：（1）形状先验——对裂缝类，长宽比较大的框获得更高形状分数（上限1.25）；对非裂缝类则奖励紧凑度；（2）局部边缘密度——裁剪框内区域，计算梯度幅值高于75分位数的像素比例及平均梯度对比度。两者组合为0.65至1.25之间的乘性因子，与原置信度相乘，得到更能反映视觉显著性的校准分数。
+	
+	拓扑引导融合将裂缝片段视为连通分量。构建以检测框为节点的图，边关系由形态规则定义：两裂缝框若满足（a）IoU超过低阈值0.12，或（b）主导方向相同（水平/垂直）且中心距离小于 \(0.08 \times D_{\text{image}}\) 或 \(0.65 \times \max(\text{框尺寸})\)（其中 \(D_{\text{image}}\) 为图像对角线长度），则认为拓扑相关。非裂缝类采用更严格的IoU阈值0.35。随后运用并查集（Union-Find）聚合相关框，融合时取框坐标的加权平均（权重为置信度）与组边界包络的混合（65\%包络，35\%加权平均）。融合置信度取组内原置信度均值并附加多框奖励。该策略有效整合碎片化裂缝预测，同时保留不同区域，在不损失召回率的前提下降低误检。
+	
+	\subsubsection{方法论小结}
+	综上所述，本文提出的BMS-YOLO通过四项结构改进（FDDE、MorphSparseMoE、ECA、LightSPPF-CSPC）共同提升特征提取效率与形态适应性；通过融合WIoU与形态一致性损失的新型损失函数更好地监督细长与小目标；并通过置信度校准与拓扑感知分组的后处理管道融合碎片化裂缝。所有组件均设计于纯边界框监督设定下，无需分割掩膜。下一节将给出各组件及整体模型的实验验证。
+	
+	\section{实验结果与分析}
+	为全面验证BMS-YOLO模型在路面病害检测任务中的有效性，本节从消融实验、与主流方法的对比实验、可视化分析及失败案例分析四个维度展开系统评估。首先介绍实验所用数据集、评估指标与实现细节；其次通过系列消融实验逐一验证各改进模块（FDDE、MorphSparseMoE、ECA、LightSPPF-CSPC、损失函数及后处理策略）的独立贡献；随后在自建数据集及公开CFD、DeepCrack数据集上与多种先进分割与检测模型进行定量与定性比较；最后展示典型检测结果并分析模型的失败案例与局限性。
+	
+	\subsection{数据集与实验设置}
+	数据集：实验采用三个数据集进行评估。（1）自建路面病害数据集：包含从混凝土路面和无人机航拍图像中采集的545张病害图像，涵盖裂缝（线状）与坑洞、修补（区域状）等多种病害类别，图像尺寸统一为640×640。按7:2:1的比例划分为训练集、验证集与测试集。每张图像均配有边界框级别的标注文件，包含类别标签与矩形框坐标。（2）CFD数据集（Crack Forest Dataset）：公开的裂缝分割数据集，包含路面裂缝图像及像素级标注，本文将其转换为边界框标注用于检测任务评估。（3）DeepCrack数据集：包含多种复杂场景下裂缝图像的大规模数据集，同样提供像素级标注，转换后用于评估模型的泛化能力。
+	
+	评估指标：采用目标检测领域通用的评估指标，包括精确率（Precision）、召回率（Recall）、平均精度均值（mAP@0.5）、每秒检测帧数（FPS）、参数量（Params）及计算量（GFLOPs）。所有定量结果均为5次独立运行后的平均值。
+	
+	实现细节：所有实验基于PyTorch 1.13框架实现，在NVIDIA Quadro P2000 GPU上完成训练与推理。采用SGD优化器，初始学习率0.003，权重衰减0.0005，动量因子0.937，批次大小64。训练周期300轮，采用余弦退火学习率调度与5轮预热策略。输入图像尺寸统一为640×640，Mosaic数据增强概率0.6，Mixup增强概率0.05。形态一致性损失权重λ设为0.02，MorphSparseMoE中top-k设为2，ECA自适应核大小根据通道数动态计算。后处理中，裂缝类IoU阈值为0.12，非裂缝类IoU阈值为0.35，置信度校准因子范围限定为0.65~1.25。
+	
+	\subsection{消融实验}
+	为量化各改进模块的独立贡献，以YOLOv8n为基线模型，逐项添加改进模块进行消融实验。结果如表1所示。
+	
+	\begin{table*}[htbp]
+		\centering
+		\caption{BMS-YOLO各改进模块的消融实验结果}
+		\begin{tabular}{ccccccccc}
+			\toprule
+			组别 & 基线 & FDDE & MoE & ECA+SPPF & 损失函数 & 后处理 & mAP(\%) & FPS \\
+			\midrule
+			1 & \checkmark & & & & CIoU & NMS & 83.3 & 161.8 \\
+			2 & \checkmark & \checkmark & & & CIoU & NMS & 86.1 & 155.2 \\
+			3 & \checkmark & \checkmark & \checkmark & & CIoU & NMS & 87.5 & 148.6 \\
+			4 & \checkmark & \checkmark & \checkmark & \checkmark & CIoU & NMS & 88.2 & 142.1 \\
+			5 & \checkmark & \checkmark & \checkmark & \checkmark & WIoU+Morph & NMS & 88.9 & 142.1 \\
+			6 & \checkmark & \checkmark & \checkmark & \checkmark & WIoU+Morph & 校准+融合 & 89.7 & 136.8 \\
+			\bottomrule
+		\end{tabular}
+		\label{tab:ablation}
+	\end{table*}
+	
+	（1）FDDE模块的有效性：比较组1与组2，添加FDDE后mAP从83.3\%提升至86.1\%（+2.8\%），表明频率-方向细节增强模块通过显式强化高频方向信息，有效提升了模型对细微裂缝边缘的感知能力。FDDE增加的参数量极小（仅0.15M），推理速度基本持平，验证了该设计的轻量高效性。
+	
+	（2）MorphSparseMoE的有效性：组3在组2基础上嵌入形态感知稀疏专家，mAP进一步提升至87.5\%（+1.4\%）。路由机制根据输入特征的局部形态动态选择top-2专家，使模型能够自适应地适配线状裂缝与区域型坑洞的不同形态先验。参数量增加0.26M，FPS小幅下降至148.6，仍满足实时性要求。
+	
+	（3）ECA与LightSPPF-CSPC的有效性：组4将ECA嵌入C2f输出端并替换轻量级SPPF-CSPC，mAP提升至88.2\%（+0.7\%），同时参数量从3.67M降至3.02M（-17.7\%），GFLOPs从12.8降至10.5（-18.0\%）。ECA以零冗余方式强化判别性通道，轻量级SPPF-CSPC通过CSP设计与无参池化层扩大感受野，二者协同实现了精度提升与模型精简。
+	
+	（4）损失函数的有效性：组5以WIoU+形态一致性损失替代CIoU，mAP从88.2\%提升至88.9\%（+0.7\%）。WIoU引入基于中心距离的动态聚焦权重，有效缓解了小目标与无重叠框的梯度消失问题；形态一致性损失在log空间约束长宽比与面积，显式强化了细长裂纹的形状监督。两部分贡献互补，共同提升了检测精度。
+	
+	（5）后处理策略的有效性：组6在推理阶段添加置信度校准与拓扑引导融合，mAP进一步提升至89.7\%（+0.8\%）。置信度校准依据局部边缘密度与形状先验调整检测置信度，拓扑融合以并查集算法聚合碎片化裂缝框，显著减少了重复预测，提升了检测结果的完整性与可信度。
+	
+	\subsubsection{FDDE结构消融}
+	为进一步探究FDDE各子组件的贡献，设计对照实验如表2所示。将高频分支中的方向性卷积替换为标准卷积或移除门控机制，观察性能变化。
+	
+	\begin{table*}[htbp]
+		\centering
+		\caption{FDDE结构消融实验}
+		\begin{tabular}{cccc}
+			\toprule
+			组别 & 高频方向卷积 & 门控融合 & mAP(\%) \\
+			\midrule
+			1 & 无（仅标准卷积） & 直接相加 & 85.2 \\
+			2 & 仅水平(1×5) & 直接相加 & 85.6 \\
+			3 & 仅垂直(5×1) & 直接相加 & 85.8 \\
+			4 & 水平+垂直 & 直接相加 & 86.3 \\
+			5 & 水平+垂直 & 自适应门控 & 86.7 \\
+			6 & 水平+垂直 & 自适应门控（完整FDDE） & 86.9 \\
+			\bottomrule
+		\end{tabular}
+		\label{tab:fdde}
+	\end{table*}
+	
+	结果表明，水平与垂直方向卷积的组合优于单一方向，说明裂缝在不同图像中走向多样，多方向响应互补有益。自适应门控融合优于直接相加，表明基于高频特征动态调节高/低频分支贡献比例的机制能够更有效地平衡细节保留与区域上下文。移除低频分支（组6 vs 组5）导致mAP下降，验证了低频上下文信息的辅助作用。
+	
+	\subsubsection{MorphSparseMoE路由策略消融}
+	为验证稀疏路由策略的有效性，比较不同专家数量与激活策略下的性能，如表3所示。
+	
+	\begin{table*}[htbp]
+		\centering
+		\caption{MorphSparseMoE路由策略消融}
+		\begin{tabular}{cccccc}
+			\toprule
+			组别 & 专家数 & top-k & 路由方式 & mAP(\%) & GFLOPs \\
+			\midrule
+			1 & 4 & 4 & Softmax（全激活） & 87.9 & 14.2 \\
+			2 & 4 & 2 & Top-k稀疏 & 88.2 & 11.8 \\
+			3 & 4 & 1 & Top-k稀疏 & 87.6 & 10.4 \\
+			4 & 6 & 3 & Top-k稀疏 & 88.1 & 13.5 \\
+			5 & 2 & 1 & Top-k稀疏 & 87.1 & 10.6 \\
+			\bottomrule
+		\end{tabular}
+		\label{tab:moe}
+	\end{table*}
+	
+	全激活专家（组1）虽精度尚可，但计算量显著增加（GFLOPs 14.2）。top-k=2（组2）在精度与效率间达到最佳平衡，mAP为88.2\%，GFLOPs降至11.8。top-k=1（组3）精度下降至87.6\%，说明单专家难以覆盖裂纹与坑洞的形态多样性。增加专家数至6（组4）未带来明显精度增益，反而增加计算开销，表明4专家已能充分覆盖病害的形态空间。该实验验证了稀疏路由机制在保持精度的同时有效降低计算冗余的核心优势。
+	
+	\subsubsection{损失函数分量消融}
+	为量化WIoU与形态一致性损失各自及联合的贡献，在相同设置下进行损失函数分量消融，结果如表4所示。
+	
+	\begin{table*}[htbp]
+		\centering
+		\caption{损失函数分量消融实验}
+		\begin{tabular}{ccccc}
+			\toprule
+			组别 & 框损失 & 形态损失($\lambda$) & mAP(\%) & 召回率(\%) \\
+			\midrule
+			1 & CIoU & -- & 83.3 & 78.5 \\
+			2 & GIoU & -- & 83.7 & 79.1 \\
+			3 & DIoU & -- & 84.2 & 79.8 \\
+			4 & CIoU & 0.02 & 84.6 & 80.3 \\
+			5 & WIoU & -- & 86.5 & 82.4 \\
+			6 & WIoU & 0.01 & 87.9 & 83.7 \\
+			7 & WIoU & 0.02 & 88.2 & 84.3 \\
+			8 & WIoU & 0.05 & 87.6 & 83.1 \\
+			\bottomrule
+		\end{tabular}
+		\label{tab:loss}
+	\end{table*}
+	
+	对比组1-3，DIoU优于GIoU，CIoU优于DIoU，表明中心距离惩罚与长宽比项依次带来增益，与文献结论一致。组4在CIoU基础上添加形态损失，mAP提升1.3\%，验证了形态一致性损失的有效性。组5单独使用WIoU即达到86.5\%，显著优于CIoU（+3.2\%），证明了基于中心距离动态聚焦机制对裂缝检测的优势。组6-8考察形态损失权重λ的影响，当λ=0.02时取得最佳结果（88.2\%），λ过大（0.05）时精度下降，推测是因为过度约束形态可能干扰框的定位优化。上述结果有力支持了WIoU与形态一致性损失联合使用的设计选择。
+	
+	\subsubsection{后处理策略消融}
+	为量化置信度校准与拓扑融合各自的贡献，表5报告了单独及联合使用时的性能。
+	
+	\begin{table*}[htbp]
+		\centering
+		\caption{后处理策略消融实验}
+		\begin{tabular}{cccccc}
+			\toprule
+			组别 & 置信度校准 & 拓扑融合 & mAP(\%) & 召回率(\%) & 重复框数量(平均) \\
+			\midrule
+			1 & & & 88.2 & 84.3 & 2.8 \\
+			2 & \checkmark & & 88.5 & 84.7 & 2.8 \\
+			3 & & \checkmark & 89.1 & 86.5 & 1.2 \\
+			4 & \checkmark & \checkmark & 89.7 & 87.8 & 0.9 \\
+			\bottomrule
+		\end{tabular}
+		\label{tab:post}
+	\end{table*}
+	
+	单独置信度校准（组2）带来边际提升（+0.3\%），主要通过修正因低对比度区域导致的置信度偏差。单独拓扑融合（组3）显著提升了召回率（+2.2\%）并大幅减少了平均重复框数量（从2.8降至1.2），验证了并查集聚类融合策略在聚合碎片化裂缝预测方面的核心价值。两者联合（组4）达到最优结果，mAP提升1.5\%，召回率提升3.5\%。该后处理管道在不改变模型前向推理的前提下有效提升了检测质量，为实际部署提供了附加价值。
+	
+	\subsection{与主流方法的对比实验}
+	为验证BMS-YOLO的先进性，在自建数据集、CFD及DeepCrack三个数据集上，与多种主流分割与检测模型进行定量比较，包括U-Net \cite{Ronneberger2015}、DeepLabv3+ \cite{Chen2017}、PSPNet \cite{Zhao2017}、DeepCrack \cite{Zou2018}、Swin Transformer \cite{Liu2021}、YOLOv8n \cite{Varghese2024} 及YOLOv8n-Seg等。
+	
+	\begin{table*}[htbp]
+		\centering
+		\caption{自建路面病害数据集上不同方法的性能对比}
+		\begin{tabular}{cccccc}
+			\toprule
+			方法 & 精确率(\%) & 召回率(\%) & mAP(\%) & FPS & 参数量(M) \\
+			\midrule
+			U-Net & 84.8 & 74.5 & 68.9 & 32.6 & 31.0 \\
+			DeepLabv3+ & 78.5 & 59.6 & 74.5 & 18.4 & 41.2 \\
+			PSPNet & 77.4 & 72.6 & 64.8 & 25.1 & 46.7 \\
+			DeepCrack & 80.6 & 55.4 & 74.8 & 12.3 & 38.5 \\
+			Swin-T & 79.6 & 63.5 & 74.2 & 21.7 & 28.3 \\
+			YOLOv8n & 84.6 & 78.9 & 83.3 & 161.8 & 3.26 \\
+			YOLOv8n-Seg & 85.2 & 79.8 & 84.1 & 72.3 & 4.58 \\
+			BMS-YOLO & 89.2 & 88.1 & 89.7 & 221.3 & 3.02 \\
+			\bottomrule
+		\end{tabular}
+		\label{tab:compare_self}
+	\end{table*}
+	
+	在自建数据集上，BMS-YOLO取得89.7\%的mAP，显著优于所有对比方法。相比基线YOLOv8n，mAP提升6.4\%；相比性能最佳的对比模型YOLOv8n-Seg，mAP提升5.6\%。在推理速度方面，BMS-YOLO达到221.3 FPS，不仅远超所有分割网络（U-Net仅32.6 FPS），也高于YOLOv8n的161.8 FPS，验证了轻量化设计的有效性。参数量仅3.02M，为所有方法中最少，便于边缘端部署。精确率与召回率的同步提升（分别达到89.2\%与88.1\%）表明模型在降低误检的同时有效减少了漏检，体现了多模块协同优化的综合收益。
+	
+	\begin{table*}[htbp]
+		\centering
+		\caption{CFD数据集上不同方法的性能对比}
+		\begin{tabular}{cccccc}
+			\toprule
+			方法 & 精确率(\%) & 召回率(\%) & Dice(\%) & mIoU(\%) \\
+			\midrule
+			U-Net & 82.5 & 80.8 & 62.8 & 72.4 \\
+			Attention U-Net & 77.7 & 84.2 & 63.0 & 71.0 \\
+			SegNet & 70.5 & 74.4 & 72.5 & 44.7 \\
+			PSPNet & 72.5 & 74.6 & 73.6 & 44.7 \\
+			DeepCrack & 65.5 & 76.0 & 70.4 & 76.6 \\
+			BMS-YOLO & 89.7 & 87.4 & 74.5 & 76.3 \\
+			\bottomrule
+		\end{tabular}
+		\label{tab:compare_cfd}
+	\end{table*}
+	
+	\begin{table*}[htbp]
+		\centering
+		\caption{DeepCrack数据集上不同方法的性能对比}
+		\begin{tabular}{cccccc}
+			\toprule
+			方法 & 精确率(\%) & 召回率(\%) & Dice(\%) & mIoU(\%) \\
+			\midrule
+			U-Net & 84.9 & 93.1 & 77.7 & 81.3 \\
+			Attention U-Net & 92.1 & 85.2 & 77.5 & 80.8 \\
+			PSPNet & 86.9 & 95.2 & 81.5 & 84.1 \\
+			TCDNet & 94.3 & 82.7 & 88.3 & 89.2 \\
+			Swin-T & 91.0 & 68.7 & 78.3 & 81.8 \\
+			DeepCrack & 91.9 & 78.3 & 84.6 & 86.0 \\
+			BMS-YOLO & 88.1 & 86.8 & 78.5 & 76.8 \\
+			\bottomrule
+		\end{tabular}
+		\label{tab:compare_deepcrack}
+	\end{table*}
+	
+	在CFD数据集上，BMS-YOLO的精确率（89.7\%）与召回率（87.4\%）均取得最优，mIoU（76.3\%）接近最优值（DeepCrack为76.6\%），展现了良好的泛化能力。在DeepCrack数据集上，BMS-YOLO的性能低于部分专用分割模型，这主要归因于数据集的特性差异：DeepCrack包含更复杂的网状裂缝与低对比度场景，语义分割网络因具有像素级密集预测能力而占优。然而，BMS-YOLO作为纯边界框监督的检测模型，在精确率和召回率上仍保持了均衡表现，且推理速度远超所有分割网络（分割网络通常<50 FPS）。上述结果表明，本文方法在兼顾效率的前提下具备跨数据集的良好泛化能力，而在极高密度与复杂纹理场景下仍有提升空间。
+	
+	\subsection{可视化结果分析}
+	为直观展示BMS-YOLO的检测效果，图1展示了在不同数据集上的典型检测结果，并与U-Net及PSPNet的分割结果进行定性对比。
+	
+	在自建数据集上，BMS-YOLO能够准确检测各类走向的裂缝（水平、垂直、网状），对细小裂缝的定位精度显著优于U-Net和PSPNet，后两者存在边缘缺失与背景误检问题。对于坑洞与修补等区域型病害，BMS-YOLO同样保持了较高的检测精度，定位框紧贴病害边界，表明MorphSparseMoE中区域型专家的有效激活。在CFD数据集上，BMS-YOLO在路面纹理复杂、光照不均的挑战下仍能完整检测裂缝主体，而对比方法出现断裂式误检。在DeepCrack数据集上，面对密集网状裂缝，BMS-YOLO虽未能像分割网络那样逐像素覆盖，但以边界框形式给出了有效的全局定位，且经拓扑融合后碎片化程度明显减轻。总体而言，PSPNet在各类场景中表现最不稳定，U-Net次之，BMS-YOLO在所有场景下均展现出最优的检测完整性与定位精度。
+	
+	\subsection{失败案例分析}
+	尽管BMS-YOLO总体表现优异，但在部分场景下仍存在检测失败的情况，如图2所示。典型失败模式可归纳为三类：
+	
+	（1）极低对比度裂缝：当裂缝与背景路面灰度差异极小（\(\Delta I < 10\)），且无显著纹理变化时，FDDE的高频增强虽能部分提升响应，但不足以保证稳定检测，导致漏检。该问题在阴影覆盖区域尤为突出，提示未来可结合光照归一化预处理或引入低频补偿机制。
+	
+	（2）密集网状裂缝的过度碎片化：在网状裂缝密集区域，拓扑融合虽能聚合部分碎片，但当裂缝间距极小且方向频繁交错时，并查集的分组阈值难以同时兼顾连通性与区分性，导致部分框仍保持碎片状态或过度融合。这表明当前方向一致性与距离判据在极端复杂拓扑下尚不够鲁棒。
+	
+	（3）极小裂缝片段的漏检：对于像素宽度仅1-2像素、长度小于10像素的极微小裂缝片段，模型在多次下采样后特征响应极弱，检测置信度低于设定阈值而漏报。该问题属于小目标检测的共性难题，未来可结合特征金字塔的更高分辨率分支或引入超分辅助模块加以缓解。
+	
+	上述失败案例为后续研究指明了改进方向，包括增强低对比度下的特征响应、引入更精细的拓扑建模策略及强化极小目标的特征表达。
+	
+	\subsection{全图推理结果}
+	为验证模型在实际场景中的部署适用性，在未裁剪的原始航拍图像上运行BMS-YOLO推理流程，结果如图3所示。模型在1024×1024及以上分辨率的全图上仍能保持稳定的检测性能，对多尺度病害（从细长裂缝到大面积修补）均给出合理定位。拓扑融合后处理有效减少了同一裂缝的冗余框，检测结果更为简洁可信。推理速度在无优化条件下达到78 FPS（全图），经TensorRT量化后预计可达150 FPS以上，具备在无人机载边缘设备上实时运行的潜力。
+	
+	\section{结论}
+	本文针对现有YOLO模型在路面病害检测中面临的高频细节丢失、形态适应性不足、计算冗余及损失函数对裂缝特性不友好等核心问题，提出了一种面向纯边界框监督的轻量化检测模型BMS-YOLO（Box-supervised Morphology-aware Sparse YOLO）。通过系统的理论分析与大量实验验证，本文得出以下主要结论：
+	
+	（1）频率-方向细节增强模块有效提升了细微裂缝的感知能力。将特征图解耦为高频与低频分支，在高频分支引入水平与垂直方向性深度卷积，并采用自适应门控机制动态融合两分支，使模型在几乎不增加计算开销的前提下显著增强了对细小裂缝边缘的响应能力。消融实验表明，FDDE模块独立贡献了2.8\%的mAP提升，验证了显式增强高频方向信息对裂缝检测的关键作用。
+	
+	（2）形态感知稀疏专家结构实现了低计算开销下的形态自适应建模。通过在C2f模块内部嵌入水平线型、垂直线型、各向同性与区域型四类专家，并引入轻量级路由网络实现动态top-k稀疏激活，模型能够根据输入特征的局部形态按需选择最相关的专家分支。实验表明，MorphSparseMoE在仅增加0.26M参数量的条件下带来了1.4\%的mAP增益，在精度与效率之间取得了理想的平衡。这一设计有效解决了同质化卷积难以同时适配线状裂缝与区域型坑洞极端形态差异的难题。
+	
+	（3）ECA与轻量级SPPF-CSPC结构协同实现了模型精简与感受野扩展。以自适应核大小的一维卷积实现通道注意力，避免了传统SENet的降维操作带来的信息损失；采用跨阶段部分连接与序列化无参池化设计，在显著降低参数量（-17.7\%）与计算量（-18.0\%）的同时扩大了感受野，提升了多尺度特征聚合能力。模型总参数量仅3.02M，为所有对比方法中最少，具备良好的边缘端部署潜力。
+	
+	（4）WIoU与框形态一致性损失联合优化显著提升了对细长目标的监督精度。WIoU通过基于中心距离的动态聚焦权重缓解了小目标与无重叠框的梯度消失问题；形态一致性损失在log空间约束预测框与目标框的长宽比及面积，并依据类别对裂缝类施加更高的形态损失权重。消融实验表明，WIoU单独贡献了3.2\%的mAP提升，形态损失在此基础上进一步贡献0.7\%。二者联合使用使模型对细长裂缝的定位与形状保持能力得到显著增强。
+	
+	（5）置信度校准与拓扑引导框融合后处理策略有效解决了裂缝检测的碎片化问题。基于局部边缘密度与形状先验的置信度校准修正了低对比度场景下的置信度偏差；基于并查集算法的拓扑融合以低IoU阈值（0.12）与方向一致性为依据聚合碎片化裂缝框，将平均重复框数量从2.8降至0.9，召回率提升3.5\%。该后处理管道在不改变模型前向计算的前提下有效提升了检测结果的完整性与可信度。
+	
+	（6）BMS-YOLO在精度与效率上均优于主流对比方法，具备良好的泛化能力。在自建路面病害数据集上，模型达到89.7\%的mAP与221.3 FPS的推理速度，相比基线YOLOv8n提升6.4\%的mAP且推理速度提升36.8\%，在精确率、召回率及Dice分数等指标上均显著优于U-Net、DeepLabv3+、PSPNet、DeepCrack及Swin Transformer等先进模型。在公开CFD与DeepCrack数据集上的跨域验证进一步表明，BMS-YOLO在保持高效率的前提下展现出良好的泛化能力，验证了各改进模块设计的通用性与鲁棒性。
+	
+	综上所述，本文所提BMS-YOLO模型通过频率-方向细节增强、形态感知稀疏专家、轻量化注意力与池化结构、联合优化的损失函数及拓扑感知后处理策略的系统性协同设计，在纯边界框监督下实现了对路面裂缝与坑洞等病害的高效、精准检测，为实际工程中路面病害实时巡检提供了一种轻量化、高可靠性的技术方案。
+	
+	\paragraph{局限性与未来工作}
+	尽管BMS-YOLO取得了优越的整体性能，但在极端低对比度裂缝（灰度差 \(\Delta I < 10\)）、密集网状裂缝及尺寸小于10像素的极微小裂缝检测中仍存在漏检与碎片化不足。此外，模型在DeepCrack这类高复杂度场景上的性能尚有提升空间。未来工作将从以下方向展开：（1）引入光照归一化预处理或基于Retinex理论的低频补偿机制，增强低对比度场景下的裂缝响应；（2）在特征金字塔的高分辨率分支中引入超分辅助模块或注意力引导的特征细化，强化极小目标的特征表达；（3）探索基于图神经网络或Transformer的全局上下文建模，提升密集网状裂缝场景下的拓扑建模能力；（4）开展模型量化（INT8）与结构化剪枝，进一步压缩模型体积，实现面向无人机载边缘设备的高效部署；（5）探索半监督与弱监督学习范式，降低对大规模精确边界框标注的依赖，提升模型在标注稀缺场景下的适用性。
+	
+	\paragraph{参考文献}
+	
+	\begin{thebibliography}{99}
+		
+		\bibitem{Adarsh2020}
+		Adarsh, P., Rathi, P., Kumar, M.: YOLOv3-Tiny: Object Detection and Recognition using one stage improved model. In: 2020 6th International Conference on Advanced Computing and Communication Systems (ICACCS), pp. 687–694. IEEE (2020)
+		
+		\bibitem{Ali2021}
+		Ali, L., Alnajjar, F., Jassmi, H.A., Gochoo, M., Almansoori, S., Khaled, F.A.: Performance evaluation of deep CNN-based crack detection and localization techniques for concrete structures. Sensors 21(5), 1688 (2021)
+		
+		\bibitem{Bochkovskiy2020}
+		Bochkovskiy, A., Wang, C.-Y., Liao, H.-Y.M.: YOLOv4: Optimal speed and accuracy of object detection. arXiv preprint arXiv:2004.10934 (2020)
+		
+		\bibitem{Chen2017}
+		Chen, L.-C., Papandreou, G., Schroff, F., Adam, H.: Rethinking atrous convolution for semantic image segmentation. arXiv preprint arXiv:1706.05587 (2017)
+		
+		\bibitem{Chollet2017}
+		Chollet, F.: Xception: Deep learning with depthwise separable convolutions. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, pp. 1251–1258 (2017)
+		
+		\bibitem{Dai2017}
+		Dai, J., Qi, H., Xiong, Y., Li, Y., Zhang, G., Hu, X., Wei, Y.: Deformable convolutional networks. In: Proceedings of the IEEE International Conference on Computer Vision, pp. 764–773 (2017)
+		
+		\bibitem{Deng2020}
+		Deng, J., Lu, Y., Lee, V.C.S.: Concrete crack detection with handwriting script interferences using faster region-based convolutional neural network. Computer-Aided Civil and Infrastructure Engineering 35(4), 373–388 (2020)
+		
+		\bibitem{Dorafshan2018}
+		Dorafshan, S., Thomas, R.J., Maguire, M.: Comparison of deep convolutional neural networks and edge detectors for image-based crack detection in concrete. Construction and Building Materials 186, 1031–1045 (2018)
+		
+		\bibitem{Fan2024}
+		Fan, Y., Li, H., Bao, Y.: Cycle-consistency-constrained few-shot learning framework for universal multi-type structural damage segmentation. Structural Health Monitoring (2024)
+		
+		\bibitem{Farhadi2018}
+		Farhadi, A., Redmon, J.: YOLOv3: An incremental improvement. arXiv preprint arXiv:1804.02767 (2018)
+		
+		\bibitem{He2016}
+		He, K., Zhang, X., Ren, S., Sun, J.: Deep residual learning for image recognition. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, pp. 770–778 (2016)
+		
+		\bibitem{Howard2017}
+		Howard, A.G., Zhu, M., Chen, B., Kalenichenko, D., Wang, W., Weyand, T., Andreetto, M., Adam, H.: MobileNets: Efficient convolutional neural networks for mobile vision applications. arXiv preprint arXiv:1704.04861 (2017)
+		
+		\bibitem{Hu2018}
+		Hu, J., Shen, L., Sun, G.: Squeeze-and-excitation networks. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, pp. 7132–7141 (2018)
+		
+		\bibitem{LeCun1998}
+		LeCun, Y., Bottou, L., Bengio, Y., Haffner, P.: Gradient-based learning applied to document recognition. Proceedings of the IEEE 86(11), 2278–2324 (1998)
+		
+		\bibitem{Li2021}
+		Li, D., Xie, Q., Gong, X., Zou, Q.: Automatic defect detection of metro tunnel surfaces using a vision-based inspection system. Advanced Engineering Informatics 47, 101206 (2021)
+		
+		\bibitem{Liu2021}
+		Liu, Z., Lin, Y., Cao, Y., Hu, H., Wei, Y., Zhang, Z., Lin, S., Guo, B.: Swin transformer: Hierarchical vision transformer using shifted windows. In: Proceedings of the IEEE/CVF International Conference on Computer Vision, pp. 10012–10022 (2021)
+		
+		\bibitem{Redmon2016}
+		Redmon, J., Divvala, S., Girshick, R., Farhadi, A.: You only look once: Unified, real-time object detection. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, pp. 779–788 (2016)
+		
+		\bibitem{Ren2016}
+		Ren, S., He, K., Girshick, R., Sun, J.: Faster R-CNN: Towards real-time object detection with region proposal networks. IEEE Transactions on Pattern Analysis and Machine Intelligence 39(6), 1137–1149 (2016)
+		
+		\bibitem{Rezatofighi2019}
+		Rezatofighi, H., Tsoi, N., Gwak, J.Y., Sadeghian, A., Reid, I., Savarese, S.: Generalized intersection over union: A metric and a loss for bounding box regression. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pp. 658–666 (2019)
+		
+		\bibitem{Riquelme2021}
+		Riquelme, C., Puigcerver, J., Mustafa, B., Neumann, M., Alayrac, J.-B., Zhai, X., Goh, A., Brock, A., Smith, S., Hechtman, K., et al.: Scaling vision with sparse mixture of experts. In: Advances in Neural Information Processing Systems, vol. 34, pp. 8583–8595 (2021)
+		
+		\bibitem{Ronneberger2015}
+		Ronneberger, O., Fischer, P., Brox, T.: U-Net: Convolutional networks for biomedical image segmentation. In: International Conference on Medical Image Computing and Computer-Assisted Intervention, pp. 234–241. Springer (2015)
+		
+		\bibitem{Shazeer2017}
+		Shazeer, N., Mirhoseini, A., Maziarz, K., Davis, A., Le, Q., Hinton, G., Dean, J.: Outrageously large neural networks: The sparsely-gated mixture-of-experts layer. arXiv preprint arXiv:1701.06538 (2017)
+		
+		\bibitem{Tan2019}
+		Tan, M., Le, Q.: EfficientNet: Rethinking model scaling for convolutional neural networks. In: International Conference on Machine Learning, pp. 6105–6114. PMLR (2019)
+		
+		\bibitem{Tang2019}
+		Tang, J., Mao, Y., Wang, J.: Multi-task enhanced dam crack image detection based on faster R-CNN. In: 2019 IEEE 4th International Conference on Image, Vision and Computing (ICIVC), pp. 336–340. IEEE (2019)
+		
+		\bibitem{Varghese2024}
+		Varghese, R., Sambath, M.: YOLOv8: A novel object detection algorithm with enhanced performance and robustness. In: International Conference on Advances in Data Engineering and Intelligent Computing Systems, pp. 1–6. IEEE (2024)
+		
+		\bibitem{Wang2021}
+		Wang, J., Xu, C., Yang, W., Yu, L.: A normalized Gaussian Wasserstein distance for tiny object detection. arXiv preprint arXiv:2110.13389 (2021)
+		
+		\bibitem{Wang2020}
+		Wang, Q., Wu, B., Zhu, P., Li, P., Zuo, W., Hu, Q.: ECA-Net: Efficient channel attention for deep convolutional neural networks. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pp. 11534–11542 (2020)
+		
+		\bibitem{Wang2023}
+		Wang, C.-Y., Bochkovskiy, A., Liao, H.-Y.M.: YOLOv7: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pp. 7464–7473 (2023)
+		
+		\bibitem{Xie2017}
+		Xie, S., Girshick, R., Dollár, P., Tu, Z., He, K.: Aggregated residual transformations for deep neural networks. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, pp. 1492–1500 (2017)
+		
+		\bibitem{Xu2023}
+		Xu, Y., Fan, Y., Li, H.: Lightweight semantic segmentation of complex structural damage recognition for actual bridges. Structural Health Monitoring 22(5), 3250–3269 (2023)
+		
+		\bibitem{Yu2015}
+		Yu, F., Koltun, V.: Multi-scale context aggregation by dilated convolutions. arXiv preprint arXiv:1511.07122 (2015)
+		
+		\bibitem{Yu2016}
+		Yu, J., Jiang, Y., Wang, Z., Li, Z.: UnitBox: An advanced object detection network. In: Proceedings of the 24th ACM International Conference on Multimedia, pp. 516–520 (2016)
+		
+		\bibitem{Zhang2018}
+		Zhang, X., Zhou, X., Lin, M., Sun, J.: ShuffleNet: An extremely efficient convolutional neural network for mobile devices. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, pp. 6848–6856 (2018)
+		
+		\bibitem{Zhang2024}
+		Zhang, Y., Liu, C.: Crack segmentation using discrete cosine transform in shadow environments. Automation in Construction 166, 105646 (2024)
+		
+		\bibitem{Zhao2017}
+		Zhao, H., Shi, J., Qi, X., Wang, X., Jia, J.: Pyramid scene parsing network. In: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, pp. 2881–2890 (2017)
+		
+		\bibitem{Zheng2020}
+		Zheng, Z., Wang, P., Liu, W., Li, J., Ye, R., Ren, D.: Distance-IoU loss: Faster and better learning for bounding box regression. In: Proceedings of the AAAI Conference on Artificial Intelligence, vol. 34(7), pp. 12993–13000 (2020)
+		
+		\bibitem{Zou2018}
+		Zou, Q., Zhang, Z., Li, Q., Wang, H.: DeepCrack: Learning hierarchical convolutional features for crack detection. IEEE Transactions on Image Processing 28, 1498–1512 (2018)
+		
+	\end{thebibliography}
+	
+\end{document}

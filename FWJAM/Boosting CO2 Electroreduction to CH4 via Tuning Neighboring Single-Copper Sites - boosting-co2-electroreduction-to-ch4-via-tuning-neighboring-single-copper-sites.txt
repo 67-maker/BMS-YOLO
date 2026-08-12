@@ -1,0 +1,821 @@
+
+
+--- PAGE 1 ---
+
+Boosting CO 2Electroreduction to CH 4via
+Tuning Neighboring Single-Copper Sites
+Anxiang Guan, Zheng Chen, Yueli Quan, Chen Peng, Zhiqiang Wang, Tsun-Kong Sham, Chao Yang,
+Yali Ji, Linping Qian, Xin Xu, and Gengfeng Zheng *Cite This: ACS Energy Lett.2020, 5, 1044−1053 Read Online
+ACCESSMetrics & MoreArticle Recommendations *sıSupporting Information
+ABSTRACT: We report single-atom Cu catalysts dispersed on nitrogen-doped
+carbon by a nitrogen-coordination strategy. The presence of nitrogen enabled
+good dispersion and attachment of atomic Cu species on the nitrogen-doped
+carbon frameworks with Cu−N xcongurations. The Cu doping concentrations
+and Cu−N xcongurations were well-tuned by the pyrolysis temperature. At a high
+Cu concentration of 4.9% mol, the distance between neighboring Cu−N xspecies
+was close enough to enable C−C coupling and produce C 2H4. In contrast, at Cu
+concentrations lower than 2.4% mol, the distance between Cu−N xspecies was large
+so that the electrocatalyst favored the formation of CH 4as C 1products. Density
+functional theory calculations further conrmed the capability of producing C 2H4
+by two CO intermediates binding on two adjacent Cu−N 2sites, while the isolated
+Cu−N 4, the neighboring Cu−N 4, and the isolated Cu−N 2sites led to formation of
+CH 4. Our work demonstrates a facile approach of tuning active Cu sites for CO 2
+electroreduction to dierent hydrocarbons.
+The greenhouse eect caused by excessive carbon
+dioxide (CO2) emission into the atmosphere has
+been attracting increasing concern. The electro-
+chemical conversion of CO 2using sustainable energy sources
+is regarded as one of the promising approaches to reduce the
+continuous accumulation of atmospheric CO 2and generate a
+supply of value-added chemical fuels to regain the carbon
+balance.1−3Because of the intrinsic inertness of CO 2
+molecules, the electrochemical CO 2reduction reaction
+(CO 2RR) should rely on the development of optimal
+electrocatalysts that not only enable ecient CO 2reduction
+under ambient conditions but also allow the production of
+deep reduction products beyond carbon monoxide or formic
+acid with good selectivity, such as methane (CH 4) and
+ethylene (C 2H4).4Among a wide range of material candidates
+that have been investigated for CO2RR electrocatalysts, Cu-
+based materials are known as almost the only category that can
+electrochemically convert CO 2to hydrocarbons and alcohols
+with good selectivities in aqueous solutions.5,6Substantial
+research eorts have been focused on preparing Cu-based
+CO 2RR electrocatalysts from dierent aspects, including
+morphology,7crystal plane,8material composition,9alloying,10
+as well as the local pH near the electrode surface.11
+Methane, a common raw material for natural gas and a
+substitute for gasoline, is the deepest CO 2reduction product
+for the C 1pathway.12As it involves the transfer of 8 electrons
+and 8 protons, the electroreduction of CO2toward CH4issubstantially challenging. For instance, Yang and co-workers
+synthesized copper nanowires for CO 2RR and found the
+selectivity was sensitive to the nanowire morphological
+changes, among which the 5-fold twinned copper nanowires
+exhibited the best selectivity to CH 4.4Wang et al.
+demonstrated that Cu atoms supported by CeO2nanorods
+could provide multiple oxygen vacancies to facilitate the
+electroreduction of CO 2to CH 4.13Despite these develop-
+ments, Cu atoms/ions are generally prone to oxidation or
+agglomeration even under atmospheric conditions, resulting in
+both low catalyst stability and selectivity degrading.14Recently,
+single-atom catalysts have been investigated as heterogeneous
+catalysts because of their unique electronic properties and
+maximized atomic utilization.15For instance, many studies
+have shown that single-atom metal-based nitrogen-doped
+carbon (i.e., M−N−C, such as Co/Ni/Fe and Mn−N−C)
+catalysts are attractive CO2RR electrocatalysts.16−24Using a
+single-atom Ni−N−C catalyst, the maximum Faradaic
+eciency (FE) of electroreducing CO 2to CO was reported
+to be as high as∼99%.17In the past few years, several Cu−N−
+C electrocatalysts25−27were also reported to electrochemically
+Received: December 28, 2019
+Accepted: January 29, 2020
+Published: February 6, 2020
+Letter
+http://pubs.acs.org/journal/aelccp
+© 2020 American Chemical Society
+1044https://dx.doi.org/10.1021/acsenergylett.0c00018
+ACS Energy Lett.2020, 5, 1044−1053
+Downloaded via SHANDONG UNIV SCI & TECH on June 30, 2026 at 10:50:44 (UTC).See https://pubs.acs.org/sharingguidelines for options on how to legitimately share published articles.
+
+--- PAGE 2 ---
+
+reduce CO 2into CO at relatively less negative potentials.
+Nevertheless, the M−N−C electrocatalysts can only reduce
+CO 2via the two-electron reduction products of CO and formic
+acid. Because the key step of producing deep reduction
+products, such as CH4, is the generation of the*CHO
+intermediate by protonation of*CO, this step needs to
+overcome a large energy barrier. Therefore, CH 4is
+preferentially produced at higher negative potentials.28,29To
+date, there are few studies on the further reduction of CO 2to
+hydrocarbons or alcohols catalyzed by single-atom M−N−C
+electrocatalysts.
+In this work, we developed a Cu,N-codoped carbon
+nanosheet structure by atomically constructing the single-
+atom distribution of Cu−Nxcoordination, with varying Cu-
+doping concentrations. The obtained single-atom Cu−Nx
+coordination structure enabled an eective CO 2RR catalytic
+activity toward hydrocarbons, including CH 4and C 2H4. At a
+high Cu loading density (4.9% mol), Cu atoms were close
+enough to each other to enhance the C−C coupling, thus
+resulting in ethylene as a main CO 2reduction product. When
+the Cu loading density was reduced to 2.4% mol, the C 1pathway
+was then favored and the main CO2reduction product was
+tuned to methane, thus suggesting a tailorable approach for
+constructing Cu-doped carbon framework for dierent CO 2RR
+selectivities.
+The fabrication of Cu,N-codoped carbon nanosheets is
+schematically illustrated in Figure 1 . First, 1,3,5-benzenetri-
+carboxylic acid, copper(II) acetate monohydrate, and L-
+glutamic acid were used as original feedstock to synthesize a
+Cu(BTC)(H 2O)3metal−organic framework (MOF, Exper-
+imental Section in the Supporting Information). The crystal
+phase and morphology of the as-synthesized MOF were
+investigated by X-ray diraction (XRD, Figure S1a ), Fouriertransform infrared spectroscopy (FT-IR, Figure S1b ), and
+scanning electron microscopy (SEM, Figure S2 ). Afterward,
+the Cu(BTC)(H 2O)3MOF was mixed with dicyandiamide
+(NH2C(=NH)NHCN) and then calcined at high temper-
+atures, during which the organic ligands were pyrolyzed to
+form N-doped carbon framework with Cu. Finally, the
+excessive Cu nanoparticles were etched by acid, while the
+nitrogen-coordinated Cu atoms remained in the carbon
+framework. The obtained products were designated as Cu−
+N−C-T(whereT= 800, 900, 1000, and 1100°C, indicating
+the calcination temperature). For comparison, Cu(BTC)-
+(H2O)3was also calcined at 900°C without adding
+dicyandiamide to study the role of dicyandiamide in the
+formation of the Cu−N xconguration in the obtained catalyst,
+and the resulting sample after acid leaching was designated as
+Cu−C-900.
+The XRD patterns of all the Cu−N−C-T-BL samples
+(where BL means before acid leaching) exhibited a series of
+sharp diraction peaks at 2θof 43.3°, 50.4°, 74.1°, 89.9°, and
+95.1°( Figures 2 a and S3), corresponding to the (111), (200),
+(220), (311), and (222) crystal planes of the cubic Cu
+structure (JCPDS 040836). After the acid leaching, the
+obtained Cu−N−C-Tsamples showed only a broad peak
+centered at 26.4°for the (002) plane of the hexagonal graphitic
+structure ( Figures 2 a and S4).30The XRD results suggested
+that all the metallic state of Cu was removed by the acid
+leaching, as the Cu particles had weak interaction with the
+carbon matrix and were dissolved in the acid solution. For
+comparison, the XRD patterns of Cu−C-900-BL, Cu−C-900,
+and nitrogen-doped carbon (N−C) samples are also displayed
+(Figure S5 ), in which the diraction peaks of Cu and carbon
+can be easily identied.
+Figure 1. Schematic of the procedure to synthesize the Cu−N−C-Tcatalysts. (a) Cu(BTC)(H2O)3MOF precursor. (b) Cu−N−C-800
+synthesized by pyrolysis of Cu(BTC)(H2O)3MOF and dicyandiamide at 800°C, which favors the CO2RR toward C2H4. (c) Cu−N−C-900
+derived from the pyrolysis of Cu(BTC)(H 2O)3MOF and dicyandiamide at 900°C, which favors the CO 2RR toward CH 4.ACS Energy Letters http://pubs.acs.org/journal/aelccp Letter
+https://dx.doi.org/10.1021/acsenergylett.0c00018
+ACS Energy Lett.2020, 5, 1044−10531045
+
+--- PAGE 3 ---
+
+Scanning electron microscopy images showed that both the
+Cu−N−C-900-BL and Cu−N−C-900 samples consist of
+interconnected foam structures with wrinkled and entangled
+akes ( Figure 2 b,c). The low-resolution TEM image of Cu−
+N−C-900 catalyst presented cross-linked and ultrathin folded
+sheet-like features ( Figure 2 d). The high-resolution TEM
+image conrmed that there were no observable copper
+particles in the Cu−N−C-900 catalyst ( Figure 2 e), and the
+selected-area electron diraction (SAED) pattern suggested
+the noncrystallinity of the Cu−N−C-900 sample ( Figure 2 e,
+inset). The high-angle annular dark-eld scanning transmission
+electron microscopy (HAADF-STEM) image also showed that
+no metallic copper aggregation on the ultrathin carbon
+nanosheets ( Figure S6 ). The EDS elemental mapping revealed
+the uniform dispersion of the N and Cu atoms ( Figure 2 f).
+The role of nitrogen doping was studied by comparison with
+samples undoped with N. All Cu−N−C-T-BL and Cu−N−C-
+Tcatalysts showed similar morphology to those of the N−C
+samples ( Figures S7−S9 ), without obvious copper particles on
+the surface of carbon sheets. While without adding nitrogen,
+the Cu−C-900-BL sample retained the morphology of the
+starting material Cu(BTC)(H 2O)3MOF with lots of copper
+microspheres on the surface ( Figure S10 ), which disappeared
+after treatment with oxygen-saturated acid ( Figure S11 ). The
+TEM, elemental mapping ( Figure S12 ), and HAADF-STEMimages ( Figure S13 ) of all Cu−N−C-Tsamples were also used
+for further conrmation. All these results indicated that N
+atoms played a crucial role in stabilizing Cu atoms and
+prevented them from agglomeration during the high-temper-
+ature pyrolysis process, leading to a uniform distribution of Cu
+single atoms in the carbon matrix.
+The N 2sorption isotherms and pore diameter distributions
+demonstrated that all Cu−N−C-Tsamples possessed similar
+Brumauer−Emmett−Teller (BET) surface areas and pore
+volumes ( Figures 3 a and S14). For example, the Cu−N−C-
+900 exhibited a high BET specic surface area of 456.6 m2·g−1,
+with a total pore volume of 3.05 cm3·g−1, which could facilitate
+the transport of both CO2and electrolyte in the triple-phase
+contact area during the CO 2RR. Raman analysis was further
+conducted to evaluate the structures on these catalysts. As a
+representative, the Raman spectrum of Cu−N−C-900 was
+deconvoluted into four bands ( Figure 3 b). Therst band
+peaked atca. 1200 cm−1is ascribed to polyene-like structures
+with sp3phase (D 4-band),31and the second band atca. 1360
+cm−1is related to defects and dangling bonds in the carbon
+structures (D-band).32The third band atca. 1500 cm−1
+corresponds to the amorphous sp2phase or/and Cu−N x
+bond in carbon materials (D 3-band).31Thenal band atca.
+1580 cm−1is ascribed to the in-plane vibration of carbon
+atoms in the sp2electronic conguration (G-band).33−35The
+Figure 2. (a) XRD patterns of Cu−N−C-900-BL (red curve) and Cu−N−C-900 (blue curve) samples. SEM images of (b) Cu−N−C-900-BL
+and (c) Cu−N−C-900. (d) Low-resolution and (e) high-resolution TEM images of Cu−N−C-900. Inset in panel e: corresponding SAED
+pattern. (f) EDS elemental mapping of the Cu−N−C-900 sample.ACS Energy Letters http://pubs.acs.org/journal/aelccp Letter
+https://dx.doi.org/10.1021/acsenergylett.0c00018
+ACS Energy Lett.2020, 5, 1044−10531046
+
+--- PAGE 4 ---
+
+FT-IR spectra ( Figure S15 ) did not present any obvious
+functional groups on all Cu−N−C-Tcatalysts, because of the
+high-temperature pyrolysis process during the sample syn-
+thesis, suggesting that surface functional groups had negligible
+inuence on the catalytic performance of the Cu−N−C-T
+catalysts.
+The chemical states of C, N, and Cu species of the Cu−C-
+900-BL and Cu−N−C-900 samples were studied using X-ray
+photoelectron spectroscopy (XPS). Three peaks were observed
+at 284.6, 286.8, and 289.1 eV in the high-resolution C 1s
+spectrum of the Cu−C-900-BL sample ( Figure S16 ),
+attributed to the C=C (sp2-bonded), C−O, and C=O groups,
+respectively.36No signal of N element was detected in the
+Cu−C-900-BL sample ( Figure S17 ). In the high-resolution Cu
+2p region of the Cu−C-900-BL sample ( Figure 3 c), two peaks
+were observed at 932.3 and 952.5 eV, indicating that only the
+metallic state of Cu was found for the Cu−C-900-BL sample.37
+However, in the Cu 2p spectrum of the Cu−N−C-900 ( Figure
+3d), two main peaks centered at 932.4 and 952.1 eV were
+assigned to Cu(I)/Cu(0) species with a satellite peak at 942eV; the peaks at 934.9 and 954.7 eV, as well as a satellite peak
+at 944.3 eV, were attributed to Cu(II) species with an unlled
+electron state of the Cu 3d9orbital.38,39A comparison of the
+Cu 2p region between Cu−C-900-BL and Cu−N−C-900
+samples ( Figure S18 ) shows that the binding energy of Cu in
+Cu−N−C-900 shifted to a lower-energy region compared to
+that of Cu−C-900-BL, indicating that Cu(I) rather than Cu(0)
+was present in Cu−N−C-900.40In addition, the high-
+resolution C 1s spectrum of Cu−N−C-900 wastted into
+four peaks centered at 284.6, 285.9, 287.2, and 289.1 eV,
+corresponding to C=C (sp2-bonded), C−N (sp3-bonded), C−
+O, and C=O groups, respectively ( Figure 3 e).36The
+deconvolution of the N 1s peak showed four peaks that were
+assigned to pyridinic (398.7 eV), pyrrolic (400.5 eV), graphitic
+(401.1 eV), and oxidized N (403.3 eV) species ( Figure
+3f).41−43Additionally, the peak positioned at 399.2 eV
+indicated the coordination of N atoms with Cu, supporting
+the existence of Cu−N bonds in the Cu−N−C-900
+sample.18,27The XPS spectra of the other samples are also
+displayed ( Figures S19 and S20 ) for comparison, all of which
+Figure 3. (a) N 2sorption isotherms curve and (inset) pore size distribution for Cu−N−C-900. (b) Raman spectrum of Cu−N−C-900. (c) Cu
+2p XPS spectrum of Cu−C-900-BL. (d−f) High-resolution XPS spectra of Cu−N−C-900 in the (d) Cu 2p, (e) C 1s, and (f) N 1s regions.ACS Energy Letters http://pubs.acs.org/journal/aelccp Letter
+https://dx.doi.org/10.1021/acsenergylett.0c00018
+ACS Energy Lett.2020, 5, 1044−10531047
+
+--- PAGE 5 ---
+
+show features similar to that of the Cu−N−C-900 sample. The
+analysis of the relative amount of the pyridinic and graphitic N
+species in the Cu−N−C-Tsamples revealed that the amount
+of pyridinic N decreased with the increase of the pyrolysis
+temperature, while the graphitic N species showed a gradual
+increasing trend. These trends suggest a gradual thermal
+transformation of pyridinic N to graphitic N with the
+increasing temperature, in agreement with the literature that
+higher temperature leads to the formation of graphitic N
+species.44,45
+The X-ray absorption of Cu K-edge was conducted to
+investigate the valence and coordination states of Cu in the
+Cu−N−C-800 and Cu−N−C-900 catalysts ( Figure 4 a).
+Compared to the reference sample of Cu foil with a
+characteristic peak at∼8995 eV, the main peak of the Cu−
+N−C-900 sample shifted to a higher-energy region, suggesting
+that the Cu atoms were in higher oxidation states of Cu(I) or
+Cu(II).35,46Moreover, the characteristic peaks of the Cu−N−
+C-800 and Cu−N−C-900 samples in therst derivative
+spectrum existed in the regions between Cu(I) and Cu(II)
+(Figure 4 b), further conrming the Cu atoms were in the
+oxidation states.47The atomic structure of the sample was
+investigated by the Fourier-transformed (FT)k3-weighted
+extended X-ray absorptionne structure (FT-EXAFS). As
+shown in Figure 4 c, the presence of a peak located at 1.45 Å
+was attributed to the Cu−N bond, and the absence of the peak
+at around 2.24 Å (i.e., Cu−Cu bond) suggested that the Cu
+atoms were separated from each other and coordinated with N
+atoms,38which is similar to the XPS result. The EXAFS spectra
+were furthertted to obtain the structural conguration of Cu
+in the Cu−N−C-800 and Cu−N−C-900 samples ( Figures 4 d,
+S21, and 22 ), and thetting parameters are listed in Table S1 .
+It could be seen that Cu atoms were coordinated with nitrogen
+atoms, and the scattering path of (CuN 2)−(CuN 2) in the Cu−N−C-800 sample was much smaller than that of the Cu−N−
+C-900 sample. This signicantly reduced distance value
+suggests that a synergistic eect can occur between the two
+neighboring Cu−N 2sites during the CO 2RR. According to the
+EXAFS and the Cu 2p XPS results, it could be concluded that
+the Cu coordination structure with two dierent valence states
+existed in the Cu−N−C-800 and Cu−N−C-900 catalysts,
+namely, Cu−N 2and Cu−N 4.35On the one hand, one Cu ion
+and two pyridinic-N atoms form the Cu−N 2species with
+Cu(I) ion as the oxidized species. On the other hand, the Cu−
+N4structure is formed by the symmetric coordination of one
+Cu ion with four pyridinic-N atoms in the inner region of
+carbon frameworks and the Cu(II) ion is the oxidized
+species35,38Based on the above analysis, the local atomic
+structure around Cu can be constructed. The Cu−N−C-800
+sample possesses neighboring Cu−N 2sites as well as isolated
+Cu−N 4sites ( Figure S21 , inset), in comparison to the isolated
+Cu−N 2and Cu−N 4structures of the Cu−N−C-900 sample
+(Figure 4 d, inset). These Cu−N xchemical structures can serve
+as excellent electrocatalytic active sites for the CO 2RR.
+The electrochemical CO 2reduction reaction was carried out
+in a commercial H-type cell with a cathodic compartment and
+an anodic compartment separated by a Naon membrane
+(Figure S23 ). The electrochemical performances of these
+materials wererst investigated by linear sweep voltammetry
+(LSV) in 0.1 M KHCO 3solution ( Experimental Section in the
+Supporting Information). Compared to the HER with the
+purging of Ar gas (pH 8.3), the Cu−N−C-900 catalyst in the
+CO 2-saturated electrolyte (pH 6.8) exhibited a much higher
+current density for the CO 2RR ( Figure S24 ), indicating its
+excellent catalytic performance for CO 2electroreduction.
+Moreover, it presented the smallest (negative) onset potential
+at−0.7 V vs RHE and the largest reduction current density
+(Figure 5 a, red curve) in comparison to those of Cu−C-900
+Figure 4. (a) XANES spectra of Cu−K edge for Cu foil reference, Cu2O reference, CuO reference, Cu−N−C-800, and the Cu−N−C-900
+samples. (b) First derivatives of the XANES region for Cu 2O, CuO, Cu−N−C-800, and the Cu−N−C-900 samples. (c) FT-EXAFS spectra of
+Cu−K edge for Cu foil reference, Cu2O reference, CuO reference, Cu−N−C-800, and Cu−N−C-900 samples. (d) EXAFSR-spacetting
+curves of Cu−N−C-900 catalyst. Inset: illustration for the Cu−N2and Cu−N4coordination structures. Gray, blue, yellow, and orange
+spheres represent C, N, Cu(I), and Cu(II) elements, respectively.ACS Energy Letters http://pubs.acs.org/journal/aelccp Letter
+https://dx.doi.org/10.1021/acsenergylett.0c00018
+ACS Energy Lett.2020, 5, 1044−10531048
+
+--- PAGE 6 ---
+
+(blue curve) and the N−C samples (black curve). The in-line
+gas chromatography (GC) and1H nuclear magnetic resonance
+(1H NMR) measurements were used to quantify the
+electroreduction products of these catalysts. Both the Cu−C-
+900 ( Figure S25a ) and N−C catalysts ( Figure S25b ) showed
+negligible catalytic activities for the CO2RR and displayed
+almost all Faradaic eciencies toward the HER at various
+applied potentials, indicating that oxygen and other elements
+derived from Cu(BTC)(H2O)3MOF had negligible inuence
+on the CO 2RR performance. In contrast, a distinctively
+dierent catalytic selectivity was observed for the Cu-doped
+N−C samples. The current densities and corresponding
+Faradaic eciencies for H2, CH4, C2H4, and other products
+are shown for Cu−N−C-800 ( Figure 5 b) and Cu−N−C-900
+catalysts ( Figure 5 c), as a function of the cell voltage. As
+observed, the Cu−N−C-800 catalyst exhibited an appreciable
+FEC2H4(24.8%) for C2H4production at−1.4 V vs RHE ( Figure
+5b), superior to its CH4formation with a FECH 4of 13.9%. The
+partial current densities for C 2H4and CH 4formation were
+6.84 and 3.83 mA·cm−2at−1.4 V vs RHE, respectively. On the
+other hand, for the Cu−N−C-900 catalyst, the C 2H4production was largely suppressed, and the CO 2RR products
+were mainly composed of CH 4at the same applied potentials
+(Figure S26 ). The highest FE CH 4production reached 38.6% at
+−1.6 V vs RHE, corresponding to a partial current density for
+CH4production of 14.8 mA·cm−2(Figure 5 c).
+To better evaluate the eect of pyrolysis temperature on the
+CO2electroreduction selectivity, the Cu−N−C-1000 and Cu−
+N−C-1100 catalysts were also tested for their CO 2RR activities
+and compared. As shown in Figures S27 and5b,c, the Cu−N−
+C-800 sample clearly showed high CO 2RR selectivity to C 2H4,
+while the other catalysts tended to produce CH4as the main
+product and suppress C 2H4.Figure 5 d displays the Faradaic
+eciencies, partial current densities of CH 4and C 2H4for all
+Cu−N−C-Tsamples, and the ratios of CH 4and C 2H4at−1.6
+V vs RHE. The ratios of CH4/C2H4were tuned from 1.01 to
+7.68, indicating the formation of CH 4was favorable with the
+increase of pyrolysis temperature during the catalyst synthesis
+process. However, the Faradaic eciencies of the other
+products, such as ethanol, for all Cu−N−C-Tsamples were
+all below 10% ( Figure S28 ), indicating that the pyrolysis
+temperature had little eect on the formation of ethanol or
+other products.
+Figure 5. (a) Linear sweep voltammetry curves for the N−C, Cu−C-900, and Cu−N−C-900 catalysts. (b) CO2electroreduction performance
+of the Cu−N−C-800 catalyst. Top panel: current densities, with colors indicating dierent products as shown at the bottom. Bottom panel:
+Faradaic eciencies of C2H4and CH4. (c) CO2electroreduction performance of the Cu−N−C-900 catalyst. (d) Faradaic eciencies (top
+panel, lefty-axis), partial current densities of CH 4and C 2H4(top panel, righty-axis) ,and the ratios of CH 4/C2H4(bottom panel) for Cu−N−
+C-T(T= 800, 900, 1000, and 1100°C) catalysts at−1.6 V vs RHE. (e) Stability of Cu−N−C-900 for electrochemical reduction of CO2. Left
+y-axis, total current density (black curve); righty-axis, Faradaic eciencies of forming CH4(red dots). (f) Calculated Gibbs free-energy
+diagrams for CO 2electroreduction on dierent Cu−N xcoordination structures.ACS Energy Letters http://pubs.acs.org/journal/aelccp Letter
+https://dx.doi.org/10.1021/acsenergylett.0c00018
+ACS Energy Lett.2020, 5, 1044−10531049
+
+--- PAGE 7 ---
+
+Catalyst stability during the CO 2RR reaction is an important
+factor for industrial application, which can be inuenced by the
+pH change of electrolyte,11,48the deposition of impurities from
+the solution,49the structure change of the catalyst, and so on.50
+Therefore, the stability of the Cu−N−C-900 catalyst was
+studied under the electrochemical reduction reaction. The
+current density showed no obvious attenuation after 10 h of
+continuous electrolysis at−1.6 V vs RHE ( Figure 5 e). The
+detection of gas products conrmed that the Cu−N−C-900
+catalyst maintained a stable production rate for CH 4formation
+(FE≈35.6% after 10 h of electrolysis) during this process.
+After the CO 2RR, the XPS spectra of all the Cu−N−C-T
+samples ( Figure S29 ) revealed that the N species and the
+valence state of Cu sites remained almost unchanged,
+indicating their robustness during the CO 2RR process.
+Moreover, the XAS measurement was further conducted to
+probe the structural and oxidation states of the Cu−Nx
+congurations after the CO2reduction reaction. The Cu K-
+edge XANES spectra ( Figure S30a ) of the Cu−N−C-800 and
+Cu−N−C-900 catalysts after CO 2RR veried that Cu atoms in
+these samples were still in the oxidation states of Cu(I) and
+Cu(II), similar to those before the CO 2RR. The corresponding
+EXAFS spectra ( Figure S30b ) after the CO 2RR also
+demonstrated that Cu atoms existed as Cu−N xspecies in
+the samples with the characteristic peak at 1.45 Å, and without
+any Cu−Cu peak at around 2.24 Å,38further conrming the
+excellent stability of these catalysts toward the electrochemical
+reduction of CO2.
+A mechanism was then proposed to illustrate why the
+selectivity of CO 2electroreduction varied with the pyrolysis
+temperature of catalysts. First, as shown in Table S2 , all the
+Cu−N−C-Tsamples with no obvious functional groups on the
+surface exhibited the same morphological features and similar
+BET surface areas, indicating that these parameters were not
+the critical factors that inuenced the selectivity of the CO 2RR.
+However, the Cu contents for all catalysts were measured
+(Table S3 ), and the results showed that the contents of Cu
+decreased gradually with the increase of temperature. When
+calcined at high temperature, some copper atoms coordinated
+with nitrogen atoms were remained in the carbon frameworks
+with Cu−Nxcoordination structure, while the other copper
+atoms were detached from the carbon matrix and converted
+into metallic copper. With the further increase of calcination
+temperature, more and more copper atoms were removed from
+the carbon networks and aggregated into nanoparticles, along
+with the evaporation of nitrogen. As shown in Table S4 , the N
+concentration gradually decreased with increasing pyrolysis
+temperature for the Cu−N−C-Tseries, and the Cu−N−C-900
+catalyst possessed a similar N concentration to that of the N−
+C sample because both of them were pyrolyzed at the same
+temperature. The Cu−C-900 catalyst showed the lowest N
+concentration because of a lack of external nitrogen source
+during its synthesis procedure. These results suggested the
+successful doping of nitrogen into the carbon frameworks, and
+the nitrogen concentration decreased at high temperatures
+because of its volatilization.
+As when a*CO intermediate is produced on one Cu site, it
+either desorbs to form CH 4by following the pathway*CO→
+*CHO→*CH 2O→*CH 3O→CH 4or couples with another
+*CO intermediate on the neighboring single-atom Cu site to
+form C 2H4through a C−C bond-formation step.51The Cu−
+N−C-800 catalyst shows a more favorable selectivity toward
+C2H4formation than that of CH 4, which is ascribed to theexistence of abundant single-atom Cu active sites and the
+synergistic eect between them to induce the C−C
+coupling ( Figure S31 ). At pyrolysis temperatures higher than
+800°C, more and more atomic Cu species detach from the
+carbon frameworks, and the remaining single-atom Cu species
+are isolated from each other, leading to the increase of CH 4
+products and the decrease of C2H4products ( Figure S32 ).
+However, the more drastic pyrolysis treatment at a higher
+temperature (1100°C) resulted in the deterioration of CO 2RR
+activity and enhancement of the HER side reaction, as a vast
+majority of active sites (Cu single atoms) for CO 2RR were
+dissociated from the carbon framework at high temperatures.
+Therefore, more and more naked carbon framework without
+copper single atoms was obtained and thus became an inert
+catalyst for CO 2electroreduction but showed increased HER
+activity.52Thus, it can be concluded that the catalytic
+selectivities of our catalysts are strongly related to the contents
+of monodispersed Cu atoms on nitrogen-doped carbon with
+the Cu−N xconguration. In our work, when the Cu
+concentration reaches∼4.9% mol, the Cu single atoms are
+close enough to each other, which leads to the presence of a
+synergistic eect between adjacent Cu single atoms and favors
+the dimerization of*CO intermediates. At a lower Cu
+concentration below 2.4% mol, Cu single atoms are isolated
+suciently far from each other, thus resulting in low surface
+coverage of*CO species and enhancing the formation of CH4.
+To further conrm our proposed mechanism, density
+functional theory (DFT) calculations were performed to
+demonstrate the product selectivity of CO 2RR on dierent
+Cu−N xcoordination structures ( Figures 5 f and S33). The
+reaction procedures on the isolated and neighboring Cu−N4
+are both thermodynamically uphill ( Figure 5 f), suggesting
+inecient electrochemical CO2RR performance. The gentle
+upslopes belonging to the CO binding strengths on the
+isolated Cu−N 4and the neighboring Cu−N 4are both weak
+and unable to favor the C−C coupling, suggesting that these
+two sites prefer to produce C 1products. On the other hand,
+the CO binding strengths on the isolated Cu−N 2(−2.36/2 =
+−1.18 eV) and the neighboring Cu−N 2(−2.34/2 =−1.17 eV)
+are both obviously stronger than that on the isolated Cu−N 4
+(−0.20 eV) and the neighboring Cu−N4sites (−0.38/2 =
+−0.19 eV), giving a strong indication that these two sites can
+facilitate further CO reduction. In addition, OC−*COH (*
+denotes the binding site) is known to be a common
+intermediate proposed in the literature for the formation of
+C2or C 2+products.53,54As shown in Figure S33i,j , the free
+energy of C−C coupling on the isolated Cu−N 2is as high as
+1.38 eV, while that on the neighboring Cu−N 2is only 0.14 eV.
+This is consistent with our experimental observation that a
+high Cu concentration site enables the C−C coupling to
+produce C2H4, whereas a low Cu concentration site is unable
+to play such a role.
+In summary, we have demonstrated a temperature-tuned N-
+coordination strategy to disperse a high content single-atomic
+Cu on nitrogen-doped carbon for CO 2electroreduction. Our
+results show that nitrogen could anchor single-atomic copper
+species (up to∼4.9%mol) on the carbon frameworks with the
+Cu−N xconguration, which was tailored by altering the
+calcination temperature. These Cu−N xspecies were conrmed
+to be the main active sites for CO 2RR. In addition, the
+neighboring single-atomic Cu sites were in favor of C 2H4
+formation, while isolated single-atomic Cu functioned as active
+sites for CH 4production. Thus, by tuning the pyrolysisACS Energy Letters http://pubs.acs.org/journal/aelccp Letter
+https://dx.doi.org/10.1021/acsenergylett.0c00018
+ACS Energy Lett.2020, 5, 1044−10531050
+
+--- PAGE 8 ---
+
+temperature and the obtained Cu−N xspecies, the CO 2RR
+selectivity was tuned from C 2H4to CH 4, leading to a
+signicant change of ratio between CH 4and C 2H4. DFT
+calculations further suggest that high Cu concentration with
+neighboring Cu−N 2sites is more benecial for the C 2H4
+generation because of the low free energy for C−C coupling,
+while the isolated Cu−N4, the neighboring Cu−N4, and the
+isolated Cu−N2are all inclined to form C1products. Our work
+suggests the importance of tuning the distance between single
+Cu atomic sites for CO2RR, which should be thoroughly
+considered in designing the CO2RR to hydrocarbons.
+■ASSOCIATED CONTENT
+*sıSupporting Information
+The Supporting Information is available free of charge at
+https://pubs.acs.org/doi/10.1021/acsenergylett.0c00018 .
+Experimental details and data (Figures S1−S33 and
+Tables S1−S4) ( PDF)
+■AUTHOR INFORMATION
+Corresponding Author
+Gengfeng Zheng−Laboratory of Advanced Materials,
+Department of Chemistry and Shanghai Key Laboratory of
+Molecular Catalysis and Innovative Materials, Fudan University,
+Shanghai 200438, China;orcid.org/0000-0002-1803-6955 ;
+Email: gfzheng@fudan.edu.cn
+Authors
+Anxiang Guan−Laboratory of Advanced Materials,
+Department of Chemistry and Shanghai Key Laboratory of
+Molecular Catalysis and Innovative Materials, Fudan University,
+Shanghai 200438, China
+Zheng Chen−Laboratory of Advanced Materials, Department
+of Chemistry and Shanghai Key Laboratory of Molecular Catalysis
+and Innovative Materials, Fudan University, Shanghai 200438,
+China
+Yueli Quan−Laboratory of Advanced Materials, Department of
+Chemistry and Shanghai Key Laboratory of Molecular Catalysis and
+Innovative Materials, Fudan University, Shanghai 200438, China
+Chen Peng−Laboratory of Advanced Materials, Department of
+Chemistry and Shanghai Key Laboratory of Molecular Catalysis and
+Innovative Materials, Fudan University, Shanghai 200438, China
+Zhiqiang Wang−Department of Chemistry, University of
+Western Ontario, London, Ontario N6A 5B7, Canada;orcid.org/0000-0003-0628-5222
+Tsun-Kong Sham−Department of Chemistry, University of
+Western Ontario, London, Ontario N6A 5B7, Canada;orcid.org/0000-0003-1928-6697
+Chao Yang−Laboratory of Advanced Materials, Department of
+Chemistry and Shanghai Key Laboratory of Molecular Catalysis and
+Innovative Materials, Fudan University, Shanghai 200438, China
+Yali Ji−Laboratory of Advanced Materials, Department of
+Chemistry and Shanghai Key Laboratory of Molecular Catalysis and
+Innovative Materials, Fudan University, Shanghai 200438, China
+Linping Qian−Laboratory of Advanced Materials, Department
+of Chemistry and Shanghai Key Laboratory of Molecular Catalysis
+and Innovative Materials, Fudan University, Shanghai 200438,
+China;orcid.org/0000-0003-3412-5453
+Xin Xu−Laboratory of Advanced Materials, Department of
+Chemistry and Shanghai Key Laboratory of Molecular Catalysis and
+Innovative Materials, Fudan University, Shanghai 200438, China;orcid.org/0000-0002-5247-2937Complete contact information is available at:
+https://pubs.acs.org/10.1021/acsenergylett.0c00018
+Notes
+The authors declare no competingnancial interest.
+■ACKNOWLEDGMENTS
+G.Z. thanks the following funding agencies for supporting this
+work: the National Key Research and Development Program
+of China (2017YFA0206901 and 2018YFA0209401), the
+Natural Science Foundation of China (21975051 and
+21773036), the Science and Technology Commission of
+Shanghai Municipality (19XD1420400 and 17JC1400100),
+and the Innovation Program of Shanghai Municipal Education
+Commission (2019-01-07-00-07-E00045). For the synchro-
+tron characterizations, this research used resources of the
+Advanced Photon Source, an Oce of Science User Facility
+operated for the U.S. Department of Energy (DOE) Oce of
+Science by Argonne National Laboratory, and was supported
+by the U.S. DOE under Contract No. DE-AC02-06CH11357
+and the Canadian Light Source and its funding partners.
+■REFERENCES
+(1) Chang, Z. Y.; Huo, S. J.; Zhang, W.; Fang, J. H.; Wang, H. L.
+The tunable and highly selectivereduction products on Ag@Cu
+bimetallic catalysts towards CO2electrochemical reduction reaction.J.
+Phys. Chem. C2017,121, 11368−11379.
+(2) Jhong, H. R. M.; Ma, S.; Kenis, P. J. A. Electrochemical
+conversion of CO2to useful chemicals: current status, remaining-
+challenges, and future opportunities.Curr. Opin. Chem. Eng.2013,2,
+191−199.
+(3) Whipple, D. T.; Kenis, P. J. A. Prospects of CO2utilization via
+direct heterogeneous electrochemicalreduction.J. Phys. Chem. Lett.
+2010,1, 3451−3458.
+(4) Li, Y. F.; Cui, F.; Ross, M. B.; Kim, D.; Sun, Y. C.; Yang, P. D.
+Structure-sensitive CO2electroreduction to hydrocarbons onultrathin
+5-fold twinned copper nanowires.Nano Lett.2017,17, 1312−1317.
+(5) Jiao, Y.; Zheng, Y.; Chen, P.; Jaroniec, M.; Qiao, S. Z. Molecular
+scaffolding strategy with synergistic activecenters to facilitate
+electrocatalytic CO 2reduction to hydrocarbon/alcohol.J. Am.
+Chem. Soc.2017,139, 18093−18100.
+(6) Kuhl, K. P.; Cave, E. R.; Abram, D. N.; Jaramillo, T. F. New
+insights into the electrochemical reduction of carbon dioxide on
+metallic copper surfaces.Energy Environ. Sci.2012,5, 7050−7059.
+(7) Weng, Z.; Zhang, X.; Wu, Y. S.; Huo, S. J.; Jiang, J. B.; Liu, W.;
+He, G. J.; Liang, Y. Y.; Wang, H. L. Self-cleaning catalyst electrodes
+for stabilizedCO2reduction to hydrocarbons.Angew. Chem., Int. Ed.
+2017,56, 13135−13139.
+(8) Wang, Z. N.; Yang, G.; Zhang, Z. R.; Jin, M. S.; Yin, Y. D.
+Selectivity on etching: creation of high-energy facets on copper
+nanocrystals for CO2electrochemical reduction.ACS Nano2016,10,
+4559−4564.
+(9) Ren, D.; Ang, B. S.H.; Yeo, B. S. Tuning the selectivity of carbon
+dioxide electroreduction toward ethanol on oxide-derived CuxZn
+catalysts.ACS Catal.2016,6, 8239−8247.
+(10) Hoang, T. T. H.; Verma, S.; Ma, S. C.; Fister, T. T.;
+Timoshenko, J.; Frenkel, A. I.; Kenis, P. J. A.; Gewirth, A. A.
+Nanoporous copper-silver alloys by additive-controlledelectrodeposi-
+tion for the selective electroreduction of CO2to ethylene and ethanol.
+J. Am. Chem. Soc.2018,140, 5791−5797.
+(11) Ma, M.; Djanashvili, K.; Smith, W. A. Controllable hydrocarbon
+formation from the electrochemical reduction ofCO2over Cu
+nanowire arrays.Angew. Chem., Int. Ed.2016,55, 6680−6684.
+(12) Merino-Garcia, I.; Albo, J.; Irabien, A. Productivity and
+selectivity of gas-phase CO2electroreduction to methane at copper
+nanoparticle based electrodes.Energy Technol.2017,5, 922−928.ACS Energy Letters http://pubs.acs.org/journal/aelccp Letter
+https://dx.doi.org/10.1021/acsenergylett.0c00018
+ACS Energy Lett.2020, 5, 1044−10531051
+
+--- PAGE 9 ---
+
+(13) Wang, Y. F.; Chen, Z.; Han, P.; Du, Y. H.; Gu, Z. X.; Xu, X.;
+Zheng, G. F. Single-atomic Cu with multiple oxygen vacancies on
+ceria for electrocatalytic CO2reduction to CH4.ACS Catal.2018,8,
+7113−7119.
+(14) Gawande, M. B.; Goswami, A.; Felpin, F. X.; Asefa, T.; Huang,
+X. X.; Silva, R.; Zou, X. X.; Zboril, R.; Varma, R. S. Cu and Cu-based
+nanoparticles: Synthesis and applications in catalysis.Chem. Rev.
+2016,116, 3722−3811.
+(15) Chen, Y. J.; Ji, S. F.; Chen, C.; Peng, Q.; Wang, D. S.; Li, Y. D.
+Single-atom catalysts: synthetic strategies and electrochemical
+applications.Joule2018,2, 1242−1264.
+(16) Zhao, C. M.; Dai, X. Y.; Yao, T.; Chen, W. X.; Wang, X. Q.;
+Wang, J.; Yang, J.; Wei, S. Q.; Wu, Y. E.; Li, Y. D. Ionic exchange of
+metal-organic frameworks to access single nickel sites for efficient
+electroreduction of CO2.J. Am. Chem. Soc.2017,139, 8078−8081.
+(17) Li, X. G.; Bi, W. T.; Chen, M. L.; Sun, Y. X.; Ju, H. X.; Yan, W.
+S.; ZhU, J. F.; Wu, X. J.; Chu, W. S.; Wu, C. Z.; Xie, Y. Exclusive Ni-
+N4sites realize near unity CO selectivity for electrochemical CO2
+reduction.J. Am. Chem. Soc.2017,139, 14889−14892.
+(18) Zheng, W. Z.; Yang, J.; Chen, H. Q.; Hou, Y.; Wang, Q.; Gu,
+M.; He, F.; Xia, Y.; Xia, Z.; Li, Z. J.; Yang, B.; Lei, L. C.; Yuan, C.; He,
+Q. G.; Qiu, M.; Feng, X. L. Atomically defined undercoordinated
+active sites for highly efficient CO2electroreduction.Adv. Funct.
+Mater.2020,30, 1907658−1907667.
+(19) Zheng, W. Z.; Guo, C. X.; Yang, J.; He, F.; Yang, B.; Li, Z. J.;
+Lei, L. C.; Xiao, J. P.; Wu, G.; Hou, Y. Highly active metallic nickel
+sites confined in N-doped carbonnanotubes toward significantly
+enhanced activity of CO2electroreduction.Carbon2019,150, 52−59.
+(20) Ye, Y. F.; Cai, F.; Li, H.; Wu, H. H.; Wang, G. X.; Li, Y. S.;
+Miao, S.; Xie, S. H.; Si, R.; Wang, J.; Bao, X. H. Surface
+functionalization of ZIF-8 with ammonium ferric citrate toward
+high exposure of Fe-N active sitesfor efficient oxygen and carbon
+dioxide electroreduction.Nano Energy2017,38, 281−289.
+(21) Zheng, T. T.; Jiang, K.; Ta, N.; Hu, Y. F.; Zeng, J.; Liu, J. Y.;
+Wang, H. T. Large-scale and highly selective CO 2electrocatalytic
+reduction on nickel single-atom catalyst.Joule2019,3, 265−278.
+(22) Yang, F.; Song, P.; Liu, X. Z.; Mei, B. B.; Xing, W.; Jiang, Z.;
+Gu, L.; Xu, W. L. Highly efficient CO 2electroreduction on ZnN 4-
+based single atom catalyst.Angew. Chem., Int. Ed.2018,57, 12303−
+12307.
+(23) Cheng, Y.; Zhao, S. Y.; Johannessen, B.; Veder, J. P.; Saunders,
+M.; Rowles, M. R.; Cheng, M.; Liu, C.; Chisholm, M. F.; Marco, R.
+De; Cheng, H. M.; Yang, S. Z.; Jiang, S. P. Atomically dispersed
+transition metals on carbon nanotubes with ultrahigh loading for
+selective electrochemical carbon dioxide reduction.Adv. Mater.2018,
+30, 1706287−1706293.
+(24) Wang, T. T.; Zhao, Q. D.; Fu, Y. Y.; Lei, C. J.; Yang, B.; Li, Z.
+J.; Lei, L. C.; Wu, G.; Hou, Y. Carbon-rich nonprecious metal single
+atom electrocatalysts for CO2reduction and hydrogen evolution.
+Small Methods2019,3, 1900210−1900226.
+(25) Li, J. K.; Prs ̌lja, P.; Shinagawa, T.; Ferna ́ndez, A. J. M.;
+Krumeich, F.; Artyushkova, K.; Atanassov, P.; Zitolo, A.; Zhou, Y. C.;
+Muelas, R. G.; Lo ́pez, N.; Ramírez, J. P.; Jaouen, F. Volcano trend in
+electrocatalytic CO2reduction activity over atomically dispersed
+metal sites on nitrogen-doped carbon.ACS Catal.2019,9, 10426−
+10439.
+(26) Wu, J. X.; Hou, S. Z.; Zhang, X. D.; Xu, M.; Yang, H. F.; Cao, P.
+S.; Gu, Z. Y. Cathodized copper porphyrin metal-organicframework
+nanosheets for selective formate and acetate production from CO2
+electroreduction.Chem. Sci.2019,10, 2199−2205.
+(27) Ju, W.; Bagger, A.; Hao, G. P.; Varela, A. S.; Sinev, I.; Bon, V.;
+Cuenya, B. R.; Kaskel, S.; Rossmeisl, J.; Strasser, P. Understanding
+activity and selectivity ofmetal-nitrogen-doped carbon catalysts
+forelectrochemical reduction of CO 2.Nat. Commun.2017,8, 944−
+952.
+(28) Hori, Y.; Murata, A.; Takahashi, R. Formation of hydrocarbons
+in the electrochemical reduction of carbon dioxide at a copper
+electrode in aqueous solution.J. Chem. Soc., Faraday Trans. 11989,
+85, 2309−2326.(29) Peterson, A. A.; Abild-Pedersen, F.; Studt, F.; Rossmeisl, J.;
+Nørskov, J. K. How copper catalyzes the electroreduction of carbon
+dioxide into hydrocarbon fuels.Energy Environ. Sci.2010,3, 1311−
+1315.
+(30) Liu, H.; Wang, M. Q.; Chen, Z. Y.; Chen, H.; Xu, M. W.; Bao,
+S. J. Design and synthesis of Co-N-C porous catalysis derived from
+metal organic complexes for high effective ORR.Dalton Trans.2017,
+46, 15646−15648.
+(31) Abidat, I.; Morais, C.; Pronier, S.; Guignard, N.; Comparot, J.
+D.; Canaff, C.; Napporn, T. W.; Habrioux, A.; Mamede, A. S.;
+Lamonier, J. F.; Kokoh, K. B. Effect of gradual reduction of graphene
+oxide on the CO tolerance ofsupported platinum nanoparticles.
+Carbon2017,111, 849−858.
+(32) Xu, J. X.; Yu, Q. M.; Guan, L. H. Space-confinement-induced
+synthesis ofhierarchically nanoporous carbon nanowires forthe
+enhanced electrochemical reduction ofoxygen.J. Mater. Chem. A
+2015,3, 7093−7099.
+(33) Zhou, L. H.; Yang, C.; Wen, L.; Fu, J. P.; Zhang, Y. P.; Sun, J.;
+Wang, H. Q.; Yuan, Y. Soft-template assisted synthesis of Fe/N-
+dopedhollow carbon nanospheres as advancedelectrocatalysts for the
+oxygen reduction reactionin microbial fuel cells.J. Mater. Chem. A
+2017,5, 19343−19350.
+(34) Dresselhaus, M. S.; Jorio, A.; Hofmann, M.; Dresselhaus, G.;
+Saito, R. Perspectives on carbon nanotubes and graphene raman
+spectroscopy.Nano Lett.2010,10, 751−758.
+(35) Xie, X.; Liu, J. J.; Li, T. F.; Song, Y.; Wang, F. Post-formation
+copper-nitrogen species on carbon black: Their chemical structures
+and active sites for oxygen reduction reaction.Chem. - Eur. J.2018,
+24, 9968−9975.
+(36) Wu, J. J.; Ma, S. C.; Sun, J.; Gold, J. I.; Tiwary, C.; Kim, B.;
+Zhu, L. Y.; Chopra, N.; Odeh, I. N.; Vajtai, R.; Yu, A. Z.; Luo, R.; Lou,
+J.; Ding, G. Q.; Kenis, P. J. A.; Ajayan, P. M. A metal-free
+electrocatalyst for carbon dioxidereduction to multi-carbon hydro-
+carbons and oxygenates.Nat. Commun.2016,7, 13869−13874.
+(37) Huang, P.; Ci, S. Q.; Wang, G. X.; Jia, J. C.; Xu, J. W.; Wen, Z.
+H. High-activity Cu nanowires electrocatalysts for CO 2reduction.J.
+CO2 Util.2017,20, 27−33.
+(38) Wu, H. H.; Li, H. B.; Zhao, X. F.; Liu, Q. F.; Wang, J.; Xiao, J.
+P.; Xie, S. H.; Si, R.; Yang, F.; Miao, S.; Guo, X. G.; Wang, G. X.; Bao,
+X. H. Highly doped and exposed Cu(I)-N active siteswithin graphene
+towards efficient oxygenreduction for zinc-air batteries.Energy
+Environ. Sci.2016,9, 3736−3745.
+(39) Gu, Z. X.; Yang, N.; Han, P.; Kuang, M.; Mei, B. B.; Jiang, Z.;
+Zhong, J.; Li, L.; Zheng, G. F. Oxygen vacancytuning toward efficient
+electrocatalytic CO 2reduction to C 2H4.Small Methods2018,3,
+1800449−1800456.
+(40) Li, F.; Han, G. F.; Noh, H.-J.; Kim, S.-J.; Lu, Y. L.; Jeong, H. Y.;
+Fu, Z. P.; Baek, J. B. Boosting oxygen reduction catalysis
+withabundant copper single atom active sites.Energy Environ. Sci.
+2018,11, 2263−2269.
+(41) Yu, H. Y.; Fisher, A.; Cheng, D. J.; Cao, D. P. Cu, N-codoped
+hierarchical porous carbons as electrocatalysts for oxygen reduction
+reaction.ACS Appl. Mater. Interfaces2016,8, 21431−21439.
+(42) Wei, J.; Hu, Y. X.; Liang, Y.; Kong, B.; Zhang, J.; Song, J. C.;
+Bao, Q. L.; Simon, G. P.; Jiang, S. P.; Wang, H. T. Nitrogen-doped
+nanoporous carbon/graphene nano sandwiches: Synthesis and
+application for efficient oxygen reduction.Adv. Funct. Mater.2015,
+25, 5768−5777.
+(43) Cui, X. Q.; Pan, Z. Y.; Zhang, L. J.; Peng, H. S.; Zheng, G. F.
+Selective etching of nitrogen-doped carbon by steam for enhanced
+electrochemical CO2reduction.Adv. Energy Mater.2017,7,
+1701456−1701461.
+(44) Tan, H. L.; Du, A. J.; Amal, R.; Ng, Y. H. Decorating platinum
+on nitrogen-doped graphene sheets: Control of theplatinum particle
+size distribution for improved photocatalytic H2generation.Chem.
+Eng. Sci.2019,194, 85−93.
+(45) Mou, Z. G.; Chen, X. Y.; Du, Y. K.; Wang, X. M.; Yang, P.;
+Wang, S. D. Forming mechanism of nitrogen doped grapheneACS Energy Letters http://pubs.acs.org/journal/aelccp Letter
+https://dx.doi.org/10.1021/acsenergylett.0c00018
+ACS Energy Lett.2020, 5, 1044−10531052
+
+--- PAGE 10 ---
+
+prepared by thermal solid-statereaction of graphite oxide and urea.
+Appl. Surf. Sci.2011,258, 1704−1710.
+(46) Yang, S. C.; Su, W. N.; Lin, S. D.; Rick, J.; Cheng, J. H.; Liu, J.
+Y.; Pan, C. J.; Liu, D. G.; Lee, J. F.; Chan, T. S.; Sheu, H. S.; Hwang,
+B. J. Preparation of nano-sized Cu from a rod-like CuFe2O4: Suitable
+for highperformance catalytic applications.Appl. Catal., B2011,106,
+650−656.
+(47) Gaur, A.; Shrivastava, B. D. A comparative study of the
+methods of speciation using X-ray absorption fine structure.Acta Phys.
+Pol., A2012,121, 647−652.
+(48) Hori, Y.; Murata, A.; Takahashi, R. Formation of hydrocarbons
+in the electrochemical reduction of carbon dioxide at a copper
+electrode in aqueous solution.J. Chem. Soc., Faraday Trans. 11989,
+85, 2309−2326.
+(49) Luo, W.; Xie, W.; Mutschler, R.; Oveisi, E.; De Gregorio, G. L.;
+Buonsanti, R.; Zuttel, A. Selective and stable electroreduction of CO2
+to CO at the copper/indium interface.ACS Catal.2018,8, 6571−
+6581.
+(50) Machunda, R. L.; Lee, J.; Lee, J. Microstructural surface
+changes of electrodeposited Pb on gas diffusion electrode during
+electroreduction of gas-phase CO2.Surf. Interface Anal.2010,42,
+564−567.
+(51) Nie, X. W.; Esopi, M. R.; Janik, M. J.; Asthagiri, A. Selectivity of
+CO2 reduction on copper electrodes: The role of the kinetics of
+elementary steps.Angew. Chem., Int. Ed.2013,52, 2459−2462.
+(52) Gonza ́lez-Cervantes, E.; Criso ́stomo, A. A.; Gutie ́rrez-
+Alejandre, A.; Varela, A. S. Optimizing FeNC materials as electro-
+catalysts for the CO2reduction reaction: Heat-treatment temperature,
+structure and performance correlations.ChemCatChem2019,11,
+4854−4861.
+(53) Calle-Vallejo, F.; Koper, M. T. M. Theoretical considerations
+on the electroreduction of CO to C 2species on Cu(100) electrodes.
+Angew. Chem., Int. Ed.2013,52, 7282−7285.
+(54) Cheng, T.; Xiao, H.; Goddard, W. A. Full atomistic reaction
+mechanism with kinetics for CO reduction on Cu(100) from ab initio
+molecular dynamics free-energy calculations at 298 K.Proc. Natl.
+Acad. Sci. U. S. A.2017,114, 1795−1800.ACS Energy Letters http://pubs.acs.org/journal/aelccp Letter
+https://dx.doi.org/10.1021/acsenergylett.0c00018
+ACS Energy Lett.2020, 5, 1044−10531053

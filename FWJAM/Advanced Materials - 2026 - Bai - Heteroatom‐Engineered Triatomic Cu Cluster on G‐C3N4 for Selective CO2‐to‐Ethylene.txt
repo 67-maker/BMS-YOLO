@@ -1,0 +1,1076 @@
+
+
+--- PAGE 1 ---
+
+Advanced Materials
+www.advmat.de
+RESEARCHARTICLE
+Heteroatom-EngineeredTriatomicCuClusteronG-C 3N4for
+SelectiveCO 2-to-EthyleneElectrocatalysis
+ShengjieBai ZhizhongHe WenyuZheng ZhenhuaTian ZihaoJiao Ya Liu ShaohuaShen
+LiejinGuo
+InternationalResearchCenterforRenewableEnergy,StateKeyLaboratoryofMultiphaseFlowinPowerEngineering,Xi’anJiaotongUniversity,Shaa nxi,China
+Correspondence: ShengjieBai( shjbai@mail.xjtu.edu.cn )LiejinGuo( lj-guo@mail.xjtu.edu.cn )
+Received: 9December2025 Revised:13April2026 Accepted: 30April2026
+Keywords: C─CCoupling |CO2electroreduction |ethyleneselectivity |heteroatomdoping |triatomicCucluster
+ABSTRACT
+ElectrochemicalreductionofCO2intomulti-carbonproductsoffersasustainableroutetocarbonrecycling,yetachievingselective
+C─Ccouplingremainschallenging.Here,weinvestigatetheperformanceofheteroatom-dopedCu3clusterssupportedong-C3N4
+for CO2-to-C2H4conversion. Through DFT calculations and transition-state analysis, we demonstrate that doping with P and
+SestabilizestheCu3clusters,enhances *COadsorption,andlowerstheenergybarrierfortherate-determining *CO+*CHO→
+*COCHOC ─Ccouplingstepto0.84and0.92eV,respectively.Thermodynamicanalysisrevealsapreferenceforethyleneformation
+overethanol,withoverpotentialsaslowas0.33and0.10VforP-andSe-dopedsystems.Electronicstructureanalysisshowsthat
+first-shellsubstitutionwithPorSecreatescharge-asymmetricsites,strengthens *COand*CHObinding,andshiftsantibonding
+Cu─COstatestohigherenergies,therebypromotingefficientC ─Ccoupling.Electrochemically,theSe-modifiedcatalystdelivers
+aremarkableethyleneFaradaicefficiencyof ∼54%at250mAcm−2,andmaintainsstableperformancefor30hunderflow-cell
+conditions.Thisstudyestablishesasynergistictheory-experimentframeworkforoptimizingCO2RRcatalysts,emphasizingthe
+criticalroleofpreciseclusterengineeringandcharge-gradientdopinginpromotingefficientC ─Ccoupling.
+1Introduction
+Electrochemical conversion of carbon dioxide (CO2) into value-
+added chemicals and fuels offers a practical route for carbon
+recycling and a promising strategy to decouple chemical pro-
+duction from fossil feedstocks [ 1]. By transforming CO2into
+products such as CO, formic acid (HCOOH), methane (CH4),
+ethylene (C2H4), and ethanol (CH3CH2OH), electrochemical
+CO2reduction (CO2RR) can both mitigate emissions and store
+renewableelectricityinchemicalbonds,advancingeffortstoward
+carbonneutrality[ 2,3].Single-atom catalysts (SACs) have drawn intense attention for
+CO2RRbecausetheyachievenearlycompleteatomicutilization
+and allow precise control of local coordination environments
+[4, 5]. Anchoring isolated metal atoms (for example, Fe, Co,
+Ni, or Cu) on N-rich supports has delivered breakthroughs in
+activity and selectivity for two-electron and other C1products.
+Nevertheless,SACsfaceintrinsiclimitationsfortwo-carbon(C2)
+productformation:atomicdispersionsuppressesthepresenceof
+adjacent active sitesrequired for productive C ─C coupling, and
+isolatedatomsaresusceptibletomigrationandaggregationunder
+reducingconditions,compromisingstability[ 6,7].
+ShengjieBai,ZhizhongHe,WenyuZheng,andZhenhuaTiancontributedequallytothiswork.
+©2026Wiley-VCHGmbH
+AdvancedMaterials ,2026;0:e73318
+https://doi.org/10.1002/adma.733181of14
+
+
+--- PAGE 2 ---
+
+Copper (Cu) remains unique among transition metals for its
+abilitytoproducemulti-carbonproductsviacontinuousproton-
+coupledelectrontransfersteps[ 8,9].BulkCuandCunanopar-
+ticles expose a diversity of low-coordination sites, steps, and
+facets that promote C ─C bond formation, and tuning particle
+size or morphology has been shown to modulate C2selectivity
+[10, 11]. However, nanoparticle catalysts suffer from low atom
+efficiencyandcomplexsurfaceheterogeneity,whichcomplicates
+mechanisticunderstandingandrationaloptimization[ 12,13].Cu
+clusters — especially small ensembles that bridge the extremes
+ofsingleatomsandextendedparticles—combineadvantageous
+features of both platforms [ 14]. Clusters retain high atomic
+utilization and low coordination that promote reactivity while
+providingmultiple,spatiallyproximalmetalsitesneededfordual
+*CO adsorption and C ─C coupling [ 15, 16]. Importantly, metal-
+metal bonding and strong support interactions can improve
+cluster stability relative to isolated atoms, offering a promising
+pathwaytodurable,selectiveC2electrocatalysts.
+The choice of support material critically influences the stability
+andreactivityofatomicallydispersedclusters.Varioussubstrates,
+includingsemiconductors(e.g.,TiO2,ZnO),carbon-basedmateri-
+als(graphene,N-dopedcarbons),andmetal-organicframeworks
+(MOFs), have been explored to anchor single-cluster catalysts
+through strong metal-support interactions that prevent aggre-
+gation and modulate electronic properties) [ 17–20]. However,
+conventional supports like amorphous N-doped carbons often
+sufferfromstructuralheterogeneityandill-definedactivesites.In
+contrast,graphiticcarbonnitride(g-C3N4)offersaperiodicpoly-
+meric structure with well-defined nitrogen-coordinating sites
+(e.g., within heptazine units) that provide robust anchoring for
+metalclusters[ 21].Itsintrinsicsemiconductornaturefacilitates
+favorable electronic coupling, while its high chemical stability
+ensures durability under CO2RR conditions, making it superior
+forstabilizingsmallclusters[ 22].Thesefeaturesestablishg-C3N4
+asacompellingplatformforsystematicallyprobingheteroatom-
+doping effects on Cu3cluster reactivity, as pursued in this
+work.
+Furthermore,tuningtheelectronicenvironmentoftheCucluster
+is essential for optimizing intermediate binding. We focused on
+non-metaldopants(B,O,P,S,Se)forthefirstcoordinationshell.
+These elements were selected based on their electronegativity
+gradientsrelativetonitrogenandtheiratomicradii,whichallow
+for effective electronic perturbation without inducing severe
+lattice strain. Specifically, B and P serve as electron-deficient
+centers,whileSandSeofferlargerpolarizability,enablingabroad
+screeningofelectroniceffects.Metaldopantswereintentionally
+excluded from this study to avoid complex alloying effects that
+couldalterthefundamentalnuclearityofthecluster;ourgoalis
+toisolatetheligandeffectofheteroatomsontheCu3ensemble’s
+intrinsicreactivity.
+Selective formation of C2H4over C2H5OH remains challenging
+because these products share many intermediates and similar
+reactionenergetics[ 23,24].C2H4formationisparticularlyattrac-
+tive given its high market value and industrial significance, but
+it typically requires efficient C ─O bond cleavage in adsorbed
+C2intermediates [ 25]. Recent work has shown that heteroatom
+modificationofthecatalystcoordinationenvironment(forexam-
+ple,B,P,Sdoping)canstrengtheninteractionswithoxygenated
+SCHEME 1 Heteroatom-Engineered Cu 3Cluster on g-C 3N4for
+SelectiveCO 2-to-C2H4conversion.
+moieties,weakenC ─Obonds,andbiashydrogenationpathways
+towardC2H4[26].
+Motivated by these considerations, we systematically explore
+heteroatom-doped Cu3clusters supported on g-C3N4as a plat-
+form that merges the high atom efficiency of SACs with the
+multi-site reactivity of nanoparticles (Scheme 1). Using DFT
+screening and transition-state analysis, we examine how first-
+shellsubstitutionofcoordinatingNatomswithnonmetaldopants
+(B, P, S, Se) alters cluster stability, *CO binding, C ─C coupling
+kinetics, and downstream hydrogenation pathways. Our results
+identify P- and Se-doped Cu3clusters as promising candidates
+that lower C ─C coupling barriers, stabilize key intermediates,
+andthermodynamicallyfavourC2H4formation,therebyprovid-
+ingamechanisticframeworkanddesignrulesforcluster-based
+electrocatalystsaimedatefficientCO2-to-C2conversion.
+2ResultsandDiscussion
+2.1StructureandStabilityofDopedCu 3Clusters
+DeterminingtheoptimalnuclearityoftheCuclusterisaprereq-
+uisiteforefficientC ─Ccoupling.WeevaluatedCuclusterswith
+varyingnumbersofCuatoms(Cu2,Cu3,andCu4)supportedon
+g-C3N4.AsshowninFigures S1–S3andsummarizedhere,theCu3
+clusteroffersasignificantkineticadvantage,withaC ─Ccoupling
+barrieraslowas1.11eV,notablylowerthanthoseforCu2-C3N4
+(1.96 eV) and Cu4-C3N4(2.20 eV). The inferior performance of
+Cu2is attributed to the limited spatial proximity for dual *CO
+adsorption in a dimeric structure, while Cu4tends to exhibit
+morebulk-likeelectronicpropertiesthatweakenthespecificlow-
+coordinationadvantages ofclusters.Thetriangulargeometryof
+Cu3uniquelybalanceshighatomicutilizationwiththemulti-site
+proximity required for productive C ─C coupling. Therefore, we
+selectedtheCu3clustersupportedong-C3N4asthemodelactive
+ensemble.
+To tune the local electronic structure of the cluster, we focused
+on first-shell modification of the coordinating N atoms and
+constructed a series of nonmetal-substitutedmodels (Figure 1a)
+[27]. Single-site substitutions are labelled Cu3-C3N3X1, while
+double substitutionsof adjacent first-shellN atoms are denoted
+Cu3-C3N2X2-1, Cu3-C3N2X2-2, and Cu3-C3N2X2-3 (X =B, O, P,
+S, Se; selected non-metal elements), as illustrated in Figure 1b.
+Higher-concentration doping geometries that produced severe
+structural distortions during relaxation were excluded from
+2of14 AdvancedMaterials ,2026
+ 15214095, 0, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73318 by Shandong University Of Science And Technology, Wiley Online Library on [11/06/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+--- PAGE 3 ---
+
+FIGURE 1 StructuralmodelsandformationenergiesofdopedCu 3/g-C3N4systems.(a)TopandsideviewsoftheCu 3-C3N4configuration.(b)
+Topviewsofrepresentativefirst-shellnonmetalsubstitutionpatterns:notationCu 3-C3N2X2-n,ndenotesthedopingtypeindex,andXrepresentsthe
+dopantnon-metalelement.(c)Periodic tableinset highlightingtheselecteddopant elements(B,O,P,S,Se).(d)Formationenergiesofthescreened
+configurations; the dashed orange line denotes the reference formation energy of undoped Cu 3-C3N4(1.00 eV). Electronic origin of stability trends
+supportedbyBaderchargeanalysisinTable S1.
+further consideration. In this study, non-metal dopants pos-
+sessing covalent bonding characteristics comparable to those
+of C and N were introduced by selectively substituting the
+N atoms in the first coordination shell of the Cu cluster
+(Figure1c). This approach ensures structural integrity while
+modulating the charge distribution. These configurations were
+selectedfordetailedanalysisastheyexhibitthelowestformation
+energies among screened geometries and maintain geometric
+integrity upon structural relaxation. This ensures that subse-
+quentthermodynamicandkineticstudiesarerelevanttostable,
+experimentally-accessiblecatalyststates.
+Toevaluatethethermodynamicstabilityofthe20resultingdoped
+configurations, formation energy calculations were performed
+(Figure1dand Figure S2). A more negative formation energy
+signifiesenhancedthermodynamicstability.Amongthedopants,
+Se,P,andSnotablyloweredtheformationenergiesofthesystems
+(falling below the orange dashed line), indicating that these
+elementsarebeneficialforstabilizingthelocalcoordinationenvi-
+ronment.Incontrast,severalO-andhigh-concentrationS-doped
+geometries relaxed to distorted structures and were discarded.
+The dopant-dependent stability trends can be rationalized by
+electronicstructureconsiderations.Baderchargeanalysis(Table
+S1) reveals that Se, P, and S dopants transfer moderate electron
+density (0.3–0.5 e−)t oa d j a c e n tC ua t o m s ,w h i c ho p t i m i z e st h e
+Cu─N coordination bond strength without inducing excessive
+lattice strain. This charge redistribution strengthens the metal-
+support interaction and stabilizes the triangular Cu3motif. In
+contrast, O dopants, with significantly higher electronegativity
+(3.44vs.2.19forP),withdrawelectrondensityfromCucenters,
+weakening Cu ─N bonds and promoting structural distortion
+uponrelaxation.Additionally,geometricfactorscontributetothe
+stabilitytrend:thelargeratomicradiiofSe(1.20Å)andP(1.10Å)
+betteraccommodatetheNsite(0.75Å)intheg-C3N4latticecom-paredtothesmallerOatom(0.66Å),reducingstericstrainupon
+substitution.Thesecombinedcharge-transferandsize-matching
+effects explain why Se-, P-, and S-doped configurations exhibit
+enhanced thermodynamic stability, while O-doped and high-
+concentrationvariantsarepronetodistortion.Basedonstability
+and geometric integrity, seven configurations were selected for
+detailed catalytic analysis: Cu3-C3N4(undoped), Cu3-C3N2B2-3,
+Cu3-C3N2P2-1,Cu3-C3N2P2-3,Cu3-C3N2Se2-1,Cu3-C3N2Se2-3,and
+Cu3-C3N2S2-1.
+2.2CompetitiveRelationshipBetweenCO 2RR
+andHER
+CO2RR and the hydrogen evolution reaction (HER) overlap in
+potential and therefore compete for surface sites, which often
+lowersCO2RRselectivity[ 28].SuppressingHERwhilepromoting
+*COformationisthereforeessentialforsteeringactivitytoward
+C2products, because *CO is the central branching intermedi-
+ate that enables subsequent C ─C coupling [ 29]. We adopt the
+thermodynamic limiting potential for CO formation (UL,CO)a s
+adescriptorofCO2RRactivityandcompareitwiththelimiting
+potentialforHERtoassesswhichprocessisthermodynamically
+favoured on each configuration. As shown in Figure S4,f o r
+theseventhermodynamicallystableCu3-basedmodelsscreened
+here, the calculated limiting potentials indicate that CO2RR
+outcompetes HER, implying an intrinsic propensity of these
+cluster systems to generate carbon-containing products rather
+thanH2.
+COandHCOOHaretheprimarytwo-electronproductsformed
+during the initial stages of CO2reduction. Although both are
+two-electron transfer products, the reaction pathways diverge
+significantlydependingontheintermediatesinvolved.The *CO
+AdvancedMaterials ,2026 3of14
+ 15214095, 0, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73318 by Shandong University Of Science And Technology, Wiley Online Library on [11/06/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+--- PAGE 4 ---
+
+FIGURE 2 ReactionpathwaysandscalingrelationshipsforCOandHCOOHformation.(a)Schematicofthecompetingelementaryroutesfrom
+adsorbedCO 2toCOandHCOOH.(b–e)Linearscalingrelationsbetweenadsorptionfreeenergiesofkeyintermediates:(b) *CO2and*OCHO,(c) *CO
+and*COOH,(d) *COOHand *OCHO,(e) *COOHand *HCOOH. (f)Volcano-stylecorrelation betweenthe limiting potentialsfor CO andHCOOH
+formationand ΔG(*CO);pentagramsymbolsmarkthepredictedlimitingpotentialsforthesevenselectedconfigurations.i: *COOH→*CO;ii:*COOH
+→*HCOOH;iii: *CO2→*COOH;iv: *HCOO→*HCOOH;v: *CO2→*HCOO.Theorangeregionindicatescatalystswithmoderate-to-strong *CO
+bindingthatfavor *COretentionforsubsequentC ─CcouplingoverCOdesorption.
+intermediate plays a pivotal role as a precursor for C2product
+formation, while the formation of *OCHO tends to steer the
+reaction toward HCOOH production. Therefore, to enhance C2
+productyields,steeringtheCO2reductionpathwaypreferentially
+toward*CO formation has become a key strategy in catalyst
+design.
+During the reaction, a CO2molecule is initially adsorbed and
+reduced at the active site to generate the *CO2−intermediate.
+The intermediate can proceed along two primary pathways
+(Figure2a): protons derived either from the aqueous solution
+or the catalyst surface may attack (1) the oxygen, leading to
+the formation of *COOH or (2) the carbon atom of *CO2−,
+resultingintheformationof *OCHOintermediates,respectively.
+The*OCHO species subsequently undergoes hydrogenation to
+yield HCOOH, whereas the formation of CO relies entirely on
+C-Obondcleavageinthe *COOHintermediate.However,some
+studiessuggestthat *COOH,ratherthan *OCHO,mayalsoserve
+as the key intermediate in the formation of HCOOH [ 30]. To
+comprehensively understand the reaction network, all possible
+reactionpathwaysweresystematicallyexploredinthesubsequent
+calculations. Given that the CO2RR activity is closely related
+to the adsorption free energies of reaction intermediates, we
+established linear scaling relationships among the adsorption
+energies(ΔG)ofvariousintermediates(Figure 2).Theseinclude
+correlations between *CO2and*COOH,*CO2and*OCHO,
+*COOH and *OCHO,*CO and*COOH, and *COOH and
+HCOOH.ThehighR2valuesindicatestronglineardependencies
+betweentheadsorptionenergiesofdifferentintermediates.Basedontheselinearrelationships,theadsorptionfreeenergyofthekey
+intermediate *CO(ΔG*CO)wasusedasanindependentdescriptor
+topredictthelimitingpotentialsforCOandHCOOHformation
+acrossdifferentcatalystsystems(Figure 2f).
+When the adsorption free energy of CO ( ΔG*CO) is sufficiently
+negative,theCOintermediatecanstablyadsorbontothecatalyst
+surface,therebyfacilitatingC ─Ccouplinginthesubsequentreac-
+tionsteps.Figure 2fdemonstratesthatwhen ΔG*COfallswithin
+the range of −2.00 to −0.26 eV, the overall limiting potential
+(UL)forCOformationviaCO2RRislowerthanthatforHCOOH
+formation. This indicates that the catalytic system facilitates
+the generation of *CO intermediates, with the corresponding
+potential-determining step (PDS) being *COOH +H++e−→
+*CO+H2O. In the intermediate range of ΔG*COfrom−0.26
+to 0.1 eV (blue region in Figure 2f), the selectivity toward CO
+and HCOOH becomes comparable, with both sharing the same
+PDS:*CO2+H++e−→*COOH. When ΔG*COexceeds 0.1 eV,
+theproductdistributionshiftstowardHCOOHduetoweakened
+interactionsbetweenthecatalystsurfaceandthecarbonatomin
+the*CO intermediate. In this regime, as *CO binding weakens,
+thePDSforHCOOHformationtransitionsfrom *OCHO +H++
+e−→*HCOOHto *CO2+H++e−→*OCHO.
+Among the seven screened configurations, Cu3-C3N2S2-1 (high-
+lighted with a red asterisk in Figure 2f) is positioned closest to
+thepeakofthevolcanoplot,owingtoitsoptimal *COadsorption
+strength. Although Cu3-C3N2P2-1 exhibits a ΔG*COof –0.24 eV,
+whichliesneartheboundaryofthemodel’spredictivewindow,
+4of14 AdvancedMaterials ,2026
+ 15214095, 0, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73318 by Shandong University Of Science And Technology, Wiley Online Library on [11/06/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+--- PAGE 5 ---
+
+it still satisfies the thermodynamic criterion for efficient *CO
+generationwhenconsideringthetypicalerrormarginsassociated
+withDFTcalculations.Takentogether,allseventriatomiccluster
+configurationsexhibitfavourable *COadsorptionpropertiesand
+hold strong potential as candidates for C2product formation.
+However, for C2+product formation, CO desorption is a com-
+peting pathway that reduces selectivity toward multi-carbon
+products.
+To validate the robustness of the proposed predictive model,
+experimental data from various 2D material-supported cluster
+catalysts were incorporated for comparison. For instance, Jiang
+et al. experimentally anchored Cu clusters onto B-N co-doped
+carbon supports. Under CO2RR testing, this catalyst achieved a
+Faradaic efficiency (FE) of 70% for HCOOH and only 10% for
+CO. DFT calculations revealed that the ΔG*COof this catalyst
+is approximately 0.23 eV, consistent with the green region in
+Figure2fand the corresponding product distribution predicted
+by the model [ 31]. Furthermore, when *CO exhibits moderate
+adsorption or interacts more strongly with the catalyst surface,
+the dominant products tend to shift toward CO, CH4,o rC2
+compoundssuchasCH3COOHandC2H4[32,33].Thisbehaviour
+aligns with the predictions in the yellow region of Figure 2f,
+wheretheenhancedstabilityofthe *COintermediatefacilitates
+subsequenthydrogenationandC ─Ccouplingsteps.
+These findings highlight the critical importance of designing
+catalysts that can simultaneously suppress HER and promote
+C─Ccoupling.Cu3clusters,withtheirtunableelectronicstruc-
+tures and adjacent active sites, represent a promising strategy
+for achieving this dual functionality. By optimizing the local
+electronic environment through heteroatom doping, these clus-
+ters not only suppress HER but also stabilize key CO2RR
+intermediates, enabling efficient and selective CO2RR to C2
+products.
+2.3EnergyBarrierAnalysisofC ─CCouplingon
+Heteroatom-DopedCuClusters
+The electrochemical reduction of CO2to C2products critically
+dependsontheefficientformationofC ─Cbonds[34],whichis
+governedbythestabilizationandcouplingofkeyintermediates
+suchas*CO,*COH, and *CHO.Understandingthekineticand
+mechanisticaspects of theseprocesses onCu cluster surfaces is
+essential for designing catalysts with enhanced selectivity and
+activitytowardC2products.Inthissection,weconductadetailed
+kinetic analysis of the C ─C coupling process on Cu3clusters,
+focusing on the energy barriers associated with the coupling
+of key intermediates ( *CO,*COH,*CHO) and identifying the
+most preferable reaction pathways. We examined three primary
+coupling pathways on Cu3clusters: (i) direct *CO dimerization
+(*CO–CO),(ii)couplingbetween *CO and hydrogenated *CHO
+(*CO–CHO),and(iii)couplingbetween *CO and hydrogenated
+*COH (*CO–COH). *CHO and *COH form by protonation of
+*CO at the oxygen and carbon atoms, respectively, yielding
+intermediateswithdistinctadsorptiongeometriesandreactivity
+(Figure3a). Since C ─C coupling generally exhibits the highest
+energybarrieramongallelementarystepsinC2productforma-
+tion, it is widely regarded as the rate-determining step (RDS)
+[35].Transitionstatetheorywasappliedtoevaluatetheenergybarriers
+foreachC ─Ccouplingpathway[ 36].One*COwashydrogenated
+toCHOpriortothecouplingstep,accountingforsitecompetition
+and electronic effects resulting from co-adsorption. The energy
+profilesforthecouplingof *CO,*COH,and*CHOintermediates
+werecomputedfortheCu3-C3N4system,asshowninFigure 3b.
+The results show that the coupling of *CO and*COH exhibits
+the lowest energy barrier (blue line), with a value of 0.85 eV,
+followedbythe *CO–CHOcouplingpathwayat0.96eV(purple
+line), and the *CO–CO coupling pathway at 1.11 eV (pink line).
+Theseenergyprofilessuggestthatthe *CO–COHpathwayisthe
+most kinetically advantageous, though its energy barrier is still
+relativelyhigh.Thelowerenergybarrierfor *CO–COHcoupling
+canbeattributedtothepreferentialadsorptionof *COand*COH
+atdifferentCusites(topvs.bridgesites),facilitatingthecoupling
+reaction.However,theenergybarrierforhydrogenationof *CO
+to*COH(2.15eV)isquitehigh,makingthe *CO-COHpathway
+lessefficientatroomtemperature.
+On the other hand, the *CO-CHO coupling pathway, with an
+energy barrier of 0.96 eV, is also a viable pathway, particularly
+because*CHOcanreadilyformfrom *COviaprotonationsteps.
+This pathway is likely to dominate under conditions where the
+hydrogenationof *COto*COHislessadvantageous.Therefore,
+the*CO–CHO pathway provides a more thermodynamically
+accessible route for C ─C bond formation at lower temperature.
+Althoughthe *CO-COHpathwayistheleastenergy-demanding,
+it is important to note that the hydrogenation of *CO to*COH
+requiresarelativelyhighenergybarrierof2.15eV.Thissuggests
+that,whilethe *CO–COHcouplingpathwaymightbepromising
+in terms of the coupling step, the formation of *COH could be
+kineticallyhinderedatroomtemperature,limitingthepathway’s
+overalleffectivenessundertypicalreactionconditions.
+Incontrast,the *CO–CHOcouplingpathway,withalowerenergy
+barrier, offers a more thermodynamically accessible route for
+C─C bond formation. The formation of *CHO from *CO is
+relatively straightforward, proceeding via protonation, and the
+coupling of *CO and*CHO is less hindered by the high energy
+barriers associated with *COH formation. Therefore, the *CO–
+CHO pathway is expected to dominate under typical CO2RR
+conditions, making it a preferable mechanism for multi-carbon
+productformation,particularlytoproduceC2H4.
+The protonation of *CO to form *CHO is crucial for the *CO-
+CHO coupling pathway. This process can occur through two
+distinct mechanisms: the Tafel mechanism and the Heyrovsky
+mechanism. In the Tafel mechanism, *CO is protonated at the
+oxygen end, forming *CHO, while the Heyrovsky mechanism
+involvestheprotonationof *COatthecarbonendtoform *CHO
+[37]. As shown in Figure S5, upon slight reorientation of the
+*CO adsorption geometry, the approach of a surface-bound *H
+atomtowardthecarbonsitebecomesstericallyandelectronically
+favourable,facilitatingtheformationofthe *CHOintermediate.
+Our calculations suggest that the Tafel mechanism is slightly
+morefavourable,withabarrierof1.42eVcomparedtotheHey-
+rovsky mechanism’s barrier of 1.45 eV. This small difference in
+energybarriersindicatesthatbothmechanismscouldcontribute
+totheformationof *CHO,buttheTafelmechanismismarginally
+preferred,supportingtheideathat *CHOplaysakeyroleinthe
+C─Ccouplingprocess.
+AdvancedMaterials ,2026 5of14
+ 15214095, 0, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73318 by Shandong University Of Science And Technology, Wiley Online Library on [11/06/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+--- PAGE 6 ---
+
+FIGURE 3 C─C coupling pathways and energetics on Cu 3-C3N4. (a) Optimized geometries of the initial state, transition state, and final state
+for the three examined coupling routes: *CO–CO,*CO–COH, and *CO–CHO. (b) Reaction energy profiles for each pathway showing the preceding
+hydrogenation step ( *CO→*COH/*CHO) and the subsequent C ─C coupling steps; (c) barrier heights correspond to the identified transition state
+structures.
+Considering the energy profiles of these pathways (Figure
+S6), we observe that the *CO–CHO coupling mechanism is
+most likely to dominate under typical CO2RR conditions.
+This pathway requires fewer energetic constraints for inter-
+mediate formation and exhibits a lower overall energy bar-
+rier for C ─C coupling compared to the *CO–COH pathway.
+In addition, the *CO-CHO coupling step can efficiently lead
+to*COCHO, which subsequently undergoes hydrogenation
+to form*CH2CH2OH, eventually producing C2H4after the
+C─O bond is cleaved. Table S2shows that the incorporation
+of B, P, and Se atoms significantly reduces the C ─C bond
+lengths in the *COCHO intermediates compared to the Cu3-
+C3N4configuration, indicating stronger interactions between
+these doped configurations and the *COCHO intermediate.
+Therefore, the *CO–CHO pathway appears to be the most
+efficient route for C2H4production, aligning well with exper-
+imental observations that C2H4is a dominant product in
+CO2RR.
+TheroleofheteroatomdopinginmodulatingtheC ─Ccoupling
+processisalsosignificant.Specifically,dopingCu3clusterswithelements such as P and Se reduces the energy barriers for the
+*CO–CHO coupling step, further promoting the production of
+multi-carbonproducts.Forinstance,asshowninFigure 3cand
+FigureS6,theP-dopedCu3-C3N2P2-3configurationexhibitedthe
+lowestbarrierfor *CO–CHOcoupling(0.84eV),whichislower
+than the undoped Cu3clusters and other doped configurations.
+Thisreductionintheenergybarrierisattributedtotheelectronic
+modificationsinducedbydoping,whichenhancetheinteraction
+between theCu3cluster and the *CO and*CHO intermediates.
+Asaresult,dopingnotonlystabilizeskeyintermediatesbutalso
+facilitatesmoreefficientC ─Ccoupling,enhancingtheselectivity
+forC2H4formation.
+Alternative coupling routes such as *CHO–CHO or *COH-
+involving pairings are unpreferred because precursor formation
+iskineticallyhinderedorthecalculatedbarriersexceedthosefor
+*CO+*CHO[38].Overall,thekineticanalysissupports *CO+
+*CHO→*COCHOasthedominantC ─CpathwayonCu3clusters
+andshowsthatfirst-shellheteroatomdoping,particularlywithP
+or Se, meaningfully lowers the coupling barrier and underpins
+enhancedC2reactivity[39].
+6of14 AdvancedMaterials ,2026
+ 15214095, 0, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73318 by Shandong University Of Science And Technology, Wiley Online Library on [11/06/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+--- PAGE 7 ---
+
+FIGURE 4 GibbsfreeenergylandscapeandreactionpathwaysforCO 2RRtoC2products(C 2H4andC2H5OH)onCu 3-C3N4.Blackarrowsdenote
+thethermodynamicallyoptimalpathway,whileyellowanddarkbluearrowsrepresentbranchingroutestowardC 2H4andC2H5OH,respectively.Light
+bluearrowsindicatehigher-energyintermediates.NumericvaluescorrespondtoGibbsfreeenergychanges( ΔG,eV)foreachelementarystep.
+2.4ThermodynamicAnalysisofC 2H4and
+C2H5OHFormationonCuClusters
+Based on the preceding discussion, the hydrogenation pathway
+leadingtoC2productformationinCO2reductionisinitiatedfrom
+the*COCHO intermediate. To identify the thermodynamically
+optimal route, all possible reaction intermediates under exper-
+imental conditions are systematically enumerated in Figure 4,
+with their corresponding Gibbs free energy changes. Pathways
+traced by the lowest free-energy steps define the most probable
+reaction channel under thermodynamic control. Protonation of
+*COCHO preferentially occurs at the β-C atom, producing an
+*OCCH2O-type species that evolves toward *CH2CH2O[40].
+Duringtheearlyhydrogenationsteps(steps1to4),protonationat
+Ositesgenerallyyieldshigh-energy,unstablespecies;protonation
+at C sites produces substantially lower free energies and more
+stable surface intermediates. Once *CH2CH2O is formed, the
+network bifurcates toward two distinct final products: C2H4
+andC2H5OH.C2H4formationproceeds viatwopossibleroutes:
+(1)*CH2CH2O+H++e−→C2H4(g)+*OH, where proto-
+nation at the O atom leads to C ─O bond cleavage, resulting
+in the release of C2H4and the adsorption of *OH on the
+catalyst surface; (2) *CH2CH2O+H++e−→*CH2CH2OH,
+followed by *CH2CH2OH+H++e−→*+C2H4(g)+H2O(l),
+in which*CH2CH2O undergoes further hydrogenation before
+the C─O bond breaks and a H2O molecule is released. Sim-
+ilarly, CH3CH2OH formation proceeds through hydrogenation
+pathways that produce *CH2CH2OH or*CH3CH2Op r i o rt o
+desorption.
+Furthermore, studies suggest that the intermediate *CH2CHO
+serves as a branching point for the formation of either C2H4or
+C2H5OH. The pathway *CH2CHO+H++e−→C2H4(g)+*Odirectly produces C2H4, but this reaction involves both hydro-
+genationandC ─Obondcleavage,whichrequiresarelativelyhigh
+energy barrier [ 41]. In contrast, hydrogenation of *CH2CHO to
+*CH2CH2Of o l l o w e db yC ─O bond breaking is thermodynami-
+cally more advantageous, consistent with the pathway analysis
+describedabove.
+Across these reactions, the Gibbs free-energy changes from
+*COCHOto *CH2CH2Oarenegativeorclosetozero,suggesting
+theabsenceofsignificantthermodynamicbarriers.Thisimplies
+thatthePDSinC2productformationdoesnotoccurwithinthis
+transformation stage. To reduce computational cost, the Gibbs
+freeenergydifferencesalongtheC2productformationpathways
+foreachconfigurationfocusonlyonthekeyreactionsteps,such
+as the C ─C coupling step and the subsequent evolution of the
+*CH2CH2OintermediateintoeitherC2H4orC2H5OHviadiffer-
+entroutes,asillustratedinFigure 4.FortheCO2-to-C2H4pathway
+across various configurations, the *CH2CH2OH intermediate is
+thermodynamicallymorestablethan *CH2CH2O,withGibbsfree
+energy differences ranging from −1.5 to −0.4 eV. This suggests
+thatunderidealconditions,thereactionpreferentiallyproceeds
+throughthemorestable *CH2CH2OHintermediatetoformC2H4
+(asindicatedbythepinklinesinFigure 5).Similarly,compared
+to*CH2CH2OH, the*CH3CH2O intermediate exhibits higher
+thermodynamicstability.Therefore, *CH2CH2Otendstoundergo
+hydrogenationatthe α-Ctoform *CH3CH2O,ultimatelyleading
+to the generation of C2H5OH (as indicated by the blue lines
+in Figure5). Comparing downstream pathways, *CH2CH2OH
+is generally thermodynamically more stable than *CH2CH2O,
+withΔGdifferences between −1.5 and −0.4 eV depending on
+the model. This stability makes the route via *CH2CH2OH a
+preferred intermediate pathway toward C2H4in many cases.
+Conversely,formationof *CH3CH2Obyα-carbonhydrogenation
+AdvancedMaterials ,2026 7of14
+ 15214095, 0, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73318 by Shandong University Of Science And Technology, Wiley Online Library on [11/06/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+--- PAGE 8 ---
+
+FIGURE 5 Gibbs free energy diagrams for the CO 2reduction to C 2H4and C2H5OH products along different reaction pathways over the
+configurations:(a)Cu 3-C3N2Se2-1,(b)Cu 3-C3N2Se2-3,(c)Cu 3-C3N2P2-1,(d)Cu 3-C3N2P2-3,(e)Cu 3-C3N2B2-3,and(f)Cu 3-C3N2S2-1.
+is thermodynamically competitive and channels the reaction
+towardCH3CH2OH.
+Based on the thermodynamic analysis, Figure S7offers a com-
+prehensivecomparisonoftheoverpotentials( η)associatedwith
+CO2RRtoC2H4andC2H5OHfordifferentconfigurations.Replac-
+ing first-shell N atoms with nonmetal dopants modulates these
+thermodynamic preferences. The data reveal that replacing the
+coordinatedNatomsaroundtheCuclusterwithnon-metalatoms
+suchasB,P,orSesignificantlylowersthelimitingpotentialfor
+C2H4formation compared to C2H5OH, thereby modulating the
+selectivity of C2products. Further comparative analysis shows
+that the Cu3-C3N2P2-1, Cu3-C3N2P2-3, Cu3-C3N2Se2-1, and Cu3-
+C3N2S2-1 configurations not only enhance C2H4selectivity but
+alsomarkedlyimprovetheoverallcatalyticactivityoftheCuclus-
+tersurface.CombiningthiswiththekineticanalysisinSection 3,
+the Cu3-C3N2P2-3 (overpotential, ηethylene =0.33 V) and Cu3-
+C3N2Se2-1 (ηethylene =0.10 V) configurations demonstrate both
+high selectivity for C2H4formation and low kinetic barriers forC─Ccoupling.Thus,thesetwoconfigurationsofferbothkinetic
+andthermodynamicadvantagesforselectiveC2H4production.
+2.5CorrelatingCu 3ClusterElectronicStructure
+withCO 2RRPerformance
+The catalytic activity of Cu clusters in the electrochemical CO2
+reduction of is intrinsically linked to their electronic structure
+[42], which governs the adsorption energetics of key interme-
+diates and the activation barriers of critical reaction steps. To
+furtherelucidatethestructure-activityrelationshipbetweenthe
+electronic structure of Cu clusters and their catalytic perfor-
+mance in CO2reduction, the charge density distributions of
+Cu3-C3N4,Cu3-C3N2P2-3,andCu3-C3N2Se2-1configurationswere
+calculated, as shown in Figure 6a. In these maps, red regions
+indicateelectron-deficient(positivelycharged)areas,whileblue
+regions indicate electron-rich (negatively charged) regions. The
+results show that in the Cu3-C3N4configuration, the charge
+8of14 AdvancedMaterials ,2026
+ 15214095, 0, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73318 by Shandong University Of Science And Technology, Wiley Online Library on [11/06/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+--- PAGE 9 ---
+
+FIGURE 6 Chargedistributionandadsorption-inducedchargerearrangementonselectedCu 3/g-C3N4models.(a)Baderchargedistributionfor
+Cu3-C3N4,Cu3-C3N2P2-3,andCu 3-C3N2Se2-1,showingtheinducedchargeasymmetryamongCuatoms.(b)Differentialchargedensitymapsforthe
+adsorbed*COCHO and *CH2CH2OH intermediates on the same three models; isosurfaces are plotted at 0.003 e/Å3, with yellow indicating charge
+accumulationandcyanindicatingchargedepletion.
+distribution among Cu atoms is relatively uniform, and all Cu
+atoms exhibit partial positive charges. In contrast, upon doping
+with non-metallic P or Se atoms, Cu atoms exhibit varying
+oxidation states (Cuδ+and Cuδ−), leading to the formation of
+asymmetricadsorptionsites,whicheffectivelyfacilitatetheC ─C
+couplingprocess.
+*COisacrucialintermediateintheC ─Ccouplingprocess,and
+itsbindingstrengthtothecatalystsurfacedirectlyinfluencesthe
+subsequent coupling rate. Previous studies have demonstrated
+thatCOadsorbedonthetopsiteofametalatomexhibitshigherC2
+productformationrates[ 43].Accordingly,theadsorptionenergy
+of CO on the top Cu site was calculated for each configuration
+(Figure6b).Theresultsrevealthat ΔG*COvaluesforCu3-C3N2P2-
+3a n dC u3-C3N2Se2-1 are −0.53 and −0.43 eV, respectively, both
+significantly more negative than that of Cu3-C3N4(−0.32 eV).Bader charge analysis under applied potentials (Table S3) fur-
+ther confirms that the charge-asymmetric Cu sites induced by
+P/Se doping remain robust across the relevant potential range,
+supportingtheproposedelectronicmodulationmechanism.
+Chargedifferencedensitymaps(Figure 6b)alsorevealthatsuch
+charge-gradient Cu clusters (Cu3-C3N2P2-3 and Cu3-C3N2Se2-
+1) exhibit enhanced charge transfer to the key intermediate
+*COCHO involved in C2product formation. The amount of
+transferred charge increases from 0.70 e−(Cu3-C3N4)t o0 . 7 7
+e−and 0.74 e−, respectively, thereby improving the adsorption
+stabilityof *COCHO.Notably,comparedwiththeCu3-C3N4con-
+figuration, the P- and Se-doped clusters exhibit reduced charge
+transferbetweenthesurfaceandthe *CH2CH2OHintermediate,
+which is a key species in the pathway to C2H4formation. This
+observation suggests that such doping weakens the adsorption
+AdvancedMaterials ,2026 9of14
+ 15214095, 0, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73318 by Shandong University Of Science And Technology, Wiley Online Library on [11/06/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+--- PAGE 10 ---
+
+FIGURE 7 OrbitalinteractionsbetweenCOandactiveCusites.(a)Frontiermolecularorbitalsofgas-phaseCO(5 σand2π)andaschematicof σ
+donation/πback-donation.(b–d)Projecteddensityofstates(PDOS)fortheCu3dstatesandtheadsorbed *COattheequivalentCusitein(b)Cu 3-C3N4,
+(c)Cu3-C3N2P2-3,and(d)Cu 3-C3N2Se2-1.TheenergyscaleisalignedtotheFermilevel( EF=0eV,dashedline),andtheanalyzedwindowspans( −6,
++4eV)relativeto EF.ColouredshadinghighlightstheCud–CO5 σantibondingfeaturesthatshiftuponPorSesubstitution;energyscalesarealigned
+totheFermilevel.The y-axisrepresentsProjectedDOS(a.u.).
+strength of the intermediate. Consequently, the reduced Gibbs
+freeenergychangeforthe *CH2CH2OH+H++e−→*+C2H4(g)
++H2O(l)stepultimatelyenhancesC2H4productionthroughCO2
+reduction,asillustratedinFigure 5.
+To further elucidate the orbital interactions between the active
+CusitesandtheCOintermediate,theprojecteddensityofstates
+(PDOS) of Cu atoms and the CO molecule were calculated for
+eachconfiguration,aspresentedinFigure 7.ThePDOSanalysis
+focuses on the energy window from −6t o+4 eV relative to the
+Fermilevel(EF=0eV),whichcapturestherelevantCu3dstates
+andCOmolecularorbitals(5 σand2π)involvedinadsorptionand
+activation.Thehighestoccupiedmolecularorbital(HOMO)and
+lowestunoccupiedmolecularorbital(LUMO)ofCOcorrespond
+to the 5σand 2π*orbitals, respectively (Figure 7a). Upon inter-
+acting with Cu atoms, CO donates electrons from its 5 σorbital
+to formσ-bonding with Cu, while back-donation of d-electrons
+fromCutotheCO2 π*orbitalenhances π-backbonding.Figure 7b
+furthershowssignificantorbitaloverlapsbetweenCu 𝑑𝑧2/dxzandCO 5σ,a sw e l la sC u dyzand CO 2π*in Cu3-C3N4, indicating
+strong Cu ─CO interaction. Similar interactions are observed in
+Cu3-C3N2P2-3andCu3-C3N2Se2-1,whereCu dxzcoupleswithCO
+5σ(or dyzwith 2π*), and Cu 𝑑𝑧2/dxycouples with CO 5 σ(or
+𝑑𝑥2−𝑦2/dxzwith2π*),respectively,resultingintheformationof σ-
+bonding(π-backbonding).Importantly,upondopingwithPorSe,
+theantibondingorbitalsformedbetweentheCudorbitalsandthe
+CO5σorbitalsshifttohigherenergylevels(highlightedingreen
+in Figure7), leading to reduced electron occupation. This shift
+enhancesthestabilityofCOadsorptiononCusitesandfurther
+promotestheC ─Ccouplingstep.
+2.6ExperimentalValidationofCO 2RR
+Performance
+To validate the above computational findings experimentally, a
+seriesofg-C3N4-basedcatalystswassynthesizedaccordingtothe
+procedure outlined in Figure S8. Initially, g-C3N4was selected
+10of14 AdvancedMaterials ,2026
+ 15214095, 0, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73318 by Shandong University Of Science And Technology, Wiley Online Library on [11/06/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+--- PAGE 11 ---
+
+FIGURE 8 ElectrochemicalCO 2RRperformanceinaflowcellusing1mKOHelectrolyte.(a-b)HAADF-STEMimagesof(a)Cu 3-C3N2P2-3and
+(b)Cu3-C3N2Se2-1,withtheinsetsshowingline-scanningintensityprofilesofCu ─Cuinthecluster.(c)NormalizedCuK-edgeXANESspectraofas-
+prepared Cu 3-C3N4,C u3-C3N2P2-3, Cu3-C3N2Se2-1, and reference Cu foil, CuO, Cu 2O. (d)k2-weighted Fourier transform spectra in the R space of
+as-preparedandreferencesamples.FEsofallproductsover(e)Cu 3-C3N2P2-3and(f)Cu 3-C3N2Se2-1atdifferentcurrentdensitiesbetween50to300mA
+cm−2.(g)FEC2+/FEC1forthethreecatalystsatvariouscurrentdensities.Thestabilityover(h)Cu 3-C3N2P2-3and(i)Cu 3-C3N2Se2-1inaflowcellat
+250mAcm−2currentdensity.
+as the substrate, and Cu3clusters were successfully anchored
+onto its surface. Subsequently, P- and Se-modified variants,
+denoted as Cu3-CNP and Cu3-CNSe, were synthesized via a
+hydrothermal treatment step (Figure S8). Inductively coupled
+plasma mass spectrometry (ICP-MS) measurements confirmed
+copper loadings of 0.91, 0.82, and 0.96 wt.% for Cu3-CN, Cu3-
+CNP,andCu3-CNSe,respectively.Detailedsynthesisprocedures
+areprovidedinthe SupportingInformation .
+XRD patterns of all three samples exhibit only the character-
+istic (001) and (002) diffraction peaks of g-C3N4, without any
+detectable signals corresponding to metallic Cu or Cu oxides
+(FigureS9). The absence of Cu-related crystalline diffraction
+featurescanberationalizedbytheextremelylowCuloading,in
+accordance with the above ICP-MS results (Table S3). Atomic-
+resolution HAADF-STEM imaging was further employed to
+directly resolve the atomic configuration of Cu species. As
+highlightedbythegreenboxesinFigure 8a,bandFigure S10,Cuclusters consisting of approximately three Cu atoms are clearly
+observedtobeatomicallydispersedontheg-C3N4,withnocrys-
+talline Cu structures detected. This unambiguously verifies the
+homogeneousatomic-leveldispersionandfullyexposednatureof
+theCu3activesites.Correspondingintensitylineprofiles(insets)
+identify the Cu–Cu interatomic distance to be 2.6–2.9 Å, which
+is consistent with the Cu3cluster geometry optimized by DFT
+calculations.
+Local EDX elemental mapping (Figures S11andS12) further
+reveals that C, N, P, Se, and Cu are homogeneously distributed
+across the catalyst matrix, confirming the successful incorpo-
+ration of heteroatom dopants and the uniform dispersion of
+Cu species within the g-C3N4framework. This spatial unifor-
+mity is consistent with the highly dispersed structural features
+observed by electron microscopy. Furthermore, elemental line-
+scan profiles (Figures S13andS14), together with quantitative
+XPSanalysis(Figure S15andTableS4),indicatethattheatomic
+AdvancedMaterials ,2026 11of14
+ 15214095, 0, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73318 by Shandong University Of Science And Technology, Wiley Online Library on [11/06/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+--- PAGE 12 ---
+
+ratiosofC/N/PandC/N/Searebothapproximately3:2:2.These
+resultssuggestthatthecatalystscanbereasonablydescribedby
+thestoichiometriesCu3-C3N2P2andCu3-C3N2Se2,respectively,in
+goodagreementwiththeproposedstructuralmodels.
+The surface chemical composition and electronic states were
+analyzedviaXPS.Cu2pspectra(Figure S16)exhibitpeaksat932.9
+and 952.0 eV, characteristic of low-valence Cu species, with no
+significantvariationobservedamongthesamples[ 44].TheC1s
+andN1sprofiles(Figures S17andS18)confirmthepreservation
+ofthegraphiticcarbonnitrideframework,withpeaksassignedto
+standardC ─N═C,N─(C)3,andC ─N─Hbondingconfigurations
+[45,46].Notably,thepresenceofP2pandSe3dsignals(Figures
+S19andS20) verifies the successful functionalization of the
+Cu3-C3N4matrix[47–49].
+Building upon the confirmed bulk stoichiometry, we next elu-
+cidated the local coordination environment and electronic state
+of the Cu centers using X-ray absorption near-edge structure
+(XANES) analysis (Figure 8c, d). The normalized Cu K-edge
+XANESspectra(Figure 8c)showthattheabsorptionthresholds
+of Cu3-C3N2P2and Cu3-C3N2Se2lie between those of Cu foil
+andCuO,suggestingapositivevalencestateslightlyhigherthan
+metallicCu0butlowerthanCu2+[50–53].Thisobservationaligns
+wellwiththelow-valenceCuspecies(Cu0/Cu+)identifiedbyXPS
+(FigureS16).
+The structural configuration was further probed by the k2-
+weighted Cu K-edge EXAFS spectra (Figure 8d). Notably, the
+absence of the characteristic metallic Cu ─Cu scattering peak at
+∼2.5 Å (observed in Cu foil) rules out the formation of bulk
+Cu nanoparticles [ 50, 54]. However, distinct oscillations in the
+high-kregionindicatethepresenceofshort-rangeordering.The
+Fourier-transformedEXAFSspectrainR-space(Figure 8d)reveal
+a dominant peak at ∼1.55 Å, attributed to Cu ─X backscattering
+(X=N, P, Se), and a secondary peak at ∼2.3 Å, corresponding
+to Cu─Cu coordination [ 55–57]. The presence of this Cu ─Cu
+contributionconfirmsthemultinuclearnatureoftheCuspecies,
+distinguishingthemfromsingle-atomcatalysts[ 58].
+Quantitative EXAFS fitting analysis (Table S5) yields a Cu ─Cu
+coordinationnumber(CN)of2.1–2.3forallthreesamples.Given
+thataCNof ∼2correspondstoatrinucleargeometry,thisresult
+firmly validates the presence of Cu3clusters [52, 53]. Further-
+more,thefittingrevealsaverageCu ─PandCu ─Secoordination
+numbersof ∼0.65and ∼0.72,respectively(Table S4).FortheCu3-
+C3N2P2system, a theoretical CN of ∼2.1, suggesting that two P
+atomsareco-anchoredtoasingleCusitewithintheCu3cluster.
+Similarly,theCu ─SeCNof ∼0.72indicatesaconfigurationwhere
+thetwoSeatomsareindividuallyanchoredtotwodistinctCusites
+withintheCu3ensemble.Accordingly,thewell-definedcatalysts
+Cu3‑C3N3P2‑3andCu3‑C3N2Se2‑1weresuccessfullysynthesized,
+whicharefullyconsistentwiththeoptimalstructurespredicted
+bytheaforementionedcomputationalscreening.
+Subsequently, the electrocatalytic CO2RR performance of the
+as-synthesized catalysts was evaluated in a two-compartment
+electrolyzer separated by a Nafion-117 membrane (Figure S21).
+Themeasurementswereconductedin1MKOHelectrolyteusing
+a Pt foil counter electrode and a saturated Hg/HgO reference
+electrode. While the unmodified Cu3-C3N4baseline exhibitedappreciableC2+productformation(Figure S22),theFEforC2H4
+wassubstantiallyenhanceduponheteroatommodification.Both
+Cu3‑C3N3P2‑3 and Cu3‑C3N2Se2‑1 demonstrated superior C2+
+selectivity relative to the pristine sample, with the Se-modified
+catalyst delivering the highest performance (Figure 8e–g). This
+activity trend is consistent with the preceding DFT predictions,
+which indicated a lower energy barrier for ethylene formation
+on the Se-modified surface. Specifically, a remarkable FEethylene
+of∼54% was achieved at a high current density of 250 mA
+cm−2over Cu3‑C3N2Se2‑1 (Figure 8f). Furthermore, long-term
+stability tests conducted at 250 mA cm−2over 30 h revealed
+stable operation under the tested flow-cell conditions, with a
+steadyFEethylenemaintainedandlessthan10%decay(Figure 8h,i
+andFigure S23).Collectively,theseresultsdemonstratethatthe
+computationallyscreenedcatalystspossessnotonlythetargeted
+atomicstructuresbutalsopromisingstabilityandselectivityfor
+industriallyrelevantCO2-to-ethyleneconversion.
+3Conclusions
+In summary, we systematically investigate the catalytic perfor-
+mance of heteroatom-doped Cu3clusters supported on g-C3N4
+for the selective electrochemical reduction of CO2to C2H4,
+leveragingtheirinherentadvantagesinC ─Ccouplingreactions.
+ByselectivelymodifyingCuclusterswithnon-metaldopants(B,
+O, S, P, and Se), we identify seven thermodynamically stable
+configurations and analyse their CO2RR pathways and compet-
+ing HER. Transition-state calculations reveal that the *CO+
+*CHO→*COCHOcouplingstepistherate-determiningprocess,
+with P- and Se-doped clusters (Cu3-C3N2P2-3 and Cu3-C3N2Se2-
+1) exhibiting significantly reduced energy barriers of 0.84 and
+0.92 eV, respectively. Thermodynamic analysis further demon-
+stratesastrongpreferenceforC2H4formationoverCH3CH2OH,
+with energy barriers as low as 0.33 and 0.10 V for the P-
+andSe-dopedsystems,respectively.Electronicstructureanalysis
+reveals that first-shell substitution with P or Se creates charge-
+asymmetric sites that enhance *CO and*COCHO adsorption,
+stabilizekeyintermediates,andshiftantibondingCu ─COstates
+to higher energies, thereby promoting efficient C ─C coupling.
+Electrochemical evaluations demonstrated that the Se-modified
+catalystdeliverssuperiorC2+selectivity,achievingaremarkable
+ethyleneFaradaicefficiencyof ∼54%atahighcurrentdensityof
+250mAcm−2,stableoperationover30hunderthetestedflow-cell
+conditions.Collectively,theseresultsunderscorethecriticalrole
+ofmaintainingshortCu ─Cuseparationsandengineeringcharge-
+asymmetric sites via heteroatom doping in optimizing C ─C
+couplingkinetics.Thisworkprovidesamechanisticframework
+andpracticaldesignprinciplesfordevelopinghigh-performance
+catalysts, paving the way for sustainable carbon recycling tech-
+nologies.
+Acknowledgements
+ThisworkwassupportedbytheNationalNaturalScienceFoundationof
+China(No.52488201,52406271),ChinaPostdoctoralScienceFoundation
+(No. 2024M762593, GZC20241350), and Natural Science Foundation of
+Sichuan Province (No. 2026NSFSC1218). The authors also acknowledge
+supportfromtheInstrumentalAnalysisCenterofXi’anJiaotongUniver-
+sity,theHPCPlatformofXi’anJiaotongUniversity,andtheComputing
+12of14 AdvancedMaterials ,2026
+ 15214095, 0, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73318 by Shandong University Of Science And Technology, Wiley Online Library on [11/06/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+--- PAGE 13 ---
+
+CenterinXi’an.TheauthorsalsothankSpecreationInstrumentsCo.,Ltd.
+forXANESanalysisandDr.S.D.ChengfromXi’anJiaotongUniversity
+fortheHADDF-STEMimages.
+Funding
+ThisworkwassupportedbytheNationalNaturalScienceFoundationof
+China(No.52488201,52406271),ChinaPostdoctoralScienceFoundation
+(No. 2024M762593, GZC20241350), and Natural Science Foundation of
+SichuanProvince(No.2026NSFSC1218).
+ConflictsofInterest
+Theauthorsdeclarenoconflictsofinterest.
+DataAvailabilityStatement
+The data supporting the findings of this paper are available from the
+correspondingauthoruponreasonablerequest.
+References
+1.C. Z. Wan, J. W. Ager, and Y. Huang, “Hydrogen Transfer Pathway
+ControlsSelectivityinElectrocatalyticCO 2Reduction,” NatureChemistry
+17(2025):307–308, https://doi.org/10.1038/s41557-025-01761-8 .
+2.W. Ma, J. Morales-Vidal, J. Tian, et al., “Encapsulated Co–Ni Alloy
+Boosts High-temperature CO 2Electroreduction,” Nature641 (2025):
+1156–1161,https://doi.org/10.1038/s41586-025-08978-0 .
+3.J.Sun,B.Wu,Z.Wang,etal.,“RationalCatalystLayerDesignEnables
+TailoredTransportChannelsforEfficientCO 2ElectrochemicalReduction
+to Multi-Carbon Products,” Energy & Environmental Science 18 (2025):
+1027–1037, https://doi.org/10.1039/D4EE03743J .
+4.Q. Hao, Q. Tang, L. Zheng, K. Liu, J. Wu, and J. Lu, “Specific
+ConstructionofAsymmetricCarbon-Nickel-ChlorineSingle-AtomSites
+via Carbon Vacancy Engineering for Efficient CO 2Electroreduction,”
+Nature Communications 16 (2025): 8365, https://doi.org/10.1038/s41467-
+025-62287-8 .
+5.J. Lei, Z. Wang, J. Huo, et al., “Visible Light-Driven Acetaldehyde
+ProductionfromCO 2andH2OviaSynergisticVacanciesandAtomically
+DispersedCuSites,” AngewandteChemieInternationalEdition 64(2025):
+202422667, https://doi.org/10.1002/anie.202422667 .
+6.L. Fan, C.-Y. Liu, P. Zhu, et al., “Proton Sponge Promotion of Elec-
+trochemical CO 2Reduction to Multi-carbon Products,” Joule6( 2 0 2 2 ) :
+205–220,https://doi.org/10.1016/j.joule.2021.12.002 .
+7.M. Zheng, P. Wang, X. Zhi, et al., “Electrocatalytic CO 2-to-C2+with
+Ampere-Level Current on Heteroatom-Engineered Copper via Tuning
+*CO Intermediate Coverage,” Journal of the American Chemical Society
+144(2022):14936–14944, https://doi.org/10.1021/jacs.2c06820 .
+8.H. Deng, T. Liu, W. Zhao, et al., “Substituent Tuning of Cu Coor-
+dination Polymers Enables Carbon-Efficient CO 2Electroreduction to
+Multi-CarbonProducts,” NatureCommunications 15(2024):9706, https://
+doi.org/10.1038/s41467-024-54107-2 .
+9.S.Bai,M.Song,T.Ma,F.Wang,Y.Liu,andL.Guo,“OnFactorsofIons
+inSeawaterforCO 2Reduction,” AppliedCatalysisB:Environmental 323
+(2023):122166, https://doi.org/10.1016/j.apcatb.2022.122166 .
+10.X. Wan, Y. Zhao, Y. Li, et al., “Tailoring Oxygen Vacancies with
+Atomically Dispersed Cu Sites for Stable and Efficient Photothermal
+CO2Conversion,” Angewandte Chemie International Edition 64 (2025):
+202505244, https://doi.org/10.1002/anie.202505244 .
+11.W. Li, Z. Liu, B. Rhimi, et al., “Nitrogen-Bridged S −N−Cu Sites for
+CO2Photoreduction to Ethanol with 99.5% Selectivity in Pure Water,”
+AngewandteChemieInternationalEdition 64(2025):202423859.
+12.Y. Guo, M. Wang, Q. Zhu, D. Xiao, and D. Ma, “Ensemble Effect for
+Single-Atom,SmallClusterandNanoparticleCatalysts,” NatureCatalysis
+5(2022):766–776, https://doi.org/10.1038/s41929-022-00839-7 .13.D .L e y b o ,U .J .E t i m ,M .M o n a i ,S .R .B a r e ,Z .Z h o n g ,a n dC .
+Vogt, “Metal–Support Interactions in Metal Oxide-Supported Atomic,
+Cluster,andNanoparticleCatalysis,” ChemicalSocietyReviews 53(2024):
+10450–10490, https://doi.org/10.1039/D4CS00527A .
+14.H. Xu, D. Rebollar, H. He, et al., “Highly Selective Electrocatalytic
+CO2ReductiontoEthanolbyMetallicClustersDynamicallyFormedfrom
+AtomicallyDispersedCopper,” NatureEnergy 5(2020):623–632, https://
+doi.org/10.1038/s41560-020-0666-x .
+15.P.DeLuna,R.Quintero-Bermudez,C.-T.Dinh,etal.,“CatalystElectro-
+Redeposition Controls Morphology and Oxidation State for Selective
+Carbon Dioxide Reduction,” Nature Catalysis 1 (2018): 103–110, https://
+doi.org/10.1038/s41929-017-0018-9 .
+16.Y. Basak, C. Lorent, J.-H. Jeoung, I. Zebger, and H. Dobbek,
+“Metalloradical-Driven Enzymatic CO 2Reduction by a Dynamic Ni–
+Fe Cluster,” Nature Catalysis 8 (2025): 794–803, https://doi.org/10.1038/
+s41929-025-01388-5 .
+17.J.Ren,B.Wang,H.-Q.Yin,etal.,“SingleDispersionofFe(H 2O)2-
+BasedPolyoxometalateonPolymericCarbonNitrideforBiomimeticCH 4
+Photooxidation,” AdvancedMaterials 36(2024):2403101, https://doi.org/
+10.1002/adma.202403101 .
+18.Z.-R.Zhang,H.-Y.Sui,W.-X.Shi,etal.,“Polyoxometalate-BasedSingle-
+AtomCatalystwithPreciseStructureandExtremelyExposedActiveSite
+forEfficientH 2Evolution,” AngewandteChemieInternationalEdition 64
+(2025):202416711.
+19.Y. Shen, T. Jia, J. Wu, et al., “Orbital-Level-Directed Selective
+CO2-to-C2H4Photoreduction via Se Vacancies and Plasmonic Pt,”
+ACS Nano 20 (2026): 4393–4403, https://doi.org/10.1021/acsnano.
+5c18161.
+20.F. Zhou, Y. Zhang, J. Wu, et al., “Utilizing Er-doped ZnIn 2S4
+for Efficient Photocatalytic CO 2Conversion,” Applied Catalysis B:
+Environmental 341 (2024): 123347, https://doi.org/10.1016/j.apcatb.2023.
+123347.
+21.F.Zhou,W.Li,J.Wu,etal.,“EnhancedSolar-drivenCO 2Conversion:
+the Role of Yb-doped CuInS 2Quantum Dots on G-C 3N4Nanosheets,”
+AppliedCatalysisB:EnvironmentandEnergy 362(2025):124716, https://
+doi.org/10.1016/j.apcatb.2024.124716 .
+22.S.An,G.Zhang,T.Wang,etal.,“High-DensityUltra-smallClusters
+and Single-Atom Fe Sites Embedded in Graphitic Carbon Nitride (g-
+C3N4)forHighlyEfficientCatalyticAdvancedOxidationProcesses,” ACS
+Nano12(2018):9441–9450, https://doi.org/10.1021/acsnano.8b04693 .
+23.C. Peng, S. Yang, G. Luo, et al., “Surface Co-Modification of Halide
+Anions and Potassium Cations Promotes High-Rate CO 2-to-Ethanol
+Electrosynthesis,” AdvancedMaterials 34(2022):2204476, https://doi.org/
+10.1002/adma.202204476 .
+24.S. Bai, X. Gu, J. Dong, et al., “Interfacial Microenvironmental Engi-
+neeringforAcidicCO 2ElectroreductioninProtonExchangeMembrane
+Electrolyzers,” Advanced Energy Materials 16 (2026): 06790, https://doi.
+org/10.1002/aenm.202506790 .
+25.X. Zhi, A. Vasileff, Y. Zheng, Y. Jiao, and S.-Z. Qiao, “Role of
+Oxygen-BoundReactionIntermediatesinSelectiveElectrochemicalCO 2
+Reduction,” Energy&EnvironmentalScience 14(2021):3912–3930, https://
+doi.org/10.1039/D1EE00740H .
+26.X. Zhi, Y. Jiao, Y. Zheng, K. Davey, and S.-Z. Qiao, “Directing the
+SelectivityofCO 2ElectroreductiontoTargetC 2ProductsviaNon-metal
+Doping on Cu Surfaces,” Journal of Materials Chemistry A 9 (2021):
+6345–6351, https://doi.org/10.1039/D0TA11604A .
+27.T.Huang,T.Liang,J.You,etal.,“CoordinationEnvironment-Tailored
+ElectronicStructureofSingleAtomicCopperSitesforEfficientElectro-
+chemicalNitrateReductiontowardAmmonia,” Energy&Environmental
+Science17(2024):8360–8367, https://doi.org/10.1039/D4EE02746A .
+28.J.Wang,G.Wang,J.Zhang,etal.,“InverselyTuningtheCO 2Electrore-
+ductionandHydrogenEvolutionActivityonMetalOxideviaHeteroatom
+Doping,”AngewandteChemieInternationalEdition 60(2021):7602–7606,
+https://doi.org/10.1002/anie.202016022 .
+AdvancedMaterials ,2026 13of14
+ 15214095, 0, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73318 by Shandong University Of Science And Technology, Wiley Online Library on [11/06/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+
+
+--- PAGE 14 ---
+
+29.Y.-F. Liang, M. Bilal, L.-Y. Tang, et al., “Carbon–Carbon Bond
+CleavageforLate-StageFunctionalization,” ChemicalReviews 123(2023).
+12313–12370.
+30.M.Zheng,X.Zhou,Y.Wang,G.Chen,andM.Li,“TheoreticalStudy
+ontheReductionMechanismofCO 2toHCOOHonPd 3Au:anExplicit
+Solvent Model Is Essential,” JournalofMaterialsChemistryA 11 (2023):
+6591–6602, https://doi.org/10.1039/D2TA08552F .
+31.Y. Zhao, S. Hu, Q. Yuan, et al., “Copper Cluster Regulated by N,
+B Atoms for Enhanced CO 2Electroreduction to Formate,” Journal of
+ColloidandInterfaceScience 678(2025):456–464, https://doi.org/10.1016/
+j.jcis.2024.08.236 .
+32.Y. Wang, B. Li, B. Xue, et al., “CO Electroreduction on Single-
+Atom Copper,” Science Advances 9 (2023): ade3557, https://doi.org/10.
+1126/sciadv.ade3557 .
+33.F. Pan, L. Fang, B. Li, et al., “N and OH-Immobilized Cu 3Clus-
+ters in Situ Reconstructed from Single-Metal Sites for Efficient CO 2
+Electromethanation in Bicontinuous Mesochannels,” Journal of the
+AmericanChemicalSociety 146(2024):1423–1434, https://doi.org/10.1021/
+jacs.3c10524 .
+34.H. Zhang, D. Raciti, and A. S. Hall, “Disordered Interfacial H 2O
+Promotes Electrochemical C–C Coupling,” Nature Chemistry 17 (2025):
+1161–1168,https://doi.org/10.1038/s41557-025-01859-z .
+35.F. Calle-Vallejo and M. T. M. Koper, “Theoretical Considerations
+on the Electroreduction of CO to C 2Species on Cu(100) Electrodes,”
+Angewandte Chemie International Edition 52 (2013): 7282–7285, https://
+doi.org/10.1002/anie.201301470 .
+36.X. Ding, Z. Zhang, J. Sun, et al., “Thermal Radiative Catalysis:
+SelectiveDehydrogenationofEthanetoEthylenebyVibrationallyExcited
+CarbonDioxide,” Joule7(2023):2318–2334, https://doi.org/10.1016/j.joule.
+2023.08.010 .
+37.T. Sheng and S.-G. Sun, “Identifying the Significance of Proton-
+Electron Transfer in CH 4Production on Cu (100) in CO 2Electro-
+Reduction,” Journal of Electroanalytical Chemistry 793 (2017): 184–187,
+https://doi.org/10.1016/j.jelechem.2016.12.016 .
+38.L. Ou, Z. He, H. Yang, and Y. Chen, “Theoretical Insights into
+Potential-DependentC–CBondFormationMechanismsduringCO 2Elec-
+troreductionintoC 2ProductsonCu(100)atSimulatedElectrochemical
+Interfaces,” ACS omega 6 (2021): 17839–17847, https://doi.org/10.1021/
+acsomega.1c01062 .
+39.J. D. Goodpaster, A. T. Bell, and M. Head-Gordon, “Identification
+of Possible Pathways for C–C Bond Formation during Electrochemical
+Reduction of CO 2: New Theoretical Insights from an Improved Elec-
+trochemical Model,” The Journal of Physical Chemistry Letters 7( 2 0 1 6 ) :
+1471–1477,https://doi.org/10.1021/acs.jpclett.6b00358 .
+40.M. Sun and B. Huang, “Direct Machine Learning Predictions of C 3
+Pathways,” AdvancedEnergyMaterials 14(2024):2400152, https://doi.org/
+10.1002/aenm.202400152 .
+41.O.Piqué,Q.H.Low,A.D.Handoko,etal.,“SelectivityMapfortheLate
+Stages of CO and CO 2Reduction to C 2Species on Copper Electrodes,”
+AngewandteChemieInternationalEdition 60(2021):10784–10790.
+42.X. Su, Z. Jiang, J. Zhou, et al., “Complementary Operando
+Spectroscopy Identification of in-situ Generated Metastable Charge-
+Asymmetry Cu 2-CuN3Clusters for CO 2Reduction to Ethanol,” Nature
+Communications 13 (2022): 1322, https://doi.org/10.1038/s41467-022-
+29035-8.
+43.R. Casebolt DiDomenico, K. Levine, C. Bundschu, L. Reimanis, T.
+Arias,andT.Hanrath,“PulsingtheAppliedPotentialinElectrochemical
+CO2Reduction Enhances the C 2Activity by Modulating the Dynamic
+Competitive Binding of* CO and* H,” ACSCatalysis 14 (2024): 785–796,
+https://doi.org/10.1021/acscatal.3c04224 .
+44.Z. Liu, Y. Ma, J. Li, et al., “Regulating Exciton Dissociation
+and Photocatalytic CO 2Reduction over Single-Atom Cu-in 2 S 3
+Nanosheets,” Advanced Materials 38 (2026): 12150, https://doi.org/10.
+1002/adma.202512150 .45.D. Liu, L. Jiang, D. Chen, et al., “Twin S-Scheme G-C 3N4/CuFe
+2O4/ZnIn2S4Heterojunction with a Self-Supporting Three-Phase
+SystemforPhotocatalyticCO 2Reduction:MechanismInsightandDFT
+Calculations,” ACSCatalysis 14(2024):5326–5343, https://doi.org/10.1021/
+acscatal.4c00409 .
+46.L.Yang,R.P.Sivasankaran,M.K.Song,A.U.Pawar,D.K.Lee,and
+Y.S.Kang,“HighlySelectiveSolarCO 2ConversionintoFormicAcidin
+Nickel-Perylene-C 3N4SemiconductorPhotocatalyst,” AdvancedEnergy
+Materials15(2024):2402798, https://doi.org/10.1002/aenm.202402798 .
+47.F.Chen,P.Jiao,andC.Zhao,“Single-AtomCobaltDecoratedP-doped
+G-C3N4for Efficient Visible-Light-Driven Water Splitting,” Catalysis
+Letters154 (2024): 2579–2589, https://doi.org/10.1007/s10562-023-04494-
+w.
+48.Z.Zhao,Z.Wang,J.Zhang,etal.,“InterfacialChemicalBondandOxy-
+gen Vacancy-Enhanced in 2O3/CdSe-DETA S-Scheme Heterojunction
+for Photocatalytic CO 2Conversion,” Advanced Functional Materials 33
+(2023):2214470, https://doi.org/10.1002/adfm.202214470 .
+49.X.Li,L.Li,X.Chu,etal.,“PhotothermalCO 2ConversiontoEthanol
+throughPhotothermalHeterojunction-NanosheetArrays,” NatureCom-
+munications 15 (2024): 5639, https://doi.org/10.1038/s41467-024-49928-
+0.
+50.S. Wang, J. Gu, X. Yang, et al., “Upgrading CO 2and H2Ot o
+Analytical-Grade Propanal via an Electrocatalysis–Thermal Catalysis
+Relay on Single-Atom Catalysts,” Journal of the American Chemical
+Society148(2026):5807–5817, https://doi.org/10.1021/jacs.5c22374 .
+51.F.Zhang,N.Cao,C.Wang,etal.,“InSituStabilizationofCu+forCO2
+ElectroreductionviaEnvironmental-Molecules-InducedZnO 1-XShield,”
+NatureCommunications 16(2025):6082.
+52.T.Zhang,H.Su,X.Zhang,etal.,“Few-AtomCopperClusterFacilitates
+H2O2ActivationtoPromoteSelectiveOxidationofBenzenetoPhenol,”
+JournaloftheAmericanChemicalSociety 147(2025):12652–12663, https://
+doi.org/10.1021/jacs.5c00340 .
+53.P. Xie, J. Ding, Z. Yao, et al., “Oxo Dicopper Anchored on Carbon
+NitrideforSelectiveOxidationofMethane,” NatureCommunications 13
+(2022):1375, https://doi.org/10.1038/s41467-022-28987-1 .
+54.J. Zhu, J.-L. Chen, X.-Z. Qi, et al., “Electron-Rich Subnanometer Cu
+Clusters Facilitate CO–CO Coupling in CO 2Electroreduction,” Journal
+oftheAmericanChemicalSociety 148(2026):4008–4019, https://doi.org/
+10.1021/jacs.5c12495 .
+55.T. Yang, X. Mao, Y. Zhang, et al., “Coordination Tailoring of Cu
+Single Sites on C 3N4Realizes Selective CO 2Hydrogenation at Low
+Temperature,” NatureCommunications 12(2021):6022, https://doi.org/10.
+1038/s41467-021-26316-6 .
+56.F.-Z. Tian, W.-J. Chang, P.-J. Liang, et al., “Charge Redistribution
+DynamicsinChalcogenide-StabilizedCuprousElectrocatalystsUnleash
+Ampere-ScalePartialCurrenttowardFormateProduction,” NatureCom-
+munications 16 (2025): 9426, https://doi.org/10.1038/s41467-025-64472-
+1.
+57.H. Xu, J. Peng, P. Li, et al., “Gradient Adsorption Energy Strategy
+Unlocks Ultra-Long Stability and Efficient Electrocatalytic Ammonia
+Synthesis from Nitrate over CoP/Cu 3P,”Angewandte Chemie Interna-
+tionalEdition 65(2026):22410, https://doi.org/10.1002/anie.202522410 .
+58.K.Liu,H.Shen,Z.Sun,etal.,“TransientPulsedDischargePreparation
+ofGrapheneAerogelSupportsAsymmetricCuClusterCatalystsPromote
+CO2Electroreduction,” NatureCommunications 16(2025):1203, https://
+doi.org/10.1038/s41467-025-56534-1 .
+SupportingInformation
+AdditionalsupportinginformationcanbefoundonlineintheSupporting
+Informationsection.
+SupportingFile1 :adma73318-sup-0001-SuppMat.docx.
+14of14 AdvancedMaterials ,2026
+ 15214095, 0, Downloaded from https://advanced.onlinelibrary.wiley.com/doi/10.1002/adma.73318 by Shandong University Of Science And Technology, Wiley Online Library on [11/06/2026]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
