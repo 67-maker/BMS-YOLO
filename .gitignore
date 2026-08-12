@@ -1,0 +1,41 @@
+# Large data files
+dataset/
+runs/detect/
+*.tar.gz
+*.zip
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+*.ipynb_checkpoints
+
+# OS
+.DS_Store
+Thumbs.db
+
+# LaTeX intermediates (keep source, PDF, and figures)
+*.log
+*.aux
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.blg
+
+# Large PDFs from other formats
+latex/main.pdf
+latex/test.pdf
+
+# Models/weights
+*.pt
+*.pth
+*.onnx
+*.engine

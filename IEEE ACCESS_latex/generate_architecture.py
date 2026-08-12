@@ -122,7 +122,7 @@ h5 = box(ax, 11.2, 2.9, 2.2, 0.9,
 
 # ---------- Post-processing ----------
 post = box(ax, 7.5, 0.35, 5.0, 1.15,
-           'Post-Processing\nConfidence Calibration → NMS → Topology Fusion\n(Union-Find)',
+           'Post-Processing\nNMS → Topology Fusion\n(Union-Find)',
            C_POST, EC_POST, fontsize=9)
 
 final = box(ax, 13.2, 0.575, 1.3, 0.7,

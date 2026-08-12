@@ -1,0 +1,4 @@
+# val split manifest — 489 files
+# format: filename  sha256
+# To generate SHA-256 hashes, run generate_r1_artifacts.py in the environment with the dataset.
+# Placeholder — replace with actual file list after running generate_r1_artifacts.py
