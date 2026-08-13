@@ -1,5 +1,0 @@
-# train split manifest — 1707 files
-# format: filename  sha256
-# To generate SHA-256 hashes, run generate_r1_artifacts.py in the environment with the dataset.
-# The train split was generated using sklearn.train_test_split with random_state=42, train_size=0.7.
-# Placeholder — replace with actual file list after running generate_r1_artifacts.py

@@ -1,7 +1,0 @@
-augmented_filename,original_filename,target_class_id
-# Note: This file contains 4892 rows. To generate the complete mapping, run generate_r1_artifacts.py in the environment with the dataset.
-# The augmented images follow the naming pattern: {original_name}_aug_{sequence}_{target_class_id}.jpg
-# Example entries from the augmentation log:
-# lr_00001_aug_0_0.jpg,lr_00001.jpg,0    (Alligator crack augmentation)
-# lr_00002_aug_0_3.jpg,lr_00002.jpg,3    (Pothole augmentation)
-# lr_00003_aug_0_4.jpg,lr_00003.jpg,4    (Repair augmentation)
