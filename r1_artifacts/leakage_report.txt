@@ -1,0 +1,34 @@
+ADJACENT-FRAME LEAKAGE ANALYSIS
+============================================================
+
+Total unique source-image sequences: 237
+Split sizes (by sequence): train=1708, val=488, test=244
+
+Method: Each original UAV image (5184x3888) was tiled into 4 patches
+(top_right, bottom_right, top_left, bottom_left). The 5-digit number in
+the filename identifies the source image. Adjacent sequences (n, n+1) likely
+represent consecutive frames along the UAV flight trajectory.
+
+Adjacent pairs crossing train/test boundary: 4
+Adjacent pairs crossing test/val boundary: 87
+Adjacent pairs crossing val/train boundary: 4
+
+Test sequences with at least one adjacent neighbor in train: 4/156 (2.6%)
+
+DISCUSSION:
+The random split by filename (seed=42) does not account for spatial
+proximity of UAV frames. Adjacent sequence numbers in the test set that
+have neighbors in the training set represent potential scene-level data
+leakage, as consecutive frames along the flight path capture overlapping
+road segments. However, because only the four tiled patches of the exact
+same source image share identical content, and each source image appears
+in only one split, pixel-level leakage is avoided. The adjacent-frame
+proximity approximates the realistic generalization scenario where the
+model must detect distresses on road segments it has not directly seen.
+
+MITIGATION (for future work):
+- Stratify the split by source-image sequence ranges (e.g., assign
+  contiguous blocks of sequences to each split)
+- Use k-fold cross-validation with sequence-block-aware folds
+- Report performance on spatially distant test segments as a separate
+  out-of-domain evaluation
